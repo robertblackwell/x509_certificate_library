@@ -1,0 +1,15 @@
+{
+    "comment" : " no spaces in the values of the other fields",
+    
+    "ca_name" : "Blackwell_Apps_CA",
+    "ca_state" : "WA",
+    
+    "country_comment" : "ca_country can only have a valid international country abbreviation",
+    "ca_country" : "AU",
+    
+    "ca_email" : "rob@blackwellapps.com",
+    "ca_organization" : "the_dev_guys_at_blackwellapps",
+    "passin" : "blackwellapps",
+    "passout" : "blackwellapps",
+    "pkey_password" : "blackwellapps"
+}

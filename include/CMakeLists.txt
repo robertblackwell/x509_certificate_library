@@ -1,0 +1,44 @@
+
+function(libcert_inc)
+endfunction()
+
+set(inc_dir ${CMAKE_CURRENT_LIST_DIR})
+set(cert_lib "cert")
+
+set(libcert_inc "")
+list(APPEND libcert_inc " ${inc_dir}/cert.hpp")
+list(APPEND libcert_inc " ${inc_dir}/builder.hpp")
+list(APPEND libcert_inc " ${inc_dir}/cert.hpp")
+list(APPEND libcert_inc " ${inc_dir}/constants.hpp")
+list(APPEND libcert_inc " ${inc_dir}/handshake_result.hpp")
+list(APPEND libcert_inc " ${inc_dir}/helpers.hpp")
+list(APPEND libcert_inc " ${inc_dir}/store.hpp")
+list(APPEND libcert_inc " ${inc_dir}/version_check.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509.hpp")
+
+list(APPEND libcert_inc " ${inc_dir}/cert_authority/cert_auth_helper.hpp")
+list(APPEND libcert_inc " ${inc_dir}/cert_authority/cert_authority.hpp")
+
+list(APPEND libcert_inc " ${inc_dir}/handshaker/handshaker.hpp")
+list(APPEND libcert_inc " ${inc_dir}/handshaker/handshaker_result.hpp")
+
+list(APPEND libcert_inc " ${inc_dir}/helpers/fs.hpp")
+
+list(APPEND libcert_inc " ${inc_dir}/store/cert_host.hpp")
+list(APPEND libcert_inc " ${inc_dir}/store/cert_locator.hpp")
+list(APPEND libcert_inc " ${inc_dir}/store/cert_store.hpp")
+list(APPEND libcert_inc " ${inc_dir}/store/keychain.hpp")
+list(APPEND libcert_inc " ${inc_dir}/store/mozilla.hpp")
+
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_cert.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_cert_impl.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_conf.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_error.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_extension.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_name.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_nid.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_pkey.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_serial.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_time.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_conf.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_req.hpp")

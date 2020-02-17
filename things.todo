@@ -1,0 +1,50 @@
+Clean up file structure:
+Tests:
+  ☐ The handshake test which tries various combinations of locations for the bundle of root certificates - all tests currently use X509_cert_store* rather than some using files. Fix
+Next things to work on:
+  ☐ Readme.md needs to be brought up to date - that will help me think about what needs building next
+  ☐ Test client/server where server is using an imitating certificate
+More thoughts:
+  ☐ Provide a mitm_certificate builder that either does not cache or only does a memory cache. Forget all of this file database stuff
+  ☐ Get dependencies with Conan or some such - or make a simple version of your own
+  ☐ Make the library get-able with Conan
+  ☐ Build a server that pretends to be other servers and test it with commandline curl
+  ☐ Need to look through code and make sure that un-recoverable errors give a good message and problem description
+  ☐ Check all code for memory leaks - check for X509_free and its siblings
+  ☐ NO Think about changing name of Cert::EvpPkey class to highlight it is a key pair and add a static function that generates a key pair. Also provide a version of Builder::build that takes a Cert::EvpKey rather than a EVP_PKEY*
+  ☐ review handshaker for stuff that is no longer used - like saved server certificates
+  ☐ review code using CLion to find includes and functions that are not used - CLion does a good job of highlighting those. As well as look for empty functions
+Building:
+  ☐ build a non debug version
+Unused:
+  ☐ Headers in source files
+  ☐ Headers in test files
+  ☐ function and methods in src
+  ☐ function in tests
+  ☐ commented out code or #if 0 code or #if FRED code
+Git repo:
+  ☐ bitbucket has permission problems. Maybe investigate private github repo. Need to do something
+Print outs:
+  ☐ get rid of print outs from bulding CA, downloading mozilla and osx certificate bundles, handshaker test, removing Entrust from cert bundle for withwithout test
+  ☐ where sh commands are being run catch errors and print a meaningful message
+Error handling:
+  ☐ re-printouts - there are many places where a std::string is thrown. This seems poor form so make a project specific macro to catch all errors and maybe underneath have a custom exception
+Build-Install:
+  ☐ cmake files need to be able to build and install a DEBUG and RELEASE version. I need to build a project that tests a project-local installation of this library.
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ lot of duplication - cleanup @done (20-02-16 09:39) @project(Test_Fixture and Test_Helper)
+ ✔ Headers in header files @done (20-02-13 16:52) @project(Unused)
+ ✔ Protect the existing work on out-of-source makefile builds @done (20-02-13 16:34) @project(Clean up file structure)
+ ✔ NO - remove impl class and make them like references. Classes Certificate, Identity need to be tested for copy constructor and assignment. Consider making them values by recreating X509* and X509_PKEY* on copy and assignment or maybe even keeping their internal data in PEM format. @done (20-02-13 16:34) @project(More thoughts)
+ ✔ In particular keep the make files and find a way to do boost/openssl install without cluttering the top level of the project. @done (20-02-13 16:34) @project(Clean up file structure)
+ ✔ X509_get_default_cert_file - the default cert file location seems to have been dropped under 1.1.1d. Remove all references in the code and replace with a custom version that expects a path to be given or found in SSL_CERT_FILE env variable. Only used in testing. Need to provide a warning in the readme and install scripts @done (20-02-13 16:33) @project(More thoughts)
+ ✔ Have an install from source script for openssl tha works, not build one for boost. LESSON-dont clone without knowing which branch/tag @done (20-02-12 17:47) @project(Building)
+ ✔ NO-Replace nlohmann json package with RapidJson - will make dependencies with conan easier to manage @done (20-02-12 17:46) @project(More thoughts)
+ ✔ I think give up on all these package managers and write a script of your own to download from the repo and if necessary build @done (20-02-12 17:46) @project(Building)
+ ✔ DECIDED TO BUILD CUSTOME SH SCRIPTS tried conan - it gives me a set of libraries that cause the tests the abort with exceptions. Suspect it is boost without -mt @done (20-02-12 17:46) @project(Building)
+ ✔ x509 key read/write look like they do not release the "res" variable - MORE DETAILS CANNOT FIND PROBLEM @done (20-02-12 17:45) @project(More thoughts)
+ ✔ Code to write to file in PEM format uses BIO object - that code has repeated code - need to fix @done (20-02-12 17:45) @project(More thoughts)
+ ✔ all instance of BIO_mem_length is probably writeing to and then reading from a BIO to turn an object into a string, Replace all with BIO_to_string() @done (20-02-12 17:43) @project(BIO_mem_length)
+ ✔ I have a doubt about whether I am passing the right info into Identity creator - must be sure its a private key I can use to prime the SSL_CTX when setting up a server. Answer EVP_PKEY can be a key pair, a private key or a public key. The example in test_cert_store definitly passes the pair and hence is correct. The buildMitmCertificate method puts the key pair into the Identity result. @done (20-02-09 18:05) @project(More thoughts)
+ ✔ remove all leftover obj directories in source dirs @done (20-02-09 18:01) @project(Clean up file structure)

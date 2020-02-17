@@ -1,0 +1,18 @@
+---
+Language:        Cpp
+BasedOnStyle: Chromium
+IndentPPDirectives: BeforeHash
+FixNamespaceComments: true
+ColumnLimit: 0
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: InlineOnly
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+AccessModifierOffset: 0
+IndentWidth: 4
+
+#TabWidth:        4
+UseTab: Never
+...
+

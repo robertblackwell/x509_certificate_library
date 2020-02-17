@@ -1,0 +1,24 @@
+
+#
+# cnf file for making self signed root
+#
+[ req ]
+default_bits         = 2048
+default_keyfile     = /Users/rob/Projects/x509/tests/test_cert_store/test_store2/private/cakey.pem
+default_md             = md5
+default_days         = 365
+
+prompt = no
+distinguished_name     = root_ca_distinguished_name
+
+x509_extensions     = root_ca_extensions
+
+[ root_ca_distinguished_name ]
+commonName                 = Blackwell_Apps_CA
+stateOrProvinceName     = WA
+countryName             = AU
+emailAddress             = rob@blackwellapps.com
+organizationName         = the_dev_guys_at_blackwellapps
+
+[ root_ca_extensions ]
+basicConstraints     = CA:true

@@ -1,0 +1,39 @@
+[ ca ]
+default_ca 		= exampleca
+
+[ exampleca ]
+dir 				= /Users/rob/Projects/x509/tests/fixtures/CA
+certificate 		= /Users/rob/Projects/x509/tests/fixtures/CA/cacert.pem
+database 			= /Users/rob/Projects/x509/tests/fixtures/CA/index.txt
+new_certs_dir 		= /Users/rob/Projects/x509/tests/fixtures/CA/certs
+private_key 		= /Users/rob/Projects/x509/tests/fixtures/CA/private/cakey.pem
+serial 				= /Users/rob/Projects/x509/tests/fixtures/CA/serial
+
+default_crl_days 	= 7
+default_days 		= 365
+default_md 			= md5
+
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+commonName 				= lb2.eff.org
+stateOrProvinceName 	= WA
+countryName 			= US
+emailAddress 			= rob@blackwellapps.com
+organizationName 		= blackwellapps
+organizationalUnitName 	= BlackwellApps Root Certificate
+
+[v3_req]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+#subjectAltName = @alt_names
+subjectAltName = DNS:ar.necessaryandproportionate.org, DNS:canvastrackersimulator.org, DNS:cookieblock.trackersimulate.org, DNS:democracy.io, DNS:digcit.com, DNS:digcit.org, DNS:dnt-request-cookies-test.trackersimulator.org, DNS:dnt-test.trackersimulator.org, DNS:do-not-track.org, DNS:do-not-tracker.org, DNS:en.necessaryandproportionate.org, DNS:es.necessaryandproportionate.org, DNS:eviltrack.net, DNS:eviltracker.net, DNS:fight215.com, DNS:fight215.org, DNS:firstpartysimulate.net, DNS:firstpartysimulate.org, DNS:firstpartysimulator.net, DNS:firstpartysimulator.org, DNS:fr.necessaryandproportionate.org, DNS:httpsnow.com, DNS:httpsnow.org, DNS:ifightsurveillance.com, DNS:ifightsurveillance.net, DNS:ifightsurveillance.org, DNS:lb2.eff.org, DNS:localstoragetrackersimulator.org, DNS:muwatenraqamy.org, DNS:necessaryandproportionate.net, DNS:necessaryandproportionate.org, DNS:noteviltrack.net, DNS:outage.eff.org, DNS:panopticlick.com, DNS:panopticlick.eff.org, DNS:panoptoclick.eff.org, DNS:pbtest.org, DNS:privacybadger.org, DNS:projectsecretidentity.com, DNS:projectsecretidentity.org, DNS:pt.necessaryandproportionate.org, DNS:reclaiminvention.com, DNS:reclaiminvention.net, DNS:reclaiminvention.org, DNS:ru.necessaryandproportionate.org, DNS:standagainstspying.org, DNS:sub.eviltrack.net, DNS:trackersimulate.org, DNS:trackersimulator.duckdns.org, DNS:trackersimulator.org, DNS:www.democracy.io, DNS:www.digcit.com, DNS:www.digcit.org, DNS:www.fight215.com, DNS:www.fight215.org, DNS:www.httpsnow.com, DNS:www.httpsnow.org, DNS:www.ifightsurveillance.com, DNS:www.ifightsurveillance.net, DNS:www.ifightsurveillance.org, DNS:www.muwatenraqamy.org, DNS:www.necessaryandproportionate.net, DNS:www.necessaryandproportionate.org, DNS:www.privacybadger.org, DNS:www.projectsecretidentity.com, DNS:www.projectsecretidentity.org, DNS:www.reclaiminvention.com, DNS:www.reclaiminvention.net, DNS:www.reclaiminvention.org, DNS:www.standagainstspying.org, DNS:zh-hans.necessaryandproportionate.org, DNS:zh-hant.necessaryandproportionate.org
+
+#[alt_names]
+#DNS.1 = blackwellapps.com
+#DNS.2 = one.blackwellapps.com
+#DNS.3 = wto.blackwellapps.com

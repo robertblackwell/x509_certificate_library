@@ -1,0 +1,39 @@
+[ ca ]
+default_ca 		= exampleca
+
+[ exampleca ]
+dir 				= /Users/rob/Projects/x509/tests/fixtures/CA
+certificate 		= /Users/rob/Projects/x509/tests/fixtures/CA/cacert.pem
+database 			= /Users/rob/Projects/x509/tests/fixtures/CA/index.txt
+new_certs_dir 		= /Users/rob/Projects/x509/tests/fixtures/CA/certs
+private_key 		= /Users/rob/Projects/x509/tests/fixtures/CA/private/cakey.pem
+serial 				= /Users/rob/Projects/x509/tests/fixtures/CA/serial
+
+default_crl_days 	= 7
+default_days 		= 365
+default_md 			= md5
+
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+commonName 				= ssllabs.com
+stateOrProvinceName 	= WA
+countryName 			= US
+emailAddress 			= rob@blackwellapps.com
+organizationName 		= blackwellapps
+organizationalUnitName 	= BlackwellApps Root Certificate
+
+[v3_req]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+#subjectAltName = @alt_names
+subjectAltName = DNS:ssllabs.com, DNS:*.ssllabs.com
+
+#[alt_names]
+#DNS.1 = blackwellapps.com
+#DNS.2 = one.blackwellapps.com
+#DNS.3 = wto.blackwellapps.com

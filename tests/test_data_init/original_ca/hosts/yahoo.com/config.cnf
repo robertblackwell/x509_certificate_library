@@ -1,0 +1,39 @@
+[ ca ]
+default_ca 		= exampleca
+
+[ exampleca ]
+dir 				= /Users/rob/Projects/x509/tests/fixtures/CA
+certificate 		= /Users/rob/Projects/x509/tests/fixtures/CA/cacert.pem
+database 			= /Users/rob/Projects/x509/tests/fixtures/CA/index.txt
+new_certs_dir 		= /Users/rob/Projects/x509/tests/fixtures/CA/certs
+private_key 		= /Users/rob/Projects/x509/tests/fixtures/CA/private/cakey.pem
+serial 				= /Users/rob/Projects/x509/tests/fixtures/CA/serial
+
+default_crl_days 	= 7
+default_days 		= 365
+default_md 			= md5
+
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+commonName 				= *.www.yahoo.com
+stateOrProvinceName 	= WA
+countryName 			= US
+emailAddress 			= rob@blackwellapps.com
+organizationName 		= blackwellapps
+organizationalUnitName 	= BlackwellApps Root Certificate
+
+[v3_req]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+#subjectAltName = @alt_names
+subjectAltName = DNS:*.www.yahoo.com, DNS:www.yahoo.com, DNS:add.my.yahoo.com, DNS:au.yahoo.com, DNS:be.yahoo.com, DNS:br.yahoo.com, DNS:ca.my.yahoo.com, DNS:ca.rogers.yahoo.com, DNS:ca.yahoo.com, DNS:ddl.fp.yahoo.com, DNS:de.yahoo.com, DNS:en-maktoob.yahoo.com, DNS:espanol.yahoo.com, DNS:es.yahoo.com, DNS:fr-be.yahoo.com, DNS:fr-ca.rogers.yahoo.com, DNS:frontier.yahoo.com, DNS:fr.yahoo.com, DNS:gr.yahoo.com, DNS:hk.yahoo.com, DNS:hsrd.yahoo.com, DNS:ideanetsetter.yahoo.com, DNS:id.yahoo.com, DNS:ie.yahoo.com, DNS:in.yahoo.com, DNS:it.yahoo.com, DNS:maktoob.yahoo.com, DNS:malaysia.yahoo.com, DNS:my.yahoo.com, DNS:nz.yahoo.com, DNS:ph.yahoo.com, DNS:qc.yahoo.com, DNS:ro.yahoo.com, DNS:se.yahoo.com, DNS:sg.yahoo.com, DNS:tw.yahoo.com, DNS:uk.yahoo.com, DNS:us.yahoo.com, DNS:verizon.yahoo.com, DNS:vn.yahoo.com, DNS:yahoo.com, DNS:za.yahoo.com, DNS:*.amp.yimg.com, DNS:mbp.yimg.com
+
+#[alt_names]
+#DNS.1 = blackwellapps.com
+#DNS.2 = one.blackwellapps.com
+#DNS.3 = wto.blackwellapps.com

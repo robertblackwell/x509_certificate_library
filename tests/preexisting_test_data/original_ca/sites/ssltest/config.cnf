@@ -1,0 +1,44 @@
+[ ca ]
+default_ca 		= exampleca
+
+[ exampleca ]
+dir 				= /Users/rob/CA
+certificate 		= /Users/rob/CA/cacert.pem
+database 			= /Users/rob/CA/index.txt
+new_certs_dir 		= /Users/rob/CA/certs
+private_key 		= /Users/rob/CA/private/cakey.pem
+serial 				= /Users/rob/CA/serial
+
+default_crl_days 	= 7
+default_days 		= 365
+default_md 			= md5
+
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+commonName 				= ssltest
+stateOrProvinceName 	= WA
+countryName 			= US
+emailAddress 			= rob@blackwellapps.com
+organizationName 		= blackwellapps
+organizationalUnitName 	= BlackwellApps Root Certificate
+
+[v3_req]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = ssltest
+DNS.2 = www.ssltest
+DNS.3 = api.ssltest
+
+#subjectAltName = DNS:ssltest
+#subjectAltName = DNS:www.ssltest
+#subjectAltName = DNS:api.ssltest
+

@@ -1,0 +1,7 @@
+bankofamerica.com
+geo.mozilla.org
+paypal.com
+ssltest
+www.google.com
+www.httpsnow.org
+yahoo.com
