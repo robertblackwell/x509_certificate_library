@@ -6,7 +6,6 @@ Next things to work on:
   ☐ Test client/server where server is using an imitating certificate
 More thoughts:
   ☐ Provide a mitm_certificate builder that either does not cache or only does a memory cache. Forget all of this file database stuff
-  ☐ Get dependencies with Conan or some such - or make a simple version of your own
   ☐ Make the library get-able with Conan
   ☐ Build a server that pretends to be other servers and test it with commandline curl
   ☐ Need to look through code and make sure that un-recoverable errors give a good message and problem description
@@ -33,6 +32,7 @@ Build-Install:
   ☐ cmake files need to be able to build and install a DEBUG and RELEASE version. I need to build a project that tests a project-local installation of this library.
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ NO - Get dependencies with Conan or some such - or make a simple version of your own @done (20-02-16 09:41) @project(More thoughts)
  ✔ lot of duplication - cleanup @done (20-02-16 09:39) @project(Test_Fixture and Test_Helper)
  ✔ Headers in header files @done (20-02-13 16:52) @project(Unused)
  ✔ Protect the existing work on out-of-source makefile builds @done (20-02-13 16:34) @project(Clean up file structure)
