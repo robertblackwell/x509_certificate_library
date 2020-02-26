@@ -9,13 +9,13 @@
 #include <boost/unordered_set.hpp>
 #include <boost/filesystem.hpp>
 
-#include "cert/cert.hpp"
+#include <cert/cert/cert.hpp>
+#include <cert/cert_store.hpp>
 //#include "cert_helpers.hpp"
 //#include "cert_handshake_result.hpp"
 //#include "cert_handshaker.hpp"
 //#include "test_case.hpp"
 #include "test_helpers.hpp"
-#include <cert/cert_store.hpp>
 
 /// @todo something wqrong with the export of OSX keychain
 //#define TEST_OSX_KEYCHAIN

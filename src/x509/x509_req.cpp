@@ -6,8 +6,8 @@
 //  Copyright © 2017 Blackwellapps. All rights reserved.
 //
 
-#include "x509_req.hpp"
-#include "x509.hpp"
+#include <cert/x509_req.hpp>
+#include <cert/x509.hpp>
 
 #pragma mark x509Req functions
 

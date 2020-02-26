@@ -1,9 +1,9 @@
 #include <boost/format.hpp>
 #include <boost/process.hpp>
 
-#include "cert.hpp"
-#include "cert_store.hpp"
-#include "cert_mozilla.hpp"
+#include <cert/cert.hpp>
+#include <cert/cert_store.hpp>
+#include <cert/cert_mozilla.hpp>
 
 using namespace Cert;
 

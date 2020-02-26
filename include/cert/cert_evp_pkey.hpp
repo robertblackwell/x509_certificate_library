@@ -1,8 +1,8 @@
 #ifndef certlib_oo_cert_evp_pkey_hpp
 #define certlib_oo_cert_evp_pkey_hpp
-#include "constants.hpp"
-#include "version_check.hpp"
-#include "x509.hpp"
+#include <cert/constants.hpp>
+#include <cert/version_check.hpp>
+#include <cert/x509.hpp>
 
 namespace Cert{
 class EvpPKey;

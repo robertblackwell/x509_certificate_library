@@ -10,10 +10,10 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/thread.hpp>
 
-#include "x509.hpp"
-#include "cert_identity.hpp"
-#include "cert_authority.hpp"
-#include "cert_store_locator.hpp"
+#include <cert/x509.hpp>
+#include <cert/cert_identity.hpp>
+#include <cert/cert_authority.hpp>
+#include <cert/cert_store_locator.hpp>
 
 
 using namespace Cert;

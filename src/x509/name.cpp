@@ -5,7 +5,7 @@
 //  Created by ROBERT BLACKWELL on 11/8/17.
 //  Copyright © 2017 ROBERT BLACKWELL. All rights reserved.
 //
-#include "x509.hpp"
+#include <cert/x509.hpp>
 
 std::string Cert::x509::Name_AsOneLine(X509_NAME* name)
 {

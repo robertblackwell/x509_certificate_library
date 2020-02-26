@@ -6,7 +6,7 @@
 //  Copyright © 2017 Blackwellapps. All rights reserved.
 //
 #include <string>
-#include "x509.hpp"
+#include <cert/x509.hpp>
 
 Cert::x509::Conf::Conf(std::string filename)
 {

@@ -2,10 +2,10 @@
 #ifndef cert_helpers_h
 #define cert_helpers_h
 #
-#include "constants.hpp"
-#include "version_check.hpp"
+#include <cert/constants.hpp>
+#include <cert/version_check.hpp>
 
-#include "cert_helpers_fs.hpp"
+#include <cert/cert_helpers_fs.hpp>
 
 namespace Cert {
 /**

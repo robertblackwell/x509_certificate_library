@@ -1,7 +1,7 @@
 #ifndef certlib_oo_cert_chain_hpp
 #define certlib_oo_cert_chain_hpp
 
-#include "cert.hpp"
+#include <cert/cert.hpp>
 
 namespace Cert {
 

@@ -1,9 +1,9 @@
 #ifndef certlib_cert_oo_certificate_hpp
 #define certlib_cert_oo_certificate_hpp
 #include <boost/filesystem/path.hpp>
-#include "constants.hpp"
-#include "version_check.hpp"
-#include "x509.hpp"
+#include <cert/constants.hpp>
+#include <cert/version_check.hpp>
+#include <cert/x509.hpp>
 
 
 using namespace Cert::x509;

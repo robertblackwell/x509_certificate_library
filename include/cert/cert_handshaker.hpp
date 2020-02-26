@@ -18,9 +18,9 @@
 #include <boost/asio/ssl.hpp>
 #include <boost/unordered_set.hpp>
 
-#include "constants.hpp"
-#include "version_check.hpp"
-#include "x509.hpp"
+#include <cert/constants.hpp>
+#include <cert/version_check.hpp>
+#include <cert/x509.hpp>
 
 const int max_read_buffer_length = 1024;
 const bool debug_trace = false;

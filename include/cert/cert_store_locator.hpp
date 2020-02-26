@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <boost/filesystem/path.hpp>
-#include "cert_store_types.hpp"
+#include <cert/cert_store_types.hpp>
 
 namespace Cert {
 namespace Store {

@@ -5,8 +5,8 @@
 #ifndef certlib_oo_cert_builder_hpp
 #define certlib_oo_cert_builder_hpp
 #include <map>
-#include "x509.hpp"
-#include "cert_identity.hpp"
+#include <cert/x509.hpp>
+#include <cert/cert_identity.hpp>
 /**
 * @brief Cert is the top level namespace for libcert
 */

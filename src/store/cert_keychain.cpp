@@ -1,8 +1,8 @@
 #include <boost/format.hpp>
 #include <boost/process.hpp>
-#include "cert_helpers.hpp"
-#include "cert_store.hpp"
-#include "cert_keychain.hpp"
+#include <cert/cert_helpers.hpp>
+#include <cert/cert_store.hpp>
+#include <cert/cert_keychain.hpp>
 
 using namespace Cert;
 using namespace Cert::Store;

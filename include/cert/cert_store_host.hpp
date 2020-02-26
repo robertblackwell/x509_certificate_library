@@ -4,11 +4,11 @@
 #include <boost/filesystem.hpp>
 #include <boost/asio.hpp>
 
-#include "cert_store_locator.hpp"
-#include "cert_store_host.hpp"
-#include "cert_store_store.hpp"
-#include "cert_keychain.hpp"
-#include "cert_mozilla.hpp"
+#include <cert/cert_store_locator.hpp>
+#include <cert/cert_store_host.hpp>
+#include <cert/cert_store_store.hpp>
+#include <cert/cert_keychain.hpp>
+#include <cert/cert_mozilla.hpp>
 
 namespace Cert {
 namespace Store {

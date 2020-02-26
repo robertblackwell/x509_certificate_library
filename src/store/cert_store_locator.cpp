@@ -8,9 +8,9 @@
 #include <boost/filesystem.hpp>
 #include <json/json.hpp>
 
-#include "cert_helpers.hpp"
-#include "cert_store.hpp"
-#include "cert_store_locator.hpp"
+#include <cert/cert_helpers.hpp>
+#include <cert/cert_store.hpp>
+#include <cert/cert_store_locator.hpp>
 
 
 using namespace Cert;

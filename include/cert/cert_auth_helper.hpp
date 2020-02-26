@@ -6,7 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <json/json.hpp>
 
-#include "cert_helpers.hpp"
+#include <cert/cert_helpers.hpp>
 
 using namespace Cert;
 using namespace boost;

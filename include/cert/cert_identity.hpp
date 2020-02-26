@@ -1,9 +1,9 @@
 
 #ifndef certlib_oo_cert_identity_include_h
 #define certlib_oo_cert_identity_include_h
-#include "x509.hpp"
-#include "cert_certificate.hpp"
-#include "cert_evp_pkey.hpp"
+#include <cert/x509.hpp>
+#include <cert/cert_certificate.hpp>
+#include <cert/cert_evp_pkey.hpp>
 
 namespace Cert {
     

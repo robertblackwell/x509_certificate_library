@@ -1,6 +1,6 @@
-#include "x509.hpp"
-#include "x509_cert_impl.hpp"
-#include "cert.hpp"
+#include <cert/x509.hpp>
+#include <cert/x509_cert_impl.hpp>
+#include <cert/cert.hpp>
 
 
 Cert::Certificate::Certificate(boost::filesystem::path pem_file)

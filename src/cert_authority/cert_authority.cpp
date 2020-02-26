@@ -6,10 +6,10 @@
 //  Copyright © 2017 Blackwellapps. All rights reserved.
 //
 #include <boost/filesystem.hpp>
-#include "x509.hpp"
-#include "cert_helpers.hpp"
-#include "cert_auth_helper.hpp"
-#include "cert_authority.hpp"
+#include <cert/x509.hpp>
+#include <cert/cert_helpers.hpp>
+#include <cert/cert_auth_helper.hpp>
+#include <cert/cert_authority.hpp>
 
 using namespace Cert;
 using namespace Cert::Helpers;

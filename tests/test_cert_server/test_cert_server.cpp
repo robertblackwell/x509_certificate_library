@@ -2,10 +2,10 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch2/catch.hpp>
 
-#include "cert_helpers_fs.hpp"
-#include "cert_store.hpp"
-#include "cert_store_authority.hpp"
-#include "cert_store_host.hpp"
+#include <cert/cert_helpers_fs.hpp>
+#include <cert/cert_store.hpp>
+#include <cert/cert_store_authority.hpp>
+#include <cert/cert_store_host.hpp>
 
 int main( int argc, char* argv[] )
 {

@@ -10,7 +10,7 @@
 #include <set>
 #include <boost/unordered_set.hpp>
 
-#include "cert_handshaker.hpp"
+#include <cert/cert_handshaker.hpp>
 
 void report_fail(std::string msg, const char* file, int line)
 {

@@ -6,7 +6,7 @@
 //  Copyright © 2020 ROBERT BLACKWELL. All rights reserved.
 //
 #include <string>
-#include "x509.hpp"
+#include <cert/x509.hpp>
 
 std::string BIO_to_string(BIO* bio) {
     BUF_MEM* bmp;

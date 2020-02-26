@@ -5,8 +5,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include "error.hpp"
-#include "cert_helpers.hpp"
+#include <cert/error.hpp>
+#include <cert/cert_helpers.hpp>
 
 using namespace Cert::Helpers::fs;
 

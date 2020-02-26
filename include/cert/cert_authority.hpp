@@ -2,7 +2,7 @@
 #define cert_authority_include_hpp
 
 #include <boost/filesystem.hpp>
-#include "x509.hpp"
+#include <cert/x509.hpp>
 
 namespace Cert {
 

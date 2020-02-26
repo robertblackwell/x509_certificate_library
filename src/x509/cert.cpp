@@ -1,6 +1,6 @@
-#include "x509.hpp"
-#include "x509_cert_impl.hpp"
-#include "cert_authority.hpp"
+#include <cert/x509.hpp>
+#include <cert/x509_cert_impl.hpp>
+#include <cert/cert_authority.hpp>
 
 #pragma mark - Cert::x509::Cert read/write
 //http://fm4dd.com/openssl/certverify.htm

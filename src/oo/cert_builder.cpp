@@ -6,11 +6,11 @@
 //  Copyright © 2017 ROBERT BLACKWELL. All rights reserved.
 //
 
-#include "x509.hpp"
-#include "x509_cert_impl.hpp"
-#include "cert_builder.hpp"
-#include "cert_certificate.hpp"
-#include "cert_authority.hpp"
+#include <cert/x509.hpp>
+#include <cert/x509_cert_impl.hpp>
+#include <cert/cert_builder.hpp>
+#include <cert/cert_certificate.hpp>
+#include <cert/cert_authority.hpp>
 
 #pragma mark - certificate builder function
 

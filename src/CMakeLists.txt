@@ -56,7 +56,7 @@ message("Sources: ${SOURCES}")
 add_library(${CERT_LIBRARY_NAME} STATIC ${SOURCES} ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
-target_include_directories(${CERT_LIBRARY_NAME} PUBLIC ${PROJECT_DIR}/include/cert ${VENDOR_DIR}/include)
+target_include_directories(${CERT_LIBRARY_NAME} PUBLIC ${PROJECT_DIR}/include ${VENDOR_DIR}/include)
 # This depends on (header only) boost
 # target_link_libraries(cert_library PRIVATE Boost::boost)
 

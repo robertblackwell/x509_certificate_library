@@ -13,10 +13,10 @@
 #include <openssl/rand.h>
 #include <openssl/ts.h>
 
-#include "x509.hpp"
-#include "cert_handshaker.hpp"
-#include "cert_helpers.hpp"
-#include "cert_store.hpp"
+#include <cert/x509.hpp>
+#include <cert/cert_handshaker.hpp>
+#include <cert/cert_helpers.hpp>
+#include <cert/cert_store.hpp>
 
 using namespace Cert;
 using namespace Cert::Store;

@@ -1,8 +1,8 @@
 #include <ostream>
 #include <regex>
 
-#include "cert.hpp"
-#include "cert_chain.hpp"
+#include <cert/cert.hpp>
+#include <cert/cert_chain.hpp>
 
 namespace Cert {
 

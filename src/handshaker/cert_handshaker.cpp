@@ -7,9 +7,9 @@
 #include <boost/filesystem.hpp>
 
 
-#include "x509.hpp"
-#include "cert_helpers.hpp"
-#include "cert_handshaker.hpp"
+#include <cert/x509.hpp>
+#include <cert/cert_helpers.hpp>
+#include <cert/cert_handshaker.hpp>
 
 //
 // Results from tests are encapsulated in TestResult::value and are inspected  for the correct

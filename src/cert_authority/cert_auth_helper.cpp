@@ -3,9 +3,9 @@
 #include <boost/process.hpp>
 #include <json/json.hpp>
 
-//#include "cert_store_auth.hpp"
-#include "cert_helpers.hpp"
-#include "cert_store.hpp"
+//#include <cert/cert_store_auth.hpp>
+#include <cert/cert_helpers.hpp>
+#include <cert/cert_store.hpp>
 
 using namespace Cert;
 

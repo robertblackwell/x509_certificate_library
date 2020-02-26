@@ -11,11 +11,11 @@
 #include <errno.h>
 #include <json/json.hpp>
 
-#include "cert.hpp"
-#include "cert_store.hpp"
-#include "cert_mozilla.hpp"
-#include "cert_keychain.hpp"
-#include "cert_authority.hpp"
+#include <cert/cert.hpp>
+#include <cert/cert_store.hpp>
+#include <cert/cert_mozilla.hpp>
+#include <cert/cert_keychain.hpp>
+#include <cert/cert_authority.hpp>
 
 using namespace Cert;
 using namespace Cert::Store;
