@@ -49,6 +49,7 @@ add_subdirectory(src)
 add_subdirectory(tests)
 source_group(headers REGULAR_EXPRESSION include/cert/*.hpp})
 
+set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY true)
 
 install(TARGETS ${CERT_LIBRARY_NAME}
         EXPORT ${CERT_LIBRARY_NAME}
@@ -60,49 +61,49 @@ install(TARGETS ${CERT_LIBRARY_NAME}
 
 # set(CMAKE_INSTALL_PREFIX ${PROJECT_DIR})
 # install(TARGETS ${CERT_LIBRARY_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-# install(FILES 
-#     include/cert/constants.hpp
-#     include/cert/macros.hpp
-#     include/cert/error.hpp
-#     include/cert/version_check.hpp
-#     include/cert/bio_utes.hpp
-#     include/cert/cert.hpp
-#     include/cert/cert_helpers.hpp
-#     include/cert/cert_evp_pkey.hpp
-#     include/cert/cert_auth_helper.hpp
-#     include/cert/cert_identity.hpp
-#     include/cert/cert_keychain.hpp
-#     include/cert/cert_helpers_fs.hpp
-#     include/cert/cert_authority.hpp
-#     include/cert/x5zero9.hpp
-#     include/cert/cert_builder.hpp
-#     include/cert/cert_certificate.hpp
-#     include/cert/cert_handshaker.hpp
+install(FILES 
+    include/cert/constants.hpp
+    include/cert/macros.hpp
+    include/cert/error.hpp
+    include/cert/version_check.hpp
+    include/cert/bio_utes.hpp
+    include/cert/cert.hpp
+    include/cert/cert_helpers.hpp
+    include/cert/cert_evp_pkey.hpp
+    include/cert/cert_auth_helper.hpp
+    include/cert/cert_identity.hpp
+    include/cert/cert_keychain.hpp
+    include/cert/cert_helpers_fs.hpp
+    include/cert/cert_authority.hpp
+    include/cert/x5zero9.hpp
+    include/cert/cert_builder.hpp
+    include/cert/cert_certificate.hpp
+    include/cert/cert_handshaker.hpp
 
-#     include/cert/x509.hpp
-#     include/cert/x509_serial.hpp
-#     include/cert/x509_time.hpp
-#     include/cert/x509_pkey.hpp
-#     include/cert/x509_chain.hpp
-#     include/cert/x509_cert.hpp
-#     include/cert/x509_cert_impl.hpp
-#     include/cert/x509_req.hpp
-#     include/cert/x509_name.hpp
-#     include/cert/x509_ext.hpp
-#     include/cert/x509_nid.hpp
-#     include/cert/x509_types.hpp
-#     include/cert/x509_create.hpp
-#     include/cert/x509_conf.hpp
-#     include/cert/cert_chain.hpp
+    include/cert/x509.hpp
+    include/cert/x509_serial.hpp
+    include/cert/x509_time.hpp
+    include/cert/x509_pkey.hpp
+    include/cert/x509_chain.hpp
+    include/cert/x509_cert.hpp
+    include/cert/x509_cert_impl.hpp
+    include/cert/x509_req.hpp
+    include/cert/x509_name.hpp
+    include/cert/x509_ext.hpp
+    include/cert/x509_nid.hpp
+    include/cert/x509_types.hpp
+    include/cert/x509_create.hpp
+    include/cert/x509_conf.hpp
+    include/cert/cert_chain.hpp
 
-#     # include/cert/cert_store.hpp
-#     # include/cert/cert_store_host.hpp
-#     # include/cert/cert_store_locator.hpp
-#     # include/cert/cert_store_types.hpp
-#     # include/cert/cert_store_store.hpp
-#     # include/cert/cert_mozilla.hpp
+    # include/cert/cert_store.hpp
+    # include/cert/cert_store_host.hpp
+    # include/cert/cert_store_locator.hpp
+    # include/cert/cert_store_types.hpp
+    # include/cert/cert_store_store.hpp
+    # include/cert/cert_mozilla.hpp
 
-#     DESTINATION ${STAGE_DIR}/include/cert)
+    DESTINATION ${STAGE_DIR}/include/cert)
 
 
 # # Testing -- see the CMakeLists.txt in each of the test directories
