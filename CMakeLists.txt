@@ -38,7 +38,7 @@ set(PROJECT_DIR ${CertificateLibrary_SOURCE_DIR})
 # allow the vendor dir to be set on the command line so that the library can be built 
 # in the stage directory during an installation local to a project
 
-if(VENDOR_DIR STREQ "")
+if(NOT DEFINED VENDOR_DIR)
     set(VENDOR_DIR ${PROJECT_DIR}/vendor)
 endif()
 
