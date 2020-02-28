@@ -34,7 +34,13 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 set(PROJECT_DIR ${CertificateLibrary_SOURCE_DIR})
-set(VENDOR_DIR ${PROJECT_DIR}/vendor)
+
+# allow the vendor dir to be set on the command line so that the library can be built 
+# in the stage directory during an installation local to a project
+
+if(VENDOR_DIR STREQ "")
+    set(VENDOR_DIR ${PROJECT_DIR}/vendor)
+endif()
 
 message(Module Path : ${CMAKE_MODULE_PATH})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/Cellar/cmake3.16.3/share/cmake/Modules)
