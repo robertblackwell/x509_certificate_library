@@ -5,6 +5,11 @@ using namespace Cert::x509;
 
 namespace Cert {
 
+EvpPKey::EvpPKey()
+{
+    m_evp_pkey = nullptr;
+}
+
 EvpPKey::EvpPKey(boost::filesystem::path pemFilePath, std::string password)
 {
     EVP_PKEY* x = PKey_ReadPrivateKeyFrom(pemFilePath.native(), password);
@@ -22,6 +27,10 @@ EvpPKey::~EvpPKey()
     if (m_evp_pkey != nullptr) {
         EVP_PKEY_free(m_evp_pkey);
     }
+}
+EvpPKey::operator bool() const
+{
+    return (m_evp_pkey != nullptr);
 }
 EVP_PKEY* EvpPKey::native()
 {

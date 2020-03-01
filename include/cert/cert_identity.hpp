@@ -17,8 +17,8 @@ class Identity;
     */
     class  Identity {
     public:
-        // cannot create an 'empty' identity
-        Identity() = delete;
+        // allow an 'empty' identity
+        Identity();
 // Including the next two lines causes some compile errors in Builder related to
 // assignment from a function result
 //        Identity(Identity&& other) = delete;
@@ -30,7 +30,8 @@ class Identity;
         ~Identity();
         Identity(X509* certificate, EVP_PKEY* keyptr);
         Identity(const Cert::Certificate& certificate, const Cert::EvpPKey& keyPair);
-        
+
+        explicit operator bool() const;
         
         Cert::Certificate getCertificate();
         std::string getCertificatePEM();

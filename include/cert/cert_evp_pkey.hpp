@@ -9,11 +9,12 @@ class EvpPKey;
 class EvpPKey
 {
     public:
+    EvpPKey();
 	EvpPKey(boost::filesystem::path filePath, std::string password);
 	EvpPKey(std::string pem);
 	EvpPKey(EVP_PKEY* pkey);
 
-    EvpPKey() = delete;
+	explicit operator bool() const;
 //    EvpPKey(EvpPKey&& other) = delete;
 //    EvpPKey& operator=(EvpPKey&& other) = delete;
 

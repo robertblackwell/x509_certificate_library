@@ -2,7 +2,10 @@
 #include <cert/x509_cert_impl.hpp>
 #include <cert/cert.hpp>
 
-
+Cert::Certificate::Certificate()
+{
+    m_x509 = nullptr;
+}
 Cert::Certificate::Certificate(boost::filesystem::path pem_file)
 {
     X509* x = Cert_ReadFromFile(pem_file.native());
@@ -28,6 +31,11 @@ Cert::Certificate::~Certificate()
     if (m_x509 != nullptr) {
         X509_free(m_x509);
     }
+}
+
+Cert::Certificate::operator bool() const
+{
+    return (this->m_x509 != nullptr);
 }
 
 X509* 

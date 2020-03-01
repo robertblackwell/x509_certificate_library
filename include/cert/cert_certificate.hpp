@@ -11,7 +11,7 @@ using namespace Cert::x509;
 namespace Cert {
 class EvpPKey;
 class Certificate;
-
+typedef std::shared_ptr<Certificate> CertificateSPtr;
 class Certificate
 {
 public:
@@ -19,7 +19,8 @@ private:
     X509*   m_x509;
 public:
     #pragma mark - certificate no move/copy or assign
-    Certificate() = delete;
+    //allow default constructor and empty Certificates
+     Certificate();
 
     Certificate(const Certificate& other) = default;
     Certificate & operator=(const Certificate&) = default;
@@ -41,6 +42,7 @@ public:
 
     ~Certificate();
     
+    explicit operator bool() const;
     // The pointer returned by this method is owned by the class instance. Do not try
     // and free it.
     X509* native();

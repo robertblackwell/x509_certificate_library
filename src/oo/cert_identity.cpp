@@ -14,12 +14,20 @@ Identity::~Identity()
         THROW("failed in Identity destructor"); // should not get here
     }
 }
-
+Identity::Identity()
+{
+    m_cert = nullptr;
+    m_private_key = nullptr;
+}
 Identity::Identity(X509* certificate, EVP_PKEY* keypair)//: m_cert(certificate), m_private_key(keyptr)
 {
     m_cert = certificate; X509_up_ref(certificate);
     m_private_key = keypair; EVP_PKEY_up_ref(keypair);
 };
+Identity::operator bool() const
+{
+    return ((m_cert != nullptr) && (m_private_key != nullptr));
+}
 X509*
 Identity::getX509()
 {
