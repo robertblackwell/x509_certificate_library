@@ -72,20 +72,18 @@ install(FILES
     include/cert/cert_evp_pkey.hpp
     include/cert/cert_auth_helper.hpp
     include/cert/cert_identity.hpp
-    include/cert/cert_keychain.hpp
     include/cert/cert_helpers_fs.hpp
     include/cert/cert_authority.hpp
-    include/cert/x5zero9.hpp
     include/cert/cert_builder.hpp
     include/cert/cert_certificate.hpp
     include/cert/cert_handshaker.hpp
-    include/cert_mozilla.hpp
-    include/cert_keychain.hpp
-    include/cert_store.hpp
-    include/cert_store_host.hpp
-    include/cert_store_locator.hpp
-    include/cert_store_types.hpp
-
+    include/cert/cert_mozilla.hpp
+    include/cert/cert_keychain.hpp
+    include/cert/cert_store.hpp
+    include/cert/cert_store_host.hpp
+    include/cert/cert_store_locator.hpp
+    include/cert/cert_store_types.hpp
+    include/cert/x5zero9.hpp
     include/cert/x509.hpp
     include/cert/x509_serial.hpp
     include/cert/x509_time.hpp
