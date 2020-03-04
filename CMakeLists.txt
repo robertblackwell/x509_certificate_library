@@ -82,6 +82,7 @@ install(FILES
     include/cert/cert_store.hpp
     include/cert/cert_store_host.hpp
     include/cert/cert_store_locator.hpp
+    include/cert/cert_store_store.hpp
     include/cert/cert_store_types.hpp
     include/cert/x5zero9.hpp
     include/cert/x509.hpp
