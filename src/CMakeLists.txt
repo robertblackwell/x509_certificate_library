@@ -14,6 +14,11 @@ set(SOURCES
 	./handshaker/cert_handshaker_result.cpp
 	./cert_authority/cert_authority.cpp
 	./cert_authority/cert_auth_helper.cpp
+	./store/cert_mozilla.cpp
+	./store/cert_keychain.cpp
+	./store/cert_store_host.cpp
+	./store/cert_store_locator.cpp
+	./store/cert_store_store.cpp
 	./x509/name.cpp
 	./x509/extension.cpp
 	./x509/cert_impl.cpp

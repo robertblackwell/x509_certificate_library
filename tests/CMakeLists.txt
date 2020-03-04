@@ -6,23 +6,23 @@ set(TEST_DIR_COMMON_SOURCE ${TEST_DIR}/test_fixture_new.cpp)
 message("TestDir Common Source ${TEST_DIR_COMMON_SOURCE}")
 
 set(TEST_LIB_SOURCES
-	../src/store/cert_mozilla.cpp
-	../src/store/cert_keychain.cpp
-	../src/store/cert_store_locator.cpp
-	../src/store/cert_store_store.cpp
-	../src/store/cert_store_host.cpp
 	test_fixture_new.cpp 
 	test_fixture_new.hpp)
+	# ../src/store/cert_mozilla.cpp
+	# ../src/store/cert_keychain.cpp
+	# ../src/store/cert_store_locator.cpp
+	# ../src/store/cert_store_store.cpp
+	# ../src/store/cert_store_host.cpp
 
 add_library(test_lib STATIC 
-	../src/store/cert_mozilla.cpp
-	../src/store/cert_keychain.cpp
-	../src/store/cert_store_locator.cpp
-	../src/store/cert_store_store.cpp
-	../src/store/cert_store_host.cpp
 	test_fixture_new.cpp 
 	test_fixture_new.hpp 
 	test_helpers.hpp
+	# ../src/store/cert_mozilla.cpp
+	# ../src/store/cert_keychain.cpp
+	# ../src/store/cert_store_locator.cpp
+	# ../src/store/cert_store_store.cpp
+	# ../src/store/cert_store_host.cpp
 	)
 target_include_directories(test_lib PUBLIC ${TEST_INCLUDE_DIRS})
 target_compile_features(test_lib PUBLIC cxx_std_11)

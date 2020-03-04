@@ -79,6 +79,12 @@ install(FILES
     include/cert/cert_builder.hpp
     include/cert/cert_certificate.hpp
     include/cert/cert_handshaker.hpp
+    include/cert_mozilla.hpp
+    include/cert_keychain.hpp
+    include/cert_store.hpp
+    include/cert_store_host.hpp
+    include/cert_store_locator.hpp
+    include/cert_store_types.hpp
 
     include/cert/x509.hpp
     include/cert/x509_serial.hpp
