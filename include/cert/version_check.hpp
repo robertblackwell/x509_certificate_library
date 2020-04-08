@@ -5,7 +5,7 @@
 #define cert_version_check_h
 #include <openssl/opensslv.h>
 
-#define EXPECTED_OPENSSL_VERSION 0x1010104fL
+#define EXPECTED_OPENSSL_VERSION 0x1010106fL
 #define EXPECTED_BOOST_VERSION 107200
 
 #define HSTR(s) #s

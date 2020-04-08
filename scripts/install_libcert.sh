@@ -1,52 +1,55 @@
 #!/bin/bash
-# https://github.com/boost/boost.git
 
 function install_package {
-	mkdir -p ${vendor}/include/boost
+	mkdir -p ${vendor}/include/cert
 	mkdir -p ${vendor}/lib
-	rm -rfv ${vendor}/include/boost/*
-	rm -rfv ${vendor}/lib/libboost*
-	cp -rv ${script_dir}/stage/include/boost/* ${vendor}/include/boost
+	rm -rfv ${vendor}/include/cert/*
+	rm -rfv ${vendor}/lib/libcert*
+	cp -rv ${script_dir}/stage/include/cert/* ${vendor}/include/cert
 
-	cp -rv ${script_dir}/stage/lib/*.a ${vendor}/lib/
+	cp -rv ${script_dir}/stage/lib/libcert*.a ${vendor}/lib/
 	echo 
-	echo INSTALL $boost_name complete ========================================================
+	echo INSTALL $package complete ========================================================
 	echo
 }
 
 function get_package {
 	cd ${clone_dir}
-	rm -rfv ${clone_dir}/${boost_targz_file}*
-	rm -rfv ${clone_dir}/${boost_name}
-	# wget https://dl.bintray.com/boostorg/release/${boost_release}/source/boost_1_72_0.tar.gz
-	wget ${boost_url}
-	tar xvzf ${boost_targz_file}
-	cd ${boost_name}
+	rm -rfv ${clone_dir}/${package_name}
+	${git_clone}
+	cd ${package_name}
 	ls -al
 }
 
 function stage_package {
+	stage_dir=${script_dir}/stage
 	mkdir -p ${script_dir}/stage/include
 	mkdir -p ${script_dir}/stage/lib
-
-	cd ${clone_dir}/${boost_name}
-
-	./bootstrap.sh --prefix=${script_dir}/stage  darwin64-x86_64-cc
-
-	./b2 --link=static --threading=multi --variant=debug --layout=system install
+	cd ${clone_dir}/${package_name}
+	if [ -d cmake-build-debug ] ; then 
+		rm -rf cmake-build-debug/*
+	else
+		mkdir -p cmake-build-debug
+	fi
+	cd cmake-build-debug
+	pwd
+	cmake -DVENDOR_DIR=${stage_dir} -DSTAGE_DIR=${stage_dir} ..
+	# cmake  --build . --target cert_library
+	make -j 8 cert_library
+	cmake --build . --target install -j 8
 }
 
 function verify_package_name() {
-	if [ $project_name != ${PROJECT_DIRECTORY_NAME} ] ; then
+	if [ $project_name != "marvin++" ] ; then
 		echo "You are in the wrong directory : [" ${project_name} "] should be at project root "
 		exit 1
 	fi
 }
 
 function help() {
-	echo Install package ${boost_name}
+	echo Install package ${package_name}
 	echo Usage:
-	echo 	stage_boost_1.72.0.sh [arg]
+	echo 	install_${package_name}.sh [arg]
 	echo
 	echo	args is either
 	echo		help 	Print this help message
@@ -60,22 +63,21 @@ function help() {
 
 debug=
 
-boost_release=1.72.0
-boost_name=boost_1_72_0
+package_name=libcert
 
 if [ "$1" == "help" ] ; then help; fi
 
-boost_url=https://dl.bintray.com/boostorg/release/${boost_release}/source/boost_1_72_0.tar.gz
-boost_targz_file=boost_1_72_0.tar.gz
+
 pwd=`pwd`
 vendor=${pwd}/vendor
 project_dir=$pwd
 project_name=$(basename $project_dir)
 script_dir=$(dirname $(realpath $0))
 clone_dir=${script_dir}/cloned_repos
+git_clone="git clone https://github.com/robertblackwell/x509_certificate_library.git ${release} ${clone_dir}/${package_name}"
 
 echo 
-echo INSTALL $boost_name begin ========================================================
+echo INSTALL $package_name begin ========================================================
 echo
 
 if [ "$1" == "stage" ] || [ "$1" == "install" ] || [ "$1" == "" ] ; then

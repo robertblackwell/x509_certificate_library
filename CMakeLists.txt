@@ -9,29 +9,28 @@ project(CertificateLibrary
     DESCRIPTION "A library for making ssl X509 certificates for a MITM proxy that desires inspects the content "
     LANGUAGES CXX)
 
-
+set(CMAKE_BUILD_TYPE Debug)
 # this is a fix for a problem with boost libraries see https://github.com/Microsoft/vcpkg/issues/4497
 # also a hack and breaks "best practices" as per Damiel Pfeiffer's presentation https://www.youtube.com/watch?v=rLopVhns4Zs&feature=youtu.be
 set(other_flags "${other_flags} -frtti -fvisibility-inlines-hidden")
 set(other_flags "${other_flags} -fvisibility=hidden")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${other_flags}")
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 set(CERT_LIBRARY_NAME "cert_library")
 
-# Only do these if this is the main project, and not if it is included through add_subdirectory
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
-    # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
-    # Let's ensure -std=c++xx instead of -std=g++xx
-    set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-    # Let's nicely support folders in IDE's
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-    include(CTest) 
-    enable_testing()
+include(CTest) 
+enable_testing()
 
-endif()
 
 set(PROJECT_DIR ${CertificateLibrary_SOURCE_DIR})
 
@@ -41,6 +40,11 @@ set(PROJECT_DIR ${CertificateLibrary_SOURCE_DIR})
 if(NOT DEFINED VENDOR_DIR)
     set(VENDOR_DIR ${PROJECT_DIR}/vendor)
 endif()
+
+if(${CMAKE_DL_LIBS})
+    set(DL_LIB_SO libdl.so)
+endif()
+
 
 message(Module Path : ${CMAKE_MODULE_PATH})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/Cellar/cmake3.16.3/share/cmake/Modules)

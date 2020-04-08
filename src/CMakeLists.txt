@@ -4,6 +4,9 @@
 message("CertificateLibrary_SOURCE_DIR: ${CertificateLibrary_SOURCE_DIR}")
 message("Vendir Dir: ${VENDOR_DIR}")
 set(PROJECT_DIR ${CertificateLibrary_SOURCE_DIR})
+
+set(CMAKE_BUILD_TYPE Debug)
+
 # Optionally glob, but only for CMake 3.12 or later:
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${PROJECT_DIR}/include/cert/*.hpp")
 # set(HEADER_LIST "${CertificateLibrary_SOURCE_DIR}/include/cert/x509/cert.hpp")

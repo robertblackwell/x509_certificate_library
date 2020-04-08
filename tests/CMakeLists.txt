@@ -1,6 +1,28 @@
 set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(TEST_INCLUDE_DIRS ${TEST_DIR} ${PROJECT_DIR}/include/cert ${PROJECT_DIR}/include SYSTEM ${VENDOR_DIR}/include)
-set(TEST_LINK_LIBS ${CERT_LIBRARY_NAME} ${VENDOR_DIR}/lib/libcrypto.a ${VENDOR_DIR}/lib/libssl.a ${VENDOR_DIR}/lib/libboost_filesystem.a)
+
+set(TEST_LINK_LIBS 
+	Threads::Threads 
+	${CMAKE_DL_LIBS}
+	${CERT_LIBRARY_NAME} 
+	${VENDOR_DIR}/lib/libcrypto.a 
+	${VENDOR_DIR}/lib/libssl.a 
+	${VENDOR_DIR}/lib/libboost_filesystem.a
+	${CMAKE_DL_LIBS}
+	${DL_LIB_SO}
+)
+
+	# ${CMAKE_DL_LIBS}
+	# ${VENDOR_DIR}/lib/libcrypto.a 
+	# ${VENDOR_DIR}/lib/libssl.a 
+	# ${VENDOR_DIR}/lib/libboost_filesystem.a 
+	# ${VENDOR_DIR}/lib/libboost_system.a
+	# ${VENDOR_DIR}/lib/libcert_library.a
+	# ${CMAKE_DL_LIBS}
+	# ${DL_LIB_SO}
+
+
 set(TEST_DIR_COMMON_SOURCE ${TEST_DIR}/test_fixture_new.cpp)
 
 message("TestDir Common Source ${TEST_DIR_COMMON_SOURCE}")
@@ -25,7 +47,7 @@ add_library(test_lib STATIC
 	# ../src/store/cert_store_host.cpp
 	)
 target_include_directories(test_lib PUBLIC ${TEST_INCLUDE_DIRS})
-target_compile_features(test_lib PUBLIC cxx_std_11)
+# target_compile_features(test_lib PUBLIC cxx_std_11)
 
 # add_library(test_lib INTERFACE )
 # target_include_directories(test_lib INTERFACE ${TEST_DIR})

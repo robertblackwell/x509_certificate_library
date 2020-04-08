@@ -1,23 +1,23 @@
 #!/bin/bash
-# https://github.com/json/json.git
+# https://github.com/catch/catch.git
+
 debug=
-project_name=marvin
-json_release=v3=json
-package_name=json
-package_clone_stem=json
-package_description=nlohman_json_${json_release}
-git_clone="git clone https://github.com/nlohmann/json.git"
-header_cp_pattern=single_include/nlohmann/json.hpp
+
+release=2.3.7
+package_description=doctest_v2.3.7
+package_name=doctest
+
+package_clone_stem=doctest
+git_clone="git clone https://github.com/onqtam/doctest.git --branch ${release}"
+header_cp_pattern=doctest/doctest.h
+
 
 basedir=$(dirname "$0")
 source ${basedir}/inc_install_hdr_pkg.sh
 
-
 # echo 
-# echo INSTALL nlohman_json beginning ========================================================
+# echo INSTALL $catch2_name beginning ========================================================
 # echo
-
-
 # if [ "$1" == "help" ] ; then
 # 	echo Install ${package_description}
 # 	echo Usage:
@@ -34,17 +34,18 @@ source ${basedir}/inc_install_hdr_pkg.sh
 # fi
 
 
+# catch_url=https://dl.bintray.com/catchorg/release/${catch_release}/source/catch_1_72_0.tar.gz
 
 # pwd=`pwd`
 # if [ "$debug" != "" ] ; then echo $pwd; fi
+# vendor=${pwd}/vendor
 
 # project_dir=$pwd
 # project_name=$(basename $project_dir)
-# source_dir=${project_dir}/marvin
-# vendor=${project_dir}/vendor
+
 # # echo $project_name $project_dir
 
-# if [ $project_name != "marvin++" ] ; then
+# if [ $project_name != "x509" ] ; then
 
 # 	echo "You are in the wrong directory : [" ${project_name} "] should be at project root "
 # 	exit 1
@@ -59,33 +60,33 @@ source ${basedir}/inc_install_hdr_pkg.sh
 # # exit 0
 
 # cd ${clone_dir}
-# rm -rfv ${clone_dir}/${package_name}
+# rm -rfv ${clone_dir}/Catch2
 
-# ${git_clone}
-# # --branch ${json_release} 
-# cd ${package_name}
+# git clone https://github.com/catchorg/Catch2.git --branch ${catch_release} 
+# cd Catch2
 # ls -al
 
 # mkdir -p ${script_dir}/stage/include
 # mkdir -p ${script_dir}/stage/lib
 
-# mkdir -p ${script_dir}/stage/include/${package_name}
-# cp -rv ${clone_dir}/json/${header_cp_patter} ${script_dir}/stage/include/${package_name}
-# echo 
-# echo STAGE ${package_description} complete ========================================================
-# echo
+# cp -rv ${clone_dir}/Catch2/single_include/* ${script_dir}/stage/include
 
+# echo 
+# echo STAGE $catch2_name complete ========================================================
+# echo
 # if [ "$1" != "install" ] ; then
 # 	exit 0
 # fi
 
 
 # # cleanup and copy to install dir
-# mkdir -p ${vendor}/include/${package_name}
-# rm -rfv ${vendor}/include/${package_name}/*
+# echo mkdir -p ${vendor}/include/catch2
+# mkdir -p ${vendor}/include/catch2
+# rm -rfv ${vendor}/include/catch2/*
+# echo cp -rv ${script_dir}/stage/include/catch2/* ${vendor}/include/catch2
 
-# cp -rv ${script_dir}/stage/include/${package_name}/* ${vendor}/include/${package_name}
+# cp -rv ${script_dir}/stage/include/catch2/* ${vendor}/include/catch2
+
 # echo 
-# echo INSTALL ${package_name} complete ========================================================
+# echo INSTALL $catch2_name complete ========================================================
 # echo
-
