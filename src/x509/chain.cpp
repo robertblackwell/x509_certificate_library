@@ -56,14 +56,14 @@ CertChain CertChain_FromFile(std::string filename)
     X509 *x;
 
     bio = BIO_new_file(filename.c_str(), "r");
-    boost::filesystem::path p(filename);
-    bool b =  exists(p);
-    std::string note = (b) ? "boost found file" : " boost DID NOT find file";
-    std::cout 
-    << "XXXXXX " << note << " ["
-    << __PRETTY_FUNCTION__ << "](bio:"
-    << std::hex << bio << ") filename: /" 
-    << filename << "/" <<std::endl;
+    // boost::filesystem::path p(filename);
+    // bool b =  exists(p);
+    // std::string note = (b) ? "boost found file" : " boost DID NOT find file";
+    // std::cout 
+    // << "XXXXXX " << note << " ["
+    // << __PRETTY_FUNCTION__ << "](bio:"
+    // << std::hex << bio << ") filename: /" 
+    // << filename << "/" <<std::endl;
     if (bio == NULL) {
         X509_TRIGGER_ERROR ("Error reading certificate bundle file " + filename);
     }

@@ -13,11 +13,23 @@
 *
 */
 
-TEST_CASE("Certificate") {
-    SECTION("act like references") {
-
+TEST_CASE("Certificate") 
+{
+    SECTION("act like references") 
+    {
+        X509* x = X509_new();
+        Cert::Certificate c1{x};
+        // new scope to force a destructor call
+        // destoying a copy does not damage the original
+        {
+            Cert::Certificate c2 = c1;
+            CHECK(c1.native() == c2.native());
+        }
+        auto y = c1.native();
+        CHECK(c1.native() == x);
     }
-    SECTION("bool operator") {
+    SECTION("bool operator") 
+    {
         Cert::Certificate c;
         bool x = !c;
         REQUIRE(x);
@@ -30,11 +42,23 @@ TEST_CASE("Certificate") {
 
 }
 
-TEST_CASE("Identity") {
-    SECTION("act like reference") {
-
+TEST_CASE("Identity") 
+{
+    SECTION("act like reference") 
+    {
+        EVP_PKEY* k = EVP_PKEY_new();
+        X509* cert = X509_new();
+        Cert::Identity id1{cert, k};
+        {
+            Cert::Identity id2 = id1;
+            CHECK(id1.getEVP_PKEY() == id2.getEVP_PKEY() );
+            CHECK(id1.getX509() == id2.getX509() );
+        }
+        CHECK(id1.getEVP_PKEY() == k);
+        CHECK(id1.getX509() == cert);
     }
-    SECTION("bool operator") {
+    SECTION("bool operator") 
+    {
         Cert::Identity id;
         bool x = !id;
         REQUIRE(x);
@@ -46,11 +70,20 @@ TEST_CASE("Identity") {
     }
 }
 
-TEST_CASE("EvpKey") {
-    SECTION("act like reference") {
-
+TEST_CASE("EvpKey") 
+{
+    SECTION("act like reference") 
+    {
+        EVP_PKEY* k = EVP_PKEY_new();
+        Cert::EvpPKey pk1{k};
+        {
+            Cert::EvpPKey pk2 = pk1;
+            CHECK(pk1.native() == pk2.native() );
+        }
+        CHECK(pk1.native() == k);
     }
-    SECTION("bool operator") {
+    SECTION("bool operator") 
+    {
         Cert::EvpPKey pk;
         bool x = !pk;
         REQUIRE(x);

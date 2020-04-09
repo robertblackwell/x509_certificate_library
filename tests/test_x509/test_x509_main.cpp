@@ -57,9 +57,7 @@ int main( int argc, char* argv[] ) {
     char* t_argv[2] = {argv[0], (char*)"**"}; // change the filter to restrict the tests that are executed
     int t_argc = 2;
     TestFixtureNew f{};
-    std::cout << "YYYYYYYYYYYYYYYYYYYYYYY before fixture setup " << std::endl;
     f.setup();
-    std::cout << "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZJust completed Fixture setup" << std::endl;
     int result = Catch::Session().run( t_argc, t_argv );
     std::cout << "Dont panic there should be one error message displayed" << std::endl;
     std::cout << "But provided all 'tests passed' everything is OK" << std::endl;
