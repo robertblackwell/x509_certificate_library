@@ -46,8 +46,8 @@ class Identity;
         // and free it.
         EVP_PKEY* getEVP_PKEY();
     private:
-        X509*       m_cert;
-        EVP_PKEY*   m_private_key;
+    class Impl;
+    std::shared_ptr<Impl>   m_impl_sptr;
     };
 
 } //namespace Cert

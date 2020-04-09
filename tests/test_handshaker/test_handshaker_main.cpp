@@ -23,13 +23,13 @@ TEST_CASE_METHOD( TestFixtureNew, "generic host_file","[file]")
 {
     this->loadExisting();
     std::string host = this->hostForWithWithoutTests();
-
+#if 0
     auto res = Testcase::withDefaultCertFile(host);
     CHECK(Handshaker::Result::validateSuccess(res, host + " default"));
     res = Testcase::withNonDefaultCertFile(host, this->nonDefaultRootCertificateBundleFilePath().string());
     CHECK(Handshaker::Result::validateSuccess(res, "generic + explicit use of default file"));
-
-    res = Testcase::withNonDefaultCertFile(host, this->mozRootCertificateBundleFilePath().string());
+#endif
+    auto res = Testcase::withNonDefaultCertFile(host, this->mozRootCertificateBundleFilePath().string());
     CHECK(Handshaker::Result::validateSuccess(res, host + " + mozilla cert "));
     res = Testcase::withNonDefaultCertFile(host, this->mozCombinedRootCertificateBundleFilePath().string());
     CHECK(Handshaker::Result::validateSuccess(res, host + " + mozilla cert + ca"));
@@ -41,7 +41,7 @@ TEST_CASE_METHOD( TestFixtureNew, "generic host_file","[file]")
     CHECK(Handshaker::Result::validateSuccess(res, host + " + osx cert + ca "));
 #endif
 
-    };
+};
 
 TEST_CASE_METHOD(TestFixtureNew, "generic_host_store", "[store]")
 {
@@ -49,9 +49,10 @@ TEST_CASE_METHOD(TestFixtureNew, "generic_host_store", "[store]")
     std::string host = this->hostForWithWithoutTests();
     Handshaker::Result::Value res;
  
+#if 0
     res = Testcase::withDefaultCertFileViaX509Store(host);
     CHECK(Handshaker::Result::validateSuccess(res, host + " + default + x509 store"));
-    
+#endif    
     res = Testcase::withNonDefaultCertFileViaX509Store(host, this->nonDefaultRootCertificateBundleFilePath().string());
     CHECK(Handshaker::Result::validateSuccess(res, host + " + explicit use of default file + x509 store"));
     

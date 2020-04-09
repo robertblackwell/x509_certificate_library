@@ -21,7 +21,7 @@ namespace Testcase{
 
 // Gets the certificate from server and does an ssl verify of that certificate
 // using the OSX standard certificate bundle file
-inline Value withDefaultCertFile(std::string server)
+inline Value xwithDefaultCertFile(std::string server)
 {
     boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
     ctx.set_verify_mode(boost::asio::ssl::verify_peer);
@@ -46,7 +46,7 @@ inline Value withDefaultCertFile(std::string server)
 // Gets the certificate from server and does an ssl verify of that certificate
 // using the OSX standard certificate bundle file but with that bundle loaded
 // into memory as an X509CertStore
-inline Value withDefaultCertFileViaX509Store(std::string server)
+inline Value xwithDefaultCertFileViaX509Store(std::string server)
 {
     boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
     ctx.set_verify_mode(boost::asio::ssl::verify_peer);

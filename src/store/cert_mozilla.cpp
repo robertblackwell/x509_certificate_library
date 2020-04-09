@@ -46,18 +46,20 @@ void Mozilla::importRootCerts(Store::Store& store)
     }
     #else
     
-    std::string curl = "curl";
+    std::string curl = "/usr/bin/curl";
     /// @NOTE the -k option turns off certificate checking - because I had a bug in my bash profile
     // std::string tmpl = "%1% -k -o %2% https://curl.haxx.se/ca/cacert.pem";
-    std::string tmpl = "%1% -o %2% https://curl.haxx.se/ca/cacert.pem";
+    std::string tmpl = "%1% --insecure -o %2% https://curl.haxx.se/ca/cacert.pem";
 //    std::string tmpl = "/usr/local/bin/wget %1% ";
     std::string cmd = str(boost::format(tmpl) % curl % moz_roots.string());
+    std::cout << cmd << std::endl;
     std::error_code ec;
-    boost::process::system(cmd, boost::process::std_out > boost::process::null, boost::process::std_err > boost::process::null,  ec);
+    boost::process::system(cmd);//, boost::process::std_out > boost::process::null, boost::process::std_err > boost::process::null,  ec);
     if(ec) {
         THROW(__func__ << " error while processing command " << cmd << " error msg: " << ec.message());
     }
     // now add our CA cert to the root file
+    assert(boost::filesystem::exists(store.m_locator_sptr->mozilla_root_certs));
     
     #endif
     Cert::Helpers::fs::combinePEM(loc->extended_mozilla_root_certs, loc->mozilla_root_certs, loc->ca_cert_pem_file_path, loc->ca_name);

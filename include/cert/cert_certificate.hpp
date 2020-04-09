@@ -16,7 +16,8 @@ class Certificate
 {
 public:
 private:
-    X509*   m_x509;
+    class Impl;
+    std::shared_ptr<Impl>   m_impl_sptr;
 public:
     #pragma mark - certificate no move/copy or assign
     //allow default constructor and empty Certificates

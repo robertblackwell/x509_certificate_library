@@ -5,36 +5,59 @@ using namespace Cert::x509;
 
 namespace Cert {
 
+class EvpPKey::Impl
+{
+    public:
+    Impl()
+    { 
+        m_evp_pkey = nullptr; 
+    }
+
+    Impl(EVP_PKEY* pkey) 
+    {
+        m_evp_pkey = pkey;
+    }
+    
+    ~Impl()
+    { 
+        if (m_evp_pkey != nullptr) {
+            EVP_PKEY_free(m_evp_pkey);
+        }
+    }
+
+    EVP_PKEY* m_evp_pkey;
+};
+
 EvpPKey::EvpPKey()
 {
-    m_evp_pkey = nullptr;
+    m_impl_sptr = std::make_shared<Impl>();
 }
 
 EvpPKey::EvpPKey(boost::filesystem::path pemFilePath, std::string password)
 {
+    m_impl_sptr = std::make_shared<Impl>();
     EVP_PKEY* x = PKey_ReadPrivateKeyFrom(pemFilePath.native(), password);
-    m_evp_pkey = x;
-    EVP_PKEY_up_ref(m_evp_pkey);
+    m_impl_sptr->m_evp_pkey = x;
+    EVP_PKEY_up_ref(m_impl_sptr->m_evp_pkey);
     EVP_PKEY_free(x);
 }
 EvpPKey::EvpPKey(EVP_PKEY* pk)
 {
-    m_evp_pkey = pk;
+    m_impl_sptr = std::make_shared<Impl>();
+    m_impl_sptr->m_evp_pkey = pk;
     EVP_PKEY_up_ref(pk);
 }
 EvpPKey::~EvpPKey()
 {
-    if (m_evp_pkey != nullptr) {
-        EVP_PKEY_free(m_evp_pkey);
-    }
+    m_impl_sptr = nullptr;
 }
 EvpPKey::operator bool() const
 {
-    return (m_evp_pkey != nullptr);
+    return (m_impl_sptr->m_evp_pkey != nullptr);
 }
 EVP_PKEY* EvpPKey::native()
 {
-    return m_evp_pkey;
+    return m_impl_sptr->m_evp_pkey;
 }
 std::string
 EvpPKey::privateKeyAsPemString()

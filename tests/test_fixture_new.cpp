@@ -128,7 +128,7 @@ path TestFixtureNew::fixturesFilePath(std::string fileName) {
 }
 path TestFixtureNew::nonDefaultRootCertificateBundleFilePath() {
 //        return "/usr/local/ssl/cert.pem";
-    return "/usr/local/etc/openssl@1.1/cert.pem";
+    return activeRootCertificateBundleFilePath();
 }
 
 path TestFixtureNew::storeRootDirPath() {
@@ -340,8 +340,10 @@ void TestFixtureNew::setup() {
     }
     /// now set up the various bundles of root certificates
     m_store_sptr->rootCertsFromMozilla();
+    assert(boost::filesystem::exists(m_locator_sptr->mozilla_root_certs));
+    #if 0
     m_store_sptr->rootCertsFromKeychain();
-
+    #endif
     m_store_sptr->rootCertsMozillaActive();
     /// copy over predefined test data
     boost::filesystem::create_directories(hostCertificateDirPath("host_a"));
@@ -352,6 +354,7 @@ void TestFixtureNew::setup() {
     copy_file(
         preExistingHostBRealCertFilePath(),
         realCertFilePathForHost("host_b"));
+    assert(boost::filesystem::exists(m_locator_sptr->mozilla_root_certs));
     ///
     /// download certificates and certificate chains for a selection of hosts
     ///
@@ -359,16 +362,21 @@ void TestFixtureNew::setup() {
     for (const std::string& h : hosts) {
         Host::create(*m_store_sptr, h);
     }
-
+    assert(boost::filesystem::exists(m_locator_sptr->mozilla_root_certs));
+std::cout << "XXXXXXXXXXXXXXXXXXXXXXX after loading hosts" << std::endl;
     ///  now prepares the with_without_with and with_without_without bundles for forcing a verification failure
     //   when handshaking with the host specified by helper.withWithoutHost()
     create_directories(withWithoutDirPath());
+std::cout << "XXXXXXXXXXXXXXXXXXXXXXX after create withwithout directories" << std::endl;
+
+    assert(boost::filesystem::exists(m_locator_sptr->mozilla_root_certs));
 
     ///
     /// slightly reformat and then write the mozilla bundle to the withwithout/with.pem - file
     ///
     Cert::Chain moz_chain(m_locator_sptr->mozilla_root_certs);
     moz_chain.writePEM(withWithoutRootCertificateBundleFilePath("with"));
+std::cout << "XXXXXXXXXXXXXXXXXXXXXXX after withwithout bundle" << std::endl;
     ///
     /// Now create the withwithout/without.pem bundle
     /// by filtering out of the "with" bundle the root certificates from
@@ -394,8 +402,10 @@ void TestFixtureNew::setup() {
         * that we have done everything right
         */
     assert(filesystem::is_regular(mozRootCertificateBundleFilePath()));
+    #if 0
     assert(filesystem::is_regular(osxRootCertificateBundleFilePath()));
     assert(filesystem::is_regular(osxCombinedRootCertificateBundleFilePath()));
+    #endif
     assert(filesystem::is_regular(withWithoutRootCertificateBundleFilePath("with")));
     assert(filesystem::is_regular(withWithoutRootCertificateBundleFilePath("without")));
     assert(filesystem::is_directory(testHostADirPath()));

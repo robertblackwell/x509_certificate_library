@@ -9,17 +9,14 @@
         "description": "Select the test to debug",
         "options": [
             "test_objects/test_objects",
-            "test_buffers/test_buffers",
-            "test_marvin_errors/test_marvin_errors",
-            "test_headers/test_headers",
-            "test_message/test_message",
-            "test_message_reader/test_message_reader",
-            "test_message_roundtrip/test_message_roundtrip",
-            "test_server_v3/demo1/test_server_v3_demo_1",
-            "test_server_v3/demo2/test_server_v3_demo_2",
-            "test_server_v3/manual/test_server_v3_manual",
-            "test_proxy_manual/test_proxy_manual",
-            "test_uri/test_uri"
+            "test_handshake/test_handshake",
+            "test_buidler/test_buildder",
+            "test_cert_server/test_cert_server",
+            "test_cert_store/test_cert_store",
+            "test_exception/test_exception",
+            "test_handshaker/test_handshaker",
+            "test_mitm/test_mitm",
+            "test_x509/test_x509"
         ],
         "default": "test_client_request"
     }],

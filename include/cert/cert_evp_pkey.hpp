@@ -36,7 +36,8 @@ class EvpPKey
     std::string publicKeyToString();
 
     private:
-    EVP_PKEY* m_evp_pkey;
+    class Impl;
+    std::shared_ptr<Impl>   m_impl_sptr;
 };
 
 }

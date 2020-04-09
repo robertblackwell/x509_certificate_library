@@ -4,7 +4,7 @@
 #
 [ req ]
 default_bits         = 2048
-default_keyfile     = /Users/robertblackwell/Projects/x509/tests/fixture/CA/private/cakey.pem
+default_keyfile     = /home/robert/Projects/x509_certificate_library/tests/fixture/CA/private/cakey.pem
 default_md             = md5
 default_days         = 365
 

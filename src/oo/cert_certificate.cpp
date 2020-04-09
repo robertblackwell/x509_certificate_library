@@ -1,47 +1,67 @@
 #include <cert/x509.hpp>
 #include <cert/x509_cert_impl.hpp>
 #include <cert/cert.hpp>
+namespace Cert {
 
+    class Certificate::Impl
+    {
+        public:
+        X509*   m_x509;
+
+        Impl()
+        { 
+            m_x509 = nullptr;
+        }
+        ~Impl()
+        {
+            if(m_x509 != nullptr) {
+                X509_free(m_x509);
+            }
+        }
+    };
+
+};
 Cert::Certificate::Certificate()
 {
-    m_x509 = nullptr;
+    m_impl_sptr = std::make_shared<Impl>();
 }
 Cert::Certificate::Certificate(boost::filesystem::path pem_file)
 {
+    m_impl_sptr = std::make_shared<Impl>();
     X509* x = Cert_ReadFromFile(pem_file.native());
-    m_x509 = x;
-    X509_up_ref(m_x509);
+    m_impl_sptr->m_x509 = x;
+    X509_up_ref(m_impl_sptr->m_x509);
     X509_free(x);
 }
 Cert::Certificate::Certificate(std::string pem_string)
 {
+    m_impl_sptr = std::make_shared<Impl>();
     X509* x = Cert_FromPEMString(pem_string);
-    m_x509 = x;
-    X509_up_ref(m_x509);
+    m_impl_sptr->m_x509 = x;
+    X509_up_ref(m_impl_sptr->m_x509);
     X509_free(x);
 }
 Cert::Certificate::Certificate(X509* x509_cert)
 {
-    m_x509 = x509_cert;
-    X509_up_ref(m_x509);
+    m_impl_sptr = std::make_shared<Impl>();
+    m_impl_sptr->m_x509 = x509_cert;
+    X509_up_ref(m_impl_sptr->m_x509);
 }
 
 Cert::Certificate::~Certificate()
 {
-    if (m_x509 != nullptr) {
-        X509_free(m_x509);
-    }
+    m_impl_sptr = nullptr;
 }
 
 Cert::Certificate::operator bool() const
 {
-    return (this->m_x509 != nullptr);
+    return (this->m_impl_sptr->m_x509 != nullptr);
 }
 
 X509* 
 Cert::Certificate::native()
 {
-    return m_x509;
+    return m_impl_sptr->m_x509;
 }
 
 void 

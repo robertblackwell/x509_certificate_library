@@ -63,8 +63,9 @@ class TestFixture
     
         void init()
         {
-            non_default_1 = "/usr/local/ssl/cert.pem";
-            non_default_1 = "/usr/local/etc/openssl@1.1/cert.pem";
+            // non_default_1 = "/usr/local/ssl/cert.pem";
+            // non_default_1 = "/usr/local/etc/openssl@1.1/cert.pem";
+
             host_for_handshake = helper.hostForForgeTest();
             host_for_wwo_test = helper.hostForWithWithoutTests();
             host_for_bundle_test = helper.hostForBundleTests();
@@ -83,6 +84,7 @@ class TestFixture
             osx_with_ca = helper.rootCertStoreOsxCombined();
             wwo_with = helper.withWithoutCertRootStore("with");
             wwo_without = helper.withWithoutCertRootStore("without");
+            
             auto df = Cert::Helpers::replace_openssl_get_default_cert_file();
             if (!boost::filesystem::exists(df)) {
                 throw std::string(__func__) + std::string(" openssl default cert file does not exist ") + std::string(df);

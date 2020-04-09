@@ -27,9 +27,9 @@ TEST_CASE_METHOD(TestFixtureNew,  "get_server_cert_file", "[]")
     std::string host = this->hostForBundleTests();
     std::string moz_only = this->mozRootCertificateBundleFilePath().string();
     std::string non_default = this->nonDefaultRootCertificateBundleFilePath().string();
-    auto pem = Handshaker::getServerCertificatePem(host);
-    CHECK(pem.size() > 0);
-    pem = Handshaker::getServerCertificatePem(host, non_default);
+    // auto pem = Handshaker::getServerCertificatePem(host);
+    // CHECK(pem.size() > 0);
+    auto pem = Handshaker::getServerCertificatePem(host, non_default);
     CHECK(pem.size() > 0);
     pem = Handshaker::getServerCertificatePem(host, moz_only);
     CHECK(pem.size() > 0);

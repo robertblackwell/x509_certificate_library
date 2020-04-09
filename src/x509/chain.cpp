@@ -5,7 +5,7 @@
 //  Created by ROBERT BLACKWELL on 10/26/17.
 //  Copyright © 2017 Blackwellapps. All rights reserved.
 //
-
+#include <boost/filesystem.hpp>
 #include <cert/x509.hpp>
 
 #pragma mark - Cert::x509::Cert read/write
@@ -50,11 +50,20 @@ CertChain CertChain_FromString(std::string pem_string)
 
 CertChain CertChain_FromFile(std::string filename)
 {
+    using namespace boost::filesystem;
     x509::CertChain res;
     BIO *bio;
     X509 *x;
 
     bio = BIO_new_file(filename.c_str(), "r");
+    boost::filesystem::path p(filename);
+    bool b =  exists(p);
+    std::string note = (b) ? "boost found file" : " boost DID NOT find file";
+    std::cout 
+    << "XXXXXX " << note << " ["
+    << __PRETTY_FUNCTION__ << "](bio:"
+    << std::hex << bio << ") filename: /" 
+    << filename << "/" <<std::endl;
     if (bio == NULL) {
         X509_TRIGGER_ERROR ("Error reading certificate bundle file " + filename);
     }
