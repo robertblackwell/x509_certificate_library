@@ -250,6 +250,14 @@ std::string TestFixtureNew::hostForBuildTest() {
     return "badssl.com";  // requires SNI done correctly
 }
 
+std::string TestFixtureNew::hostForWWWGeekTest() {
+    return "www.geeksforgeeks.org";  // requires SNI done correctly
+}
+
+std::string TestFixtureNew::hostForGeekTest() {
+    return "geeksforgeeks.org";  // requires SNI done correctly
+}
+
 std::vector<std::string> TestFixtureNew::badssl_SubDomians() {
     return {};
 }
@@ -279,6 +287,8 @@ void TestFixtureNew::setup() {
     m_fixture_dir_path = m_test_dir_path / "fixture";
 
     m_hosts_for_handshake = {
+        "www.geeksforgeeks.org",
+        "geeksforgeeks.org",
         "bankofamerica.com",
         "paypal.com",
         "www.google.com",
@@ -292,6 +302,8 @@ void TestFixtureNew::setup() {
     m_host_for_wwo_test    = "bankofamerica.com";  // has multiple certs in its chain
     m_host_for_bundle_test = "badssl.com";
     m_host_for_forge_test  = "badssl.com";
+    m_geek_for_test        = "geeksforgeeks.org";
+    m_www_geeks_for_test    = "www.geeksforgeeks.org";
 
     /// clean out the fixtureCert Store pointed at by the test fixture
     /// are we building the "fixture" directory in a dummy place for testing this

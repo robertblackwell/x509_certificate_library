@@ -11,7 +11,7 @@
             "test_get_server_certs/test_get_server_certs",
             "test_objects/test_objects",
             "test_handshake/test_handshake",
-            "test_buidler/test_buildder",
+            "test_builder/test_builder",
             "test_cert_server/test_cert_server",
             "test_cert_store/test_cert_store",
             "test_exception/test_exception",

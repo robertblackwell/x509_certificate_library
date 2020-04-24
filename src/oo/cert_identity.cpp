@@ -55,10 +55,20 @@ Identity::getX509()
 {
     return m_impl_sptr->m_cert;
 }
+Certificate
+Identity::getCertificate()
+{
+    return Certificate(m_impl_sptr->m_cert);
+}
 EVP_PKEY*
 Identity::getEVP_PKEY()
 {
     return m_impl_sptr->m_private_key;
+}
+EvpPKey
+Identity::getEvpPKey()
+{
+    return EvpPKey(m_impl_sptr->m_private_key);
 }
 } //namespace Cert
 

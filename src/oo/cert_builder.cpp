@@ -90,6 +90,39 @@ Cert::Certificate Builder::build(
     return cert;
 }
 #endif
+bool paranoidTest(X509* original_cert_X509, std::string host, Cert::Identity id)
+{
+    Cert::Certificate org_cert(original_cert_X509);
+
+    auto orig_spec = Cert_GetSubjectNameAsSpec(original_cert_X509);
+    auto orig_cn = (*orig_spec.find(NameNid_commonName)).second;
+    
+    auto new_spec = Cert_GetSubjectNameAsSpec(id.getX509());
+    auto new_cn = (*new_spec.find(NameNid_commonName)).second;
+
+    /// if the host the common name ? - possibly not
+    bool b1 = (new_cn == host);
+
+    boost::optional<std::string> orig_san = Cert_GetSubjectAlternativeNamesAsString(original_cert_X509);
+    std::string orig_san2 = org_cert.getSubjectAlternativeNamesAsString();
+    boost::optional<std::string> new_san = Cert_GetSubjectAlternativeNamesAsString(id.getX509());
+    std::string orig_san_string {(orig_san) ? orig_san.get(): "NOVALUE"};
+    std::string orig_san2_string {orig_san2};
+    std::string new_san_string  {(new_san) ? new_san.get(): "NOVALUE"};
+
+    bool b2;
+    if (orig_san && new_san) {
+        /// both have a value
+        b2 = (orig_san.get() == new_san.get()); 
+    } else if ((!orig_san)&&(!new_san)) {
+        // both dont have a value
+        b2 = true;
+    } else {
+        b2 = false;
+    }
+    bool b3 = new_san_string.find(host);
+    return (b1||b3)&&b2;
+}
 /**
 * Create a new certificate and private key based on an original certificate and
 * signed by the Builder instance's Certificate Authority
@@ -109,6 +142,19 @@ Identity Builder::buildMitmIdentity(
     X509* x509_original_cert = original_cert.native();
     x509::NameSpecification  subject_name_spec = original_cert.getSubjectNameAsSpec();//  Cert::x509::Cert_GetSubjectNameAsSpec(x509_cert);
 
+    ///
+    /// here must test to see if common name is equal to the required_common_name
+    ///
+    std::string cn;
+    auto cn_itr = subject_name_spec.find(NameNid_commonName);
+    if (cn_itr != subject_name_spec.end()) {
+        cn = (*cn_itr).second;
+        /// LOG an error
+    }
+    if (cn != required_common_name) {
+        /// log a warning
+    }
+    subject_name_spec[NameNid_commonName] = required_common_name;
     /*
     * specify the extensions to add
     */
@@ -128,17 +174,24 @@ Identity Builder::buildMitmIdentity(
     auto sss = original_cert.getSubjectAlternativeNamesAsString();
     std::string subject_alt_names_string;
     boost::optional<X509_EXTENSION*>  subj_altname_ext = Cert::x509::Cert_GetSubjectAltName(x509_original_cert);
+
     if (subj_altname_ext) {
         subject_alt_names_string = "";
     } else {
         subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext.get());
     }
+    /// force the required common name into the DNS names
+    subject_alt_names_string = "DNS:"+required_common_name+","+subject_alt_names_string;
 
     auto san = Cert::x509::Cert_GetSubjectAlternativeDNSNames(x509_original_cert);
     auto ssan = Cert::x509::Cert_extensionsAsDescription(x509_original_cert);
 
     EVP_PKEY* new_pkey_pair = Cert::x509::Rsa_Generate();
-    assert(sss == subject_alt_names_string);
+    if (sss != subject_alt_names_string) {
+        std::cout << std::endl << std::endl 
+        << "WARNING: buildMitmIdentity subject alt names disagree: " << sss << " != "<< subject_alt_names_string<< std::endl;
+        subject_alt_names_string = sss;
+    }
     X509* x509_new_cert = ::Cert::x509::create(
             m_cert_auth.getCACert(),
             m_cert_auth.getCAPKey(),
@@ -153,8 +206,13 @@ Identity Builder::buildMitmIdentity(
     );
     auto vres = x509::Cert_Verify(x509_new_cert, m_cert_auth);
     assert(vres);
-
+    ///
+    /// patanoid test - better to fail here than somewhere in the guts of an app using this stuff
+    ///
     Identity identity(x509_new_cert, new_pkey_pair);
+    if (! paranoidTest(x509_original_cert, required_common_name, identity)) {
+        THROW("paranoid test failed in buildMitmIdentity for host " + required_common_name);
+    }
     X509_free(x509_new_cert);
     EVP_PKEY_free(new_pkey_pair);
     return identity;

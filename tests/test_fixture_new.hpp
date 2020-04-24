@@ -56,6 +56,8 @@ class TestFixtureNew {
     std::string              m_host_for_wwo_test;
     std::string              m_host_for_bundle_test;
     std::string              m_host_for_forge_test;
+    std::string              m_geek_for_test;
+    std::string              m_www_geeks_for_test;
 
     path projectDirPath();
     path testsDirPath();
@@ -97,6 +99,8 @@ class TestFixtureNew {
     std::string hostForWithWithoutTests();
     std::string hostForBundleTests();
     std::string hostForForgeTest();
+    std::string hostForGeekTest();
+    std::string hostForWWWGeekTest();
     std::string hostForBuildTest();
     std::vector<std::string> badssl_SubDomians();
     path testHostADirPath();

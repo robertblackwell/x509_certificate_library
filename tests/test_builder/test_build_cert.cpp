@@ -244,7 +244,42 @@ TEST_CASE_METHOD(TestFixtureNew, "builder2", "")
     CHECK( Cert::x509::Cert_Verify(cert, moz_with_ca)); // VERIFY IS EXPECTED TO SUCCEED this version doesa have the local CA
     X509_free(cert);
 }
-TEST_CASE_METHOD(TestFixtureNew, "forge")
+
+bool mitmWorked(X509* original_cert_X509, std::string host, Cert::Identity id)
+{
+    Cert::Certificate org_cert(original_cert_X509);
+
+    auto orig_spec = Cert_GetSubjectNameAsSpec(original_cert_X509);
+    auto orig_cn = (*orig_spec.find(NameNid_commonName)).second;
+    
+    auto new_spec = Cert_GetSubjectNameAsSpec(id.getX509());
+    auto new_cn = (*new_spec.find(NameNid_commonName)).second;
+
+    /// if the host the common name ? - possibly not
+    bool b1 = (new_cn == host);
+
+    boost::optional<std::string> orig_san = Cert_GetSubjectAlternativeNamesAsString(original_cert_X509);
+    std::string orig_san2 = org_cert.getSubjectAlternativeNamesAsString();
+    boost::optional<std::string> new_san = Cert_GetSubjectAlternativeNamesAsString(id.getX509());
+    std::string orig_san_string {(orig_san) ? orig_san.get(): "NOVALUE"};
+    std::string orig_san2_string {orig_san2};
+    std::string new_san_string  {(new_san) ? new_san.get(): "NOVALUE"};
+
+    bool b2;
+    if (orig_san && new_san) {
+        /// both have a value
+        b2 = (orig_san.get() == new_san.get()); 
+    } else if ((!orig_san)&&(!new_san)) {
+        // both dont have a value
+        b2 = true;
+    } else {
+        b2 = false;
+    }
+    bool b3 = new_san_string.find(host);
+    return (b1||b3)&&b2;
+}
+
+TEST_CASE_METHOD(TestFixtureNew, "buildMitm")
 {
     this->loadExisting();
     path store_root = this->storeRootDirPath();
@@ -256,19 +291,61 @@ TEST_CASE_METHOD(TestFixtureNew, "forge")
         std::cout << "Host real certfile does not exist " << cert_file_name << std::endl;
         assert(false);
     }
-    X509* original_cert = Cert::x509::Cert_ReadFromFile(cert_file_name);
-    #if 0
-        std::string pem = forgeCertificate(original_cert, cert_auth);
-        CHECK(pem.size() > 0);
-    #else
-        // call the genuine forger function
-        Cert::Certificate cert(original_cert);
-        Cert::Builder builder(*cert_auth);
-        Cert::Identity id = builder.buildMitmIdentity(host, cert);
-        throw "You have not done anything about testing this previous lines output";
-        std::string pem = Cert::x509::Cert_PEMString(id.getX509());
-        CHECK(pem.size() > 0);
-    #endif
+    X509* original_cert_X509 = Cert::x509::Cert_ReadFromFile(cert_file_name);
 
+        // call the genuine forger function
+    Cert::Certificate org_cert(original_cert_X509);
+    Cert::Builder builder(*cert_auth);
+    Cert::Identity id = builder.buildMitmIdentity(host, org_cert);
+
+    bool b0 = mitmWorked(original_cert_X509, host, id);
+    CHECK(b0);
+    std::string pem = Cert::x509::Cert_PEMString(id.getX509());
+    CHECK(pem.size() > 0);
+
+}
+TEST_CASE_METHOD(TestFixtureNew, "buildMitm - geeksforgeeks.org")
+{
+    this->loadExisting();
+    path store_root = this->storeRootDirPath();
+    Cert::Store::LocatorSPtr locator_sptr = std::make_shared<Cert::Store::Locator>(store_root);
+    Cert::AuthoritySPtr cert_auth = Cert::Authority::load(locator_sptr->ca_dir_path);
+    std::string host = this->hostForGeekTest();
+    std::string cert_file_name = this->realCertFilePathForHost(host).string();
+    if( ! Cert::Helpers::fs::is_regular_file (cert_file_name) ) {
+        std::cout << "Host real certfile does not exist " << cert_file_name << std::endl;
+        assert(false);
+    }
+    X509* original_cert_X509 = Cert::x509::Cert_ReadFromFile(cert_file_name);
+        // call the genuine forger function
+    Cert::Certificate cert(original_cert_X509);
+    Cert::Builder builder(*cert_auth);
+    Cert::Identity id = builder.buildMitmIdentity(host, cert);
+    bool b0 = mitmWorked(original_cert_X509, host, id);
+    CHECK(b0);
+    std::string pem = Cert::x509::Cert_PEMString(id.getX509());
+    CHECK(pem.size() > 0);
+}
+TEST_CASE_METHOD(TestFixtureNew, "buildMitm - www.geeksforgeeks.org")
+{
+    this->loadExisting();
+    path store_root = this->storeRootDirPath();
+    Cert::Store::LocatorSPtr locator_sptr = std::make_shared<Cert::Store::Locator>(store_root);
+    Cert::AuthoritySPtr cert_auth = Cert::Authority::load(locator_sptr->ca_dir_path);
+    std::string host = this->hostForWWWGeekTest();
+    std::string cert_file_name = this->realCertFilePathForHost(host).string();
+    if( ! Cert::Helpers::fs::is_regular_file (cert_file_name) ) {
+        std::cout << "Host real certfile does not exist " << cert_file_name << std::endl;
+        assert(false);
+    }
+    X509* original_cert_X509 = Cert::x509::Cert_ReadFromFile(cert_file_name);
+        // call the genuine forger function
+    Cert::Certificate cert(original_cert_X509);
+    Cert::Builder builder(*cert_auth);
+    Cert::Identity id = builder.buildMitmIdentity(host, cert);
+    bool b0 = mitmWorked(original_cert_X509, host, id);
+    CHECK(b0);
+    std::string pem = Cert::x509::Cert_PEMString(id.getX509());
+    CHECK(pem.size() > 0);
 }
 

@@ -34,9 +34,9 @@ class Identity;
         explicit operator bool() const;
         
         Cert::Certificate getCertificate();
-        std::string getCertificatePEM();
-        Cert::EvpPKey getEvpKey();
-        std::string getEvpKeyPEM();
+        // std::string getCertificatePEM();
+        Cert::EvpPKey getEvpPKey();
+        // std::string getEvpKeyPEM();
 
         // The pointer returned by this method is owned by the class instance. Do not try
         // and free it.
