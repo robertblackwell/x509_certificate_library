@@ -97,7 +97,7 @@ Cert::Identity Store::forgeHostIdentity(HostId host)
     Cert::Certificate original_cert(pem);
 //    X509* original_cert = Cert::x509::Cert_FromPEMString(pem);
     Cert::Builder builder(*m_cert_auth_sptr);
-    Cert::Identity res = builder.buildMitmIdentity(original_cert);
+    Cert::Identity res = builder.buildMitmIdentity(host, original_cert);
     return res;
 }
 Cert::Identity Store::forgeHostIdentity(X509* original_certificate)

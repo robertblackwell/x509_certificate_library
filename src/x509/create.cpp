@@ -16,16 +16,16 @@ namespace x509 {
  * 
 */
 X509* create(
-                     X509*                      ca_cert,
-                     EVP_PKEY*                  ca_private_key,
-                     Cert::x509::SerialNumber      serial,
-                     Cert::x509::Version           version,
-                     EVP_PKEY*                  new_pkey_pair,
-                     Cert::x509::TimeOffset        not_before_offset,
-                     Cert::x509::TimeOffset        not_after_offset,
-                     Cert::x509::NameSpecification subject_name_spec,
-                     std::string                subject_alt_name_string,
-                     Cert::x509::ExtSpecifications extra_extensions
+                     X509*                          ca_cert,
+                     EVP_PKEY*                      ca_private_key,
+                     Cert::x509::SerialNumber       serial,
+                     Cert::x509::Version            version,
+                     EVP_PKEY*                      new_pkey_pair,
+                     Cert::x509::TimeOffset         not_before_offset,
+                     Cert::x509::TimeOffset         not_after_offset,
+                     Cert::x509::NameSpecification  subject_name_spec,
+                     std::string                    subject_alt_name_string,
+                     Cert::x509::ExtSpecifications  extra_extensions
                      )
 {
     //    EVP_PKEY* new_pkey_pair = x509Rsa_Generate();
@@ -35,9 +35,9 @@ X509* create(
     X509 *cert;
     X509_NAME *subject_name = Cert::x509::Name_fromSpec(subject_name_spec);
     std::string subject_name_string = Cert::x509::Name_AsOneLine(subject_name);
-    X509_EXTENSION* issuerAltName = Cert::x509::Cert_GetSubjectAltName(ca_cert);
-    if (issuerAltName != nullptr) {
-        std::string issuer_alt_names_string = Cert::x509::Extension_ValueAsString(issuerAltName);
+    boost::optional<X509_EXTENSION*> issuerAltName = Cert::x509::Cert_GetSubjectAltName(ca_cert);
+    if (issuerAltName) {
+        std::string issuer_alt_names_string = Cert::x509::Extension_ValueAsString(issuerAltName.get());
         extra_extensions[Cert::x509::ExtNid_issuerAlternativeName] = issuer_alt_names_string;
     }
     if (!(cert = X509_new ()))

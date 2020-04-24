@@ -168,8 +168,8 @@ std::string forgeCertificate(X509* original_cert, Cert::Authority& certAuth)
     * This is tricky and needs explanation
     */
     /** get the subject_alt_names from the orignal certificate */
-    std::string subject_alt_names_string = Cert::x509::Cert_GetSubjectAlternativeNamesAsString(original_cert);
-
+    boost::optional<std::string> subject_alt_opt = Cert::x509::Cert_GetSubjectAlternativeNamesAsString(original_cert);
+    std::string subject_alt_names_string = (subject_alt_opt) ? subject_alt_opt.get() : "";
 //    auto san = Cert::x509::Cert_GetSubjectAlternativeDNSNames(original_cert);
 //    auto ssan = Cert::x509::Cert_extensionsAsDescription(original_cert);
 
@@ -264,7 +264,8 @@ TEST_CASE_METHOD(TestFixtureNew, "forge")
         // call the genuine forger function
         Cert::Certificate cert(original_cert);
         Cert::Builder builder(*cert_auth);
-        Cert::Identity id = builder.buildMitmIdentity(cert);
+        Cert::Identity id = builder.buildMitmIdentity(host, cert);
+        throw "You have not done anything about testing this previous lines output";
         std::string pem = Cert::x509::Cert_PEMString(id.getX509());
         CHECK(pem.size() > 0);
     #endif

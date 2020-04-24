@@ -21,6 +21,8 @@
 #include <cert/constants.hpp>
 #include <cert/version_check.hpp>
 #include <cert/x509.hpp>
+#include <cert/cert_certificate.hpp>
+#include <cert/cert_chain.hpp>
 
 const int max_read_buffer_length = 1024;
 const bool debug_trace = false;
@@ -216,7 +218,7 @@ class client
 //
         Handshaker::Result::Value getResult();
 
-    private:
+    public:
     
         void p_handle_connect(const boost::system::error_code& error);
         void p_handle_handshake(const boost::system::error_code& error);
@@ -227,7 +229,12 @@ class client
         std::string m_request;
         
         std::string m_saved_server_certificate_pem;
+        Certificate m_saved_certificate;
+        X509* m_raw_x509_p;
+        
         std::vector<std::string> m_pem_saved_certificate_chain;
+        CertChain   m_saved_certificate_chain;
+        STACK_OF(X509*) m_raw_stack_x509;
 
         boost::asio::io_service& m_ios;
         boost::asio::ssl::context& m_ctx;

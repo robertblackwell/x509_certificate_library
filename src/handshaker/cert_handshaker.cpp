@@ -283,7 +283,8 @@ void client::saveServerCertificate()
     // this call ups the ref count on the return value
     X509* cert = SSL_get_peer_certificate(m_socket.native_handle());
     m_saved_server_certificate_pem = Cert::x509::Cert_PEMString(cert);
-
+    m_saved_certificate = Certificate(cert);
+    m_raw_x509_p = cert; X509_up_ref(m_raw_x509_p);
     X509_free(cert);
 }
 
@@ -292,7 +293,10 @@ void client::saveServerCertificateChain()
     
     STACK_OF(X509)* cert_chain = SSL_get_peer_cert_chain(m_socket.native_handle());
     x509::CertChain cc = Cert::x509::CertChain_FromStack(cert_chain);
+    m_saved_certificate_chain = cc;
     m_pem_saved_certificate_chain.insert(m_pem_saved_certificate_chain.end(), cc.begin(), cc.end());
+    m_raw_stack_x509 = sk_X509_dup(cert_chain); 
+
     /**
     * @todo - once we use openssl 1.1.0 we can also ssl_get0_verified_chain()
     *

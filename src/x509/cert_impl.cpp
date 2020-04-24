@@ -104,7 +104,7 @@ Cert::x509::Cert_GetExtensions(X509* cert)
 //    assert(false);
     return x;
 }
-X509_EXTENSION*
+boost::optional<X509_EXTENSION*>
 Cert::x509::Cert_GetSubjectAltName(X509* cert)
 {
     //return NULL;
@@ -115,6 +115,9 @@ Cert::x509::Cert_GetSubjectAltName(X509* cert)
         X509_TRIGGER_ERROR ("Error getting the request's extensions");
     subjAltName_pos = X509v3_get_ext_by_NID (req_exts,
                                              OBJ_sn2nid ("subjectAltName"), -1);
+    if (subjAltName_pos < 0) {
+        return boost::none;
+    }
     subjAltName = X509v3_get_ext (req_exts, subjAltName_pos);
     return subjAltName;
 }

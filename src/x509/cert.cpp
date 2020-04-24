@@ -242,11 +242,14 @@ Cert::x509::Cert_SetNotAfter(X509* cert, int secs)
 }
 #pragma mark - extension functions
 
-std::string
+boost::optional<std::string>
 Cert::x509::Cert_GetSubjectAlternativeNamesAsString(X509* cert)
 {
     auto subj_altname_ext = Cert::x509::Cert_GetSubjectAltName(cert);
-    std::string subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext);
+    if (!subj_altname_ext) {
+        return boost::none;
+    }
+    std::string subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext.get());
     return subject_alt_names_string;
 }
 

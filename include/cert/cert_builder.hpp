@@ -84,13 +84,14 @@ public:
      * signed by the given Certificate Authority. The result is suitable for a MITM proxy
      * to use to intercept SSL/TLS traffic (with the cooperation of the client side of course.
      *
-     * @param certAuth CertificateAuthority - the certificate authority to sign the new certificate
-     *
+     * @param Cert::Certififcate    the original certificate from the server
+     * @param std::string           the host name of the request - this must be in 
+     *                              subject_Altnames
      * @return Cert::Identity
      *
      * The Builder class has the capacity to "memorize" (or cache) results.
      */
-    ::Cert::Identity buildMitmIdentity(Cert::Certificate& original_cert);
+    ::Cert::Identity buildMitmIdentity(std::string required_common_name, Cert::Certificate& original_cert);
     
     private:
         Cert::Authority& m_cert_auth;

@@ -75,7 +75,7 @@ Cert::Certificate::writeToFile(boost::filesystem::path  filePath)
 ::Cert::x509::NameSpecification 
 Cert::Certificate::getSubjectNameAsSpec()
 {
-    return Cert_GetIssuerNameAsSpec(native());
+    return Cert_GetSubjectNameAsSpec(native());
 }
 
 std::string 
@@ -188,7 +188,12 @@ Cert::Certificate::setNotAfter(int offset_from_now_secs)
 std::string 
 Cert::Certificate::getSubjectAlternativeNamesAsString()
 {
-    return Cert_GetSubjectAlternativeNamesAsString(native());
+    boost::optional<std::string> r = Cert_GetSubjectAlternativeNamesAsString(native());
+    if(r) {
+        return r.get();
+    } else {
+        return "";
+    }
 }
 
 AlternativeDNSNameSet 

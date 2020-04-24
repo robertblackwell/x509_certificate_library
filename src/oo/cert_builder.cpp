@@ -43,9 +43,9 @@ Cert::Certificate Builder::build(
     auto ca_private_key = m_cert_auth.getCAPKey();
     X509_NAME *subject_name = Cert::x509::Name_fromSpec(subject_name_spec);
     std::string subject_name_string = Cert::x509::Name_AsOneLine(subject_name);
-    X509_EXTENSION* issuerAltName = Cert::x509::Cert_GetSubjectAltName(ca_cert);
-    if (issuerAltName != nullptr) {
-        std::string issuer_alt_names_string = Cert::x509::Extension_ValueAsString(issuerAltName);
+    boost::optional<X509_EXTENSION*> issuerAltName = Cert::x509::Cert_GetSubjectAltName(ca_cert);
+    if (issuerAltName) {
+        std::string issuer_alt_names_string = Cert::x509::Extension_ValueAsString(issuerAltName.get());
         extra_extensions[Cert::x509::ExtNid_issuerAlternativeName] = issuer_alt_names_string;
     }
     if (!(x509_cert = X509_new ()))
@@ -59,8 +59,12 @@ Cert::Certificate Builder::build(
     Cert::x509::Cert_SetNotBefore(x509_cert, not_before_offset);// minus 1 year
     Cert::x509::Cert_SetNotAfter(x509_cert, not_after_offset); // plus 5 years
     
-    extra_extensions[Cert::x509::ExtNid_subjectAlternativeName] = subject_alt_name_string;
-    
+    ///
+    /// what happens if subject_alt_name_string is empty
+    ///
+    if(subject_alt_name_string != "") {
+        extra_extensions[Cert::x509::ExtNid_subjectAlternativeName] = subject_alt_name_string;
+    }
     for(auto const& ext_spec : extra_extensions) {
         X509_EXTENSION* xt = Cert::x509::Extension_create(ca_cert, x509_cert, ext_spec.first, ext_spec.second);
         Cert::x509::Cert_AddExtension(x509_cert, xt);
@@ -90,16 +94,21 @@ Cert::Certificate Builder::build(
 * Create a new certificate and private key based on an original certificate and
 * signed by the Builder instance's Certificate Authority
 *
+* @param required_common_name           - a name the must be in the subkect or subkect alt field
+*                                        in a live system the host name of the request
 * @param original_cert X509*            - the original certificate to be forged or impersonated
-* @param certAuth CertificateAuthority  - the certificate authority to sign the new certificate
-*
+* 
 * @return x4zero9::Identity
 */
-Identity Builder::buildMitmIdentity(Cert::Certificate& original_cert)
+Identity Builder::buildMitmIdentity(
+    std::string required_common_name,
+    Cert::Certificate& original_cert
+)
 {
     //Cert::x509::Cert_Print(original_cert);
     X509* x509_original_cert = original_cert.native();
     x509::NameSpecification  subject_name_spec = original_cert.getSubjectNameAsSpec();//  Cert::x509::Cert_GetSubjectNameAsSpec(x509_cert);
+
     /*
     * specify the extensions to add
     */
@@ -114,12 +123,16 @@ Identity Builder::buildMitmIdentity(Cert::Certificate& original_cert)
     * specify the subject_alt_name extension - do this as a separate argument to this
     * function to force the specification of alternate DNS names
     */
-    std::string subject_alt_names= "DNS:alternate_one.com,DNS:alternatie_two.com";
+    // std::string subject_alt_names= "DNS:alternate_one.com,DNS:alternatie_two.com";
     
     auto sss = original_cert.getSubjectAlternativeNamesAsString();
-
-    auto subj_altname_ext = Cert::x509::Cert_GetSubjectAltName(x509_original_cert);
-    std::string subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext);
+    std::string subject_alt_names_string;
+    boost::optional<X509_EXTENSION*>  subj_altname_ext = Cert::x509::Cert_GetSubjectAltName(x509_original_cert);
+    if (subj_altname_ext) {
+        subject_alt_names_string = "";
+    } else {
+        subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext.get());
+    }
 
     auto san = Cert::x509::Cert_GetSubjectAlternativeDNSNames(x509_original_cert);
     auto ssan = Cert::x509::Cert_extensionsAsDescription(x509_original_cert);

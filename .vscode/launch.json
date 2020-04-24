@@ -8,6 +8,7 @@
         "type":"pickString",
         "description": "Select the test to debug",
         "options": [
+            "test_get_server_certs/test_get_server_certs",
             "test_objects/test_objects",
             "test_handshake/test_handshake",
             "test_buidler/test_buildder",

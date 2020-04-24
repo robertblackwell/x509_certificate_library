@@ -1,6 +1,9 @@
 
 #ifndef cert_x509_cert_include_hpp
 #define cert_x509_cert_include_hpp
+
+#include <boost/optional.hpp>
+
 namespace Cert {
     class Authority;
 }
@@ -179,7 +182,7 @@ namespace x509 {
     *
     * @return a std::string
     */
-    std::string Cert_GetSubjectAlternativeNamesAsString(X509*);
+    boost::optional<std::string> Cert_GetSubjectAlternativeNamesAsString(X509*);
     /**
     * @brief    Gets a set of DNS names from a certificate's subject_alt_names extensions
     *

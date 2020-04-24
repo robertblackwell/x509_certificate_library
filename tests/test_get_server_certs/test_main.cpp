@@ -1,7 +1,6 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <string>
 #include <set>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
@@ -9,10 +8,10 @@
 #include <boost/unordered_set.hpp>
 #include <boost/filesystem.hpp>
 
+#define CATCH_CONFIG_RUNNER
 #include <catch2/catch.hpp>
 #include <cert/cert.hpp>
 
-#include "test_case.hpp"
 #include "test_fixture_new.hpp"
 
 
@@ -53,46 +52,59 @@ void printServerCerts(std::string server, std::string cert_bundle_path)
 
     boost::asio::io_service io;
     Handshaker::client c("https", server, ctx, io);
-    c.handshake([server](boost::system::error_code err) {
+    c.handshake([server, &c](boost::system::error_code err) {
         if (err.failed()) {
             std::cout << "handshake callback : " << server << " err: [" << err.message() << "]" << std::endl;
 //            assert(false);
         } else {
             std::cout << "handshaker callback : " << server << " success" << std::endl;
+            std::cout << "Certificate for host : " << server << "===============================================" << std::endl;
+            printCertificate(c.m_raw_x509_p);
+            std::cout << "Cert Chain  for host : " << server << "===============================================" << std::endl;
+            printCertificateChain(c.m_raw_stack_x509);
+            std::cout << "======================================================================================" << std::endl;
         }
     });
     io.run();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Duplicate: Handshakes with https://badssl.com and verifies certificate using 3 options
-/// for the validating certificate bundle.
-///     OSX standard location and standard bundle,
-///     non-standard location for the standard openssl bundle,
-///     a non standard location for the Mozilla bundle
+/// @todo - something wqrong with the export of OSX keychain
+//#define TEST_OSX_KEYCHAIN
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 TEST_CASE_METHOD(TestFixtureNew,  "get_server_cert_file", "[]")
 {
     this->loadExisting();
-    std::string host = this->hostForBundleTests();
+    std::string host = std::string("www.geeksforgeeks.org");
     std::string moz_only = this->mozRootCertificateBundleFilePath().string();
     std::string non_default = this->nonDefaultRootCertificateBundleFilePath().string();
-    auto pem = Handshaker::getServerCertificatePem(host, non_default);
-
-    CHECK(pem.size() > 0);
-    pem = Handshaker::getServerCertificatePem(host, moz_only);
-    CHECK(pem.size() > 0);
-    {
-        X509_STORE* store =  X509_STORE_new();
-        X509_STORE_load_locations(store, (const char*)non_default.c_str(), NULL);
-        auto pem = Handshaker::getServerCertificatePem(host, store);
-        CHECK(pem.size() > 0);
-    }
-    {
-        X509_STORE* store =  X509_STORE_new();
-        X509_STORE_load_locations(store, (const char*)moz_only.c_str(), NULL);
-        auto pem = Handshaker::getServerCertificatePem(host, store);
-        CHECK(pem.size() > 0);
-    }
+    std::string www_geeks = "www.geeksforgeeks.org";
+    std::string no_www_geeks = "geeksforgeeks.org";
+    std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    printServerCerts(www_geeks, non_default);
+    std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    printServerCerts(no_www_geeks, non_default);
+    std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout << "Done" << std::endl;
 }
+
+
+int main( int argc, char* argv[] ) {
+    // global setup...
+    std::cout << "Starting" << std::endl;
+    OpenSSL_add_all_algorithms ();
+    ERR_load_crypto_strings ();
+    ERR_load_BIO_strings();
+    ERR_load_ERR_strings();
+
+    char* t_argv[2] = {argv[0], (char*)"*"}; // change the filter to restrict the tests that are executed
+    int t_argc = 2;
+    TestFixtureNew f{};
+    f.setup();
+    int result = Catch::Session().run( t_argc, t_argv );
+
+    // global clean-up...
+    return result;
+}
+
 

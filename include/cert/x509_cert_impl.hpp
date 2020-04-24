@@ -1,5 +1,8 @@
 #ifndef cert_x509_cert_impl_include_hpp
 #define cert_x509_cert_impl_include_hpp
+
+#include <boost/optional.hpp>
+
 namespace Cert {
     class Authority;
 }
@@ -83,7 +86,7 @@ namespace x509 {
     */
     void Cert_AddExtension(X509* cert, X509_EXTENSION* ext);
 
-    X509_EXTENSION* Cert_GetSubjectAltName(X509* cert);
+    boost::optional<X509_EXTENSION*> Cert_GetSubjectAltName(X509* cert);
     
 } // namespace x509
 } //namespace Cert

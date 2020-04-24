@@ -2,6 +2,7 @@ Clean up file structure:
 Tests:
   ☐ The handshake test which tries various combinations of locations for the bundle of root certificates - all tests currently use X509_cert_store* rather than some using files. Fix
 Next things to work on:
+  ☐ IMPORTANT fix the use of header - use goole standard associated header comes first
   ☐ Readme.md needs to be brought up to date - that will help me think about what needs building next
   ☐ Test client/server where server is using an imitating certificate
 More thoughts:
