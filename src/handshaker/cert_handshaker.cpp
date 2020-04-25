@@ -34,7 +34,11 @@ std::string getServerCertificatePem(std::string server, std::string cert_bundle_
 {
     boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
     ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    //
+    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
+    {
+        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
+        return preverified;
+    });//
     // use a non default root certificate location, AND load them into a custom X509_STORE
     //
     X509_STORE *store = X509_STORE_new();
@@ -49,6 +53,11 @@ std::string getServerCertificatePem(std::string server, X509_STORE *store)
 {
     boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
     ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
+    {
+        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
+        return preverified;
+    });
     SSL_CTX_set_cert_store(ctx.native_handle(), store);
 
     auto v = handshakeWithServer(server, ctx);
@@ -60,6 +69,11 @@ std::string getServerCertificatePem(std::string server)
 {
     boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
     ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
+    {
+        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
+        return preverified;
+    });
     auto df = Cert::Helpers::replace_openssl_get_default_cert_file();
     if (!boost::filesystem::exists(df)) {
         THROW(__func__ << " openssl default cert file does not exist " << df);
@@ -99,6 +113,11 @@ Handshaker::Result::Value handshakeWithServer(std::string server, std::string ce
     ctx.set_verify_mode(boost::asio::ssl::verify_none);
 #else
     ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
+    {
+        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
+        return preverified;
+    });
 #endif
     //
     // use a non default root certificate location, AND load them into a custom X509_STORE
@@ -161,11 +180,25 @@ void client::handshake(HandshakeCallback cb)
     SSL_set_tlsext_host_name(m_socket.native_handle(), m_server.c_str());
 
     m_ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    /// setup openssl to verify host name
+    X509_VERIFY_PARAM *param;
+    param = X509_VERIFY_PARAM_new();
+    X509_VERIFY_PARAM_set_flags(param, X509_V_FLAG_CRL_CHECK);
+    X509_VERIFY_PARAM_set1_host(param, m_server.c_str(), m_server.size());
+    SSL_CTX_set1_param(m_ctx.native_handle(), param);
+    X509_VERIFY_PARAM_free(param);
+    
     boost::asio::async_connect(
         m_socket.lowest_layer(),
         endpoints,
         boost::bind(&client::p_handle_connect, this, boost::asio::placeholders::error)
     );
+    m_ctx.set_verify_callback([this](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
+    {
+        std::cout << __PRETTY_FUNCTION__ << "Verify callback" << std::endl;
+        bool b = verify_certificate(preverified, ctx);
+        return preverified;
+    });
 }
 #pragma mark - post function
 void client::p_postCallback(boost::system::error_code err)
@@ -193,8 +226,11 @@ bool client::verify_certificate(bool preverified, boost::asio::ssl::verify_conte
     //
     // check the server has a certificate
     //
+    
     X509* server_cert = SSL_get_peer_certificate(m_socket.native_handle());
-
+    if (server_cert == NULL) {
+        return preverified;
+    }
     /* get a "list" of alternative names */
     STACK_OF(GENERAL_NAME) *altnames;
     altnames = (STACK_OF(GENERAL_NAME)*) X509_get_ext_d2i(server_cert, NID_subject_alt_name, NULL, NULL);
@@ -221,6 +257,9 @@ void client::p_handle_handshake(const boost::system::error_code& error)
 {
 //    std::cout << "p_handle_handshake: error " << error.message() << std::endl;
     if (!error) {
+        int r = SSL_get_verify_result(m_socket.native_handle());
+        int r2 = X509_V_OK;
+
         extractAltNames();
         extractCommonNames();
         saveServerCertificate();
