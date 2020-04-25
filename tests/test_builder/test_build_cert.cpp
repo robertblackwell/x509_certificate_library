@@ -245,6 +245,9 @@ TEST_CASE_METHOD(TestFixtureNew, "builder2", "")
     X509_free(cert);
 }
 
+/// checks that the mitm certificate has the host name
+/// as the CN of the subject name
+/// and a DNS: name in the subjest alt names
 bool mitmWorked(X509* original_cert_X509, std::string host, Cert::Identity id)
 {
     Cert::Certificate org_cert(original_cert_X509);
@@ -266,6 +269,8 @@ bool mitmWorked(X509* original_cert_X509, std::string host, Cert::Identity id)
     std::string new_san_string  {(new_san) ? new_san.get(): "NOVALUE"};
 
     bool b2;
+    b2 = (new_san_string.find(host) != std::string::npos);
+    return b1 && b2;
     if (orig_san && new_san) {
         /// both have a value
         b2 = (orig_san.get() == new_san.get()); 

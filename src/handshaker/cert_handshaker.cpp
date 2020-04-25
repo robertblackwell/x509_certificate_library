@@ -178,7 +178,6 @@ void client::handshake(HandshakeCallback cb)
     * Need this next statement for correct SNI operation
     */
     SSL_set_tlsext_host_name(m_socket.native_handle(), m_server.c_str());
-
     m_ctx.set_verify_mode(boost::asio::ssl::verify_peer);
     /// setup openssl to verify host name
     X509_VERIFY_PARAM *param;
@@ -187,7 +186,7 @@ void client::handshake(HandshakeCallback cb)
     X509_VERIFY_PARAM_set1_host(param, m_server.c_str(), m_server.size());
     SSL_CTX_set1_param(m_ctx.native_handle(), param);
     X509_VERIFY_PARAM_free(param);
-    
+
     boost::asio::async_connect(
         m_socket.lowest_layer(),
         endpoints,
@@ -195,7 +194,7 @@ void client::handshake(HandshakeCallback cb)
     );
     m_ctx.set_verify_callback([this](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
     {
-        std::cout << __PRETTY_FUNCTION__ << "Verify callback" << std::endl;
+        // std::cout << __PRETTY_FUNCTION__ << "Verify callback" << std::endl;
         bool b = verify_certificate(preverified, ctx);
         return preverified;
     });

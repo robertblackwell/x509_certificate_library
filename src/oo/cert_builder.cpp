@@ -182,14 +182,14 @@ Identity Builder::buildMitmIdentity(
     }
     /// force the required common name into the DNS names
     subject_alt_names_string = "DNS:"+required_common_name+","+subject_alt_names_string;
-
+    sss =  "DNS:"+required_common_name+","+sss;
     auto san = Cert::x509::Cert_GetSubjectAlternativeDNSNames(x509_original_cert);
     auto ssan = Cert::x509::Cert_extensionsAsDescription(x509_original_cert);
 
     EVP_PKEY* new_pkey_pair = Cert::x509::Rsa_Generate();
     if (sss != subject_alt_names_string) {
-        std::cout << std::endl << std::endl 
-        << "WARNING: buildMitmIdentity subject alt names disagree: " << sss << " != "<< subject_alt_names_string<< std::endl;
+        // std::cout << std::endl << std::endl 
+        // << "WARNING: buildMitmIdentity subject alt names disagree: " << sss << " != "<< subject_alt_names_string<< std::endl;
         subject_alt_names_string = sss;
     }
     X509* x509_new_cert = ::Cert::x509::create(
@@ -210,9 +210,11 @@ Identity Builder::buildMitmIdentity(
     /// patanoid test - better to fail here than somewhere in the guts of an app using this stuff
     ///
     Identity identity(x509_new_cert, new_pkey_pair);
+    #ifdef APPLY_PARANOID_TEST
     if (! paranoidTest(x509_original_cert, required_common_name, identity)) {
         THROW("paranoid test failed in buildMitmIdentity for host " + required_common_name);
     }
+    #endif
     X509_free(x509_new_cert);
     EVP_PKEY_free(new_pkey_pair);
     return identity;
