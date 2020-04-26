@@ -23,6 +23,8 @@ set(SOURCES
 	./store/cert_store_locator.cpp
 	./store/cert_store_store.cpp
 	./x509/name.cpp
+	./x509/alt_names.cpp
+	./x509/cert_check_host.cpp
 	./x509/extension.cpp
 	./x509/cert_impl.cpp
 	./x509/error.cpp
@@ -68,8 +70,6 @@ target_include_directories(${CERT_LIBRARY_NAME} PUBLIC ${PROJECT_DIR}/include PR
 # This depends on (header only) boost
 # target_link_libraries(cert_library PRIVATE Boost::boost)
 
-# All users of this library will need at least C++11
-target_compile_features(${CERT_LIBRARY_NAME} PUBLIC cxx_std_11)
 
 # IDEs should put the headers in a nice place
 # source_group(TREE "${PROJECT_SOURCE_DIR}/include" PREFIX "Header Files" FILES ${HEADER_LIST})

@@ -12,9 +12,10 @@
 #include <cert/cert_helpers.hpp>
 #include <cert/x509.hpp>
 #include <cert/x509_cert_impl.hpp>
+#include <cert/cert_certificate.hpp>
 
 #include "test_fixture_new.hpp"
-
+#include "get_alt_names.hpp"
 //
 // Demonstrates that Cert::x509::Cert_Get/SetPublicKey work with VALUES/COPIES not references
 //
@@ -145,9 +146,6 @@ TEST_CASE("cert_get_set")
         // the two strings are NOT equal showing that name and name2 are just references to the same data structure
         //
         REQUIRE(s1 != s2);
-    #if 0
-        Cert::x509::Cert_Print(original_cert, out_bio);
-    #endif
         X509_free(original_cert);
         BIO_free(out_bio);
     }
@@ -162,8 +160,6 @@ TEST_CASE("cert_get_set")
         X509_NAME* name = X509_NAME_new();
         Cert::x509::Name_AddEntryByNID(name, NID_countryName, "US");
         Cert::x509::Name_AddEntryByNID(name, NID_organizationName, "this-is-an-organization-name");
-    //    std::cout << Cert::x509::Name_AsOneLine(name) << std::endl;
-    //    std::cout << Cert::x509::Name_AsMultiLine(name) << std::endl;
         auto s1 = Cert::x509::Name_AsOneLine(name);
         auto s2 = Cert::x509::Name_AsMultiLine(name);
         REQUIRE(Cert::x509::Name_AsOneLine(name) == "C=US, O=this-is-an-organization-name");
@@ -181,37 +177,8 @@ TEST_CASE("cert_get_set")
         X509* original_cert = Cert::x509::Cert_ReadFromFile(host_b_cert_file_name);
         auto name = Cert::x509::Cert_GetIssuerName(original_cert);
         
-    #if 0 //loop over the stack of entries - not ready for that yet
-        auto l = sk_X509_NAME_ENTRY_num(name->entries);
-        auto xx = {OBJ_localityName};
-        for( int i = 0; i < l ; i++) {
-            auto ne=sk_X509_NAME_ENTRY_value(name->entries,i);
-    // These next 5 lines corrupt the OBJ so that the NID is not found
-    //  hence we get to see how an invalid NID prints
-    //        if (i ==0) {
-    //            unsigned char* pp = (unsigned char*)(ne->object->data);
-    //            pp[1] = 0x07;
-    //            pp[2] = 0x07;
-    //        }
-            auto n=OBJ_obj2nid(ne->object);
-            if ((n == NID_undef) || ((s=OBJ_nid2sn(n)) == NULL))
-            {
-                const char* ss = OBJ_nid2ln(n);
-                i2t_ASN1_OBJECT(tmp_buf,sizeof(tmp_buf),ne->object);
-                s=tmp_buf;
-            }
-            const char* ss = OBJ_nid2ln(n);
-            printf("%s\n", ss);
-
-        }
-    #endif
-
         auto s1 = Cert::x509::Name_AsOneLine(name);
         auto s2 = Cert::x509::Name_AsMultiLine(name);
-    #if 0
-        std::cout << Cert::x509::Name_AsOneLine(name) << std::endl;
-        std::cout << Cert::x509::Name_AsMultiLine(name) << std::endl;
-    #endif
         REQUIRE(Cert::x509::Name_AsOneLine(name) ==
                   "C=US, O=Google Trust Services, CN=Google Internet Authority G3");
         REQUIRE(Cert::x509::Name_AsMultiLine(name) ==
@@ -285,6 +252,54 @@ TEST_CASE("cert_get_set")
         REQUIRE(r2 == 0);// << "second comparisons should be equal" << std::endl;
         X509_free(original_cert);
         X509_free(cert);
+    }
+    SECTION("getSubjectAltNames")
+    {
+        auto p = fixture.realCertChainFilePathForHost("geeksforgeeks.org");
+        X509* original_cert = Cert::x509::Cert_ReadFromFile(p.string());
+        Cert::Certificate certificate{original_cert};
+        // boost::optional<std::vector<std::string>> r =  Cert_getSubjectAlternativeNamesV2((X509*)original_cert);
+
+        boost::optional<std::vector<std::string>> r =  Cert::x509::Cert_altNames((X509*)original_cert);
+        REQUIRE((!!r));
+        CHECK((r.get().size() == 3));
+        std::vector<std::string> unwrapped = r.get();
+        bool found1 = (std::find(unwrapped.begin(), unwrapped.end(), "cdn.geeksforgeeks.org") != unwrapped.end());
+        bool found2 = (std::find(unwrapped.begin(), unwrapped.end(), "geeksforgeeks.org") != unwrapped.end());
+        bool found3 = (std::find(unwrapped.begin(), unwrapped.end(), "www.cdn.geeksforgeeks.org") != unwrapped.end());
+
+        CHECK( found1 );
+        CHECK( found2 );
+        CHECK( found3 );
+
+        std::string s1 = Cert_GetSubjectAlternativeNamesAsString(original_cert).get();
+        std::string s2 = certificate.getSubjectAlternativeNamesAsString();
+        if (r) {
+            auto r_value = r.get();
+            std::string expected = "DNS:cdn.geeksforgeeks.org, DNS:geeksforgeeks.org, DNS:www.cdn.geeksforgeeks.org";
+            CHECK(s1 == expected);
+            CHECK(s2 == expected);
+        } else {
+            CHECK(false);
+        }
+        bool b1 = Cert_checkHostInAltnameString("geeksforgeeks.org", s1);
+        bool b2 = Cert_checkHostInAltnameString("cdn.geeksforgeeks.org", s1);
+        bool b3 = Cert_checkHostInAltnameString("www.cdn.geeksforgeeks.org", s1);
+        CHECK(b1);
+        CHECK(b2);
+        CHECK(b3);
+        X509_free(original_cert);
+    }
+    SECTION("checkhost")
+    {
+        bool b1 = Cert_checkHostInAltnameString("google.com", "DNS:*.google.com, DNS:*.something.google.com");
+        bool b2 = Cert_checkHostInAltnameString("help.google.com", "DNS:*.google.com, DNS:*.something.google.com");
+        bool b3 = Cert_checkHostInAltnameString("google.com", "dns:something.google.com, DNS:another.google.com");
+        bool b4 = Cert_checkHostInAltnameString("help.google.com", "dns:something.google.com, DNS:another.google.com");
+        CHECK(b1);
+        CHECK(b2);
+        CHECK(!b3);
+        CHECK(!b4);
     }
 
     //std::map<int, std::string> x509ExtensionStack_simpleUnpack(STACK_OF(X509_EXTENSION)* stack)

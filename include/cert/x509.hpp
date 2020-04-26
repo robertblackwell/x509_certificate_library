@@ -23,6 +23,8 @@
 #include <cert/x509_nid.hpp>
 #include <cert/bio_utes.hpp>
 #include <cert/x509_cert.hpp>
+#include <cert/x509_alt_names.hpp>
+#include <cert/x509_cert_check_host.hpp>
 /**
 * \note - x5090/x509_cert_impl.hpp is not included - this keeps some of the messier implementation functions
 * hidden from library clients. However some of the test code imprts the private header

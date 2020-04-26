@@ -32,6 +32,8 @@ list(APPEND libcert_inc " ${inc_dir}/store/mozilla.hpp")
 
 list(APPEND libcert_inc " ${inc_dir}/x509/x509_cert.hpp")
 list(APPEND libcert_inc " ${inc_dir}/x509/x509_cert_impl.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_alt_names.hpp")
+list(APPEND libcert_inc " ${inc_dir}/x509/x509_cert_check_host.hpp")
 list(APPEND libcert_inc " ${inc_dir}/x509/x509_conf.hpp")
 list(APPEND libcert_inc " ${inc_dir}/x509/x509_error.hpp")
 list(APPEND libcert_inc " ${inc_dir}/x509/x509_extension.hpp")
