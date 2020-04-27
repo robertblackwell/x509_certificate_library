@@ -172,7 +172,13 @@ Identity Builder::buildMitmIdentity(
     // std::string subject_alt_names= "DNS:alternate_one.com,DNS:alternatie_two.com";
     
     auto sss = original_cert.getSubjectAlternativeNamesAsString();
-    std::string subject_alt_names_string;
+    std::string subject_alt_names_string = "";
+    auto yy = Cert::x509::Cert_altNames(x509_original_cert);
+    std::vector<std::string> yy2;
+    if (yy) {
+        yy2 = yy.get();
+    }
+    #if 0
     boost::optional<X509_EXTENSION*>  subj_altname_ext = Cert::x509::Cert_GetSubjectAltName(x509_original_cert);
 
     if (subj_altname_ext) {
@@ -180,8 +186,12 @@ Identity Builder::buildMitmIdentity(
     } else {
         subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext.get());
     }
+    #else
+    subject_alt_names_string = sss;
+    #endif
     /// force the required common name into the DNS names
     subject_alt_names_string = "DNS:"+required_common_name+","+subject_alt_names_string;
+
     sss =  "DNS:"+required_common_name+","+sss;
     auto san = Cert::x509::Cert_GetSubjectAlternativeDNSNames(x509_original_cert);
     auto ssan = Cert::x509::Cert_extensionsAsDescription(x509_original_cert);

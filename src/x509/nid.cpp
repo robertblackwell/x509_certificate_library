@@ -52,23 +52,7 @@ Cert::x509::Nid_GetDescriptor(Cert::x509::ExtNid nid)
         int len = OBJ_obj2txt(buffer, max_buffer, obj, 1);
         tmp.oid_numeric = std::string(buffer, len);
         assert(len < 80);
-        #ifdef NOT_111d
-        const unsigned char* p = obj->data;
-        char* mem = (char*)malloc(len + 1);
-        memcpy(mem, p, len);
-        char* ptr = buffer;
-        int hex_len = 0;
-        for(int i = 0; i< len; i++) {
-            const char* s = (i == 0) ? "{" : ",";
-            int c = (int)mem[i];
-            int new_len = sprintf(ptr, "%s 0x%2x", s, c);
-            ptr += new_len;
-            hex_len  += new_len;
-        }
-        tmp.oid_hex = std::string(buffer) + "}";
-        #else
         tmp.oid_hex = std::string("xxx:aaa:bbb:ccc - 1.1.1d makes this hard");
-        #endif
     }
     return tmp;
 }

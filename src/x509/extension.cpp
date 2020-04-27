@@ -37,6 +37,7 @@ std::string Cert::x509::Extension_ValueAsString(X509_EXTENSION* ext)
     if(s[0] == ',')
         s.erase(0,1);
     s = std::regex_replace(s, std::regex(":,"), ":");
+    free(ret);
     BIO_free(out_bio);
     return s;
 }

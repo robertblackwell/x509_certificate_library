@@ -230,11 +230,11 @@ class client
         
         std::string m_saved_server_certificate_pem;
         Certificate m_saved_certificate;
-        X509* m_raw_x509_p;
+        // X509* m_raw_x509_p;
         
         std::vector<std::string> m_pem_saved_certificate_chain;
         CertChain   m_saved_certificate_chain;
-        STACK_OF(X509*) m_raw_stack_x509;
+        // STACK_OF(X509*) m_raw_stack_x509;
 
         boost::asio::io_service& m_ios;
         boost::asio::ssl::context& m_ctx;

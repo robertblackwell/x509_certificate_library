@@ -89,6 +89,15 @@ void Host::createCertFromConfig(Store& store, HostId host)
 void Host::createFolder(Store& store, HostId host)
 {	
 	Path hd = store.m_locator_sptr->hostFolder(host);
+	auto x1 = (store.m_locator_sptr->hostFolder(host));
+	if(x1.string() == "") {
+		std::cout << __func__ << std::endl;
+	}
+	bool x2 = false;
+	x2 = Helpers::fs::is_directory(x1);
+	if( x2 ) {
+		std::cout << "hello" << std::endl;
+	}
 	if( ! Helpers::fs::is_directory(store.m_locator_sptr->hostFolder(host)) ) {
         boost::filesystem::create_directories(hd);
         //std::string cmd = "mkdir -p " + hd.string();

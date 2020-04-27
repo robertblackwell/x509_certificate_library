@@ -45,6 +45,8 @@ TEST_CASE("time")
         REQUIRE(s1 != s3);
     //    ASSERT_EQ(s2, s3);
     //    ASSERT_NE(s1, s3);
+        // ASN1_TIME_free(t_1); this is definitley WRONG
+        // ASN1_TIME_free(t_2);
         X509_free(original_cert);
     }
 

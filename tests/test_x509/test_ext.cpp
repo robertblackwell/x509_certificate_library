@@ -34,6 +34,7 @@ TEST_CASE("ext", "")
     //    int num = X509_get_ext_count(google_cert);
     //    X509_EXTENSION* xt2 = x509Extension_create(x509ExtNid_subjectAltName, "DNS:one.com,DNS:two.com");
         auto exts_spec = Cert::x509::Cert_extensionsAsDescription(cert);
+        X509_free(cert);
         return;
 
     #if 0

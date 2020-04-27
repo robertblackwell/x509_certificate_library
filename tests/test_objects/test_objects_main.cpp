@@ -27,6 +27,7 @@ TEST_CASE("Certificate")
         }
         auto y = c1.native();
         CHECK(c1.native() == x);
+        X509_free(x);
     }
     SECTION("bool operator") 
     {
@@ -56,6 +57,8 @@ TEST_CASE("Identity")
         }
         CHECK(id1.getEVP_PKEY() == k);
         CHECK(id1.getX509() == cert);
+        X509_free(cert);
+        EVP_PKEY_free(k);
     }
     SECTION("bool operator") 
     {
@@ -81,6 +84,7 @@ TEST_CASE("EvpKey")
             CHECK(pk1.native() == pk2.native() );
         }
         CHECK(pk1.native() == k);
+        EVP_PKEY_free(k);
     }
     SECTION("bool operator") 
     {

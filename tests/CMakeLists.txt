@@ -1,17 +1,18 @@
-set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CERT_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(TEST_INCLUDE_DIRS ${TEST_DIR} ${PROJECT_DIR}/include/cert ${PROJECT_DIR}/include SYSTEM ${VENDOR_DIR}/include)
-
-set(TEST_LINK_LIBS 
-	Threads::Threads 
-	${CMAKE_DL_LIBS}
-	${CERT_LIBRARY_NAME} 
-	${VENDOR_DIR}/lib/libcrypto.a 
-	${VENDOR_DIR}/lib/libssl.a 
-	${VENDOR_DIR}/lib/libboost_filesystem.a
-	${CMAKE_DL_LIBS}
-	${DL_LIB_SO}
+set(CERT_TEST_INCLUDE_DIRS ${CERT_TEST_DIR} ${CERT_INCLUDE_DIR} 
+	SYSTEM ${CERT_VENDOR_INCLUDEDIR} ${CERT_VENDOR_SRCDIR}
 )
+
+# 	Threads::Threads 
+# 	${CMAKE_DL_LIBS}
+# 	${CERT_LIBRARY_NAME} 
+# 	${CERT_VENDOR_LIBDIR}/libcrypto.a 
+# 	${CERT_VENDOR_LIBDIR}/libssl.a 
+# 	${CERT_VENDOR_LIBDIR}/libboost_filesystem.a
+# 	${CMAKE_DL_LIBS}
+# 	${DL_LIB_SO}
+# )
 
 	# ${CMAKE_DL_LIBS}
 	# ${VENDOR_DIR}/lib/libcrypto.a 
@@ -23,37 +24,25 @@ set(TEST_LINK_LIBS
 	# ${DL_LIB_SO}
 
 
-set(TEST_DIR_COMMON_SOURCE ${TEST_DIR}/test_fixture_new.cpp)
+set(CERT_TEST_DIR_COMMON_SOURCE ${CERT_TEST_DIR}/test_fixture_new.cpp)
 
 message("TestDir Common Source ${TEST_DIR_COMMON_SOURCE}")
 
-set(TEST_LIB_SOURCES
+set(CERT_TEST_LIB_SOURCES
 	test_fixture_new.cpp 
-	test_fixture_new.hpp)
-	# ../src/store/cert_mozilla.cpp
-	# ../src/store/cert_keychain.cpp
-	# ../src/store/cert_store_locator.cpp
-	# ../src/store/cert_store_store.cpp
-	# ../src/store/cert_store_host.cpp
+	test_fixture_new.hpp
+)
 
 add_library(test_lib STATIC 
 	test_fixture_new.cpp 
 	test_fixture_new.hpp 
 	test_helpers.hpp
-	# ../src/store/cert_mozilla.cpp
-	# ../src/store/cert_keychain.cpp
-	# ../src/store/cert_store_locator.cpp
-	# ../src/store/cert_store_store.cpp
-	# ../src/store/cert_store_host.cpp
-	)
-target_include_directories(test_lib PUBLIC ${TEST_INCLUDE_DIRS})
-# target_compile_features(test_lib PUBLIC cxx_std_11)
+)
+target_include_directories(test_lib 
+	PUBLIC ${CERT_TEST_INCLUDE_DIRS}
+)
 
-# add_library(test_lib INTERFACE )
-# target_include_directories(test_lib INTERFACE ${TEST_DIR})
-# target_sources(test_lib INTERFACE  ${TEST_DIR}/test_fixture_new.hpp)
-# source_group(test_lib FILES ${TEST_DIR}/test_fixture_new.hpp)
-
+set(CERT_TEST_LINK_LIBS test_lib ${CERT_LIBRARY_NAME} ${CERT_LINK_LIBRARIES}) 
 
 add_subdirectory(test_exception)
 add_subdirectory(test_x509)

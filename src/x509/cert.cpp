@@ -45,6 +45,8 @@ X509* Cert::x509::Cert_FromPEMString(std::string pem)
 
     cbio = BIO_new_mem_buf((void*)cert_buffer, -1);
     cert = PEM_read_bio_X509(cbio, NULL, 0, NULL);
+    BIO_set_close(cbio, BIO_NOCLOSE); /* So BIO_free() leaves BUF_MEM alone */
+    BIO_free(cbio);
     return cert;
 }
 
@@ -102,7 +104,7 @@ Cert::x509::Cert_Verify(X509* cert, X509_STORE* store)
         BIO_printf(outbio, "\n");
     #endif
     }
-
+    X509_STORE_CTX_free(vrfy_ctx);
     return (ret == 1);
 
 }
@@ -117,7 +119,9 @@ Cert::x509::Cert_Verify(X509* cert, std::string cert_bundle_path)
     const char* ca_bundlestr = cert_bundle_path.c_str();
     auto ret1 = X509_STORE_load_locations(store, ca_bundlestr, NULL);
     assert( ret1 == 1);
-    return Cert_Verify(cert, store);
+    auto ret = Cert_Verify(cert, store);
+    X509_STORE_free(store);
+    return ret;
 }
 /**
 * Verify a certificate against the provide CertificateAuthority
@@ -250,6 +254,9 @@ Cert::x509::Cert_GetSubjectAlternativeNamesAsString(X509* cert)
         return boost::none;
     }
     std::string subject_alt_names_string = Cert::x509::Extension_ValueAsString(subj_altname_ext.get());
+    X509_EXTENSION* tmp = subj_altname_ext.get();
+    
+    // X509_EXTENSION_free(tmp);
     return subject_alt_names_string;
 }
 

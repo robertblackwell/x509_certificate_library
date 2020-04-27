@@ -154,14 +154,6 @@ client::client(
 
 client::~client()
 {
-#if 0
-    if(m_saved_server_certificate != NULL)
-        X509_free(m_saved_server_certificate);
-#endif
-#if 0
-    if(m_saved_server_certificate_chain != NULL)
-        sk_X509_free(m_saved_server_certificate_chain);
-#endif
 }
 
 void client::handshake(HandshakeCallback cb)
@@ -192,12 +184,12 @@ void client::handshake(HandshakeCallback cb)
         endpoints,
         boost::bind(&client::p_handle_connect, this, boost::asio::placeholders::error)
     );
-    m_ctx.set_verify_callback([this](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
-    {
-        // std::cout << __PRETTY_FUNCTION__ << "Verify callback" << std::endl;
-        bool b = verify_certificate(preverified, ctx);
-        return preverified;
-    });
+    // m_ctx.set_verify_callback([this](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
+    // {
+    //     // std::cout << __PRETTY_FUNCTION__ << "Verify callback" << std::endl;
+    //     bool b = verify_certificate(preverified, ctx);
+    //     return preverified;
+    // });
 }
 #pragma mark - post function
 void client::p_postCallback(boost::system::error_code err)
@@ -322,18 +314,20 @@ void client::saveServerCertificate()
     X509* cert = SSL_get_peer_certificate(m_socket.native_handle());
     m_saved_server_certificate_pem = Cert::x509::Cert_PEMString(cert);
     m_saved_certificate = Certificate(cert);
-    m_raw_x509_p = cert; X509_up_ref(m_raw_x509_p);
+    // since getting the peer cert upped the ref count we need to free it
     X509_free(cert);
 }
 
 void client::saveServerCertificateChain()
 {
-    
+    /// from what I can see in the openssl code the ref count is not upped
     STACK_OF(X509)* cert_chain = SSL_get_peer_cert_chain(m_socket.native_handle());
     x509::CertChain cc = Cert::x509::CertChain_FromStack(cert_chain);
     m_saved_certificate_chain = cc;
     m_pem_saved_certificate_chain.insert(m_pem_saved_certificate_chain.end(), cc.begin(), cc.end());
-    m_raw_stack_x509 = sk_X509_dup(cert_chain); 
+    // should not free - ref count not upped when get_peer)certificate_chain
+    // and if free it get a crash
+    // sk_X509_free(cert_chain);
 
     /**
     * @todo - once we use openssl 1.1.0 we can also ssl_get0_verified_chain()

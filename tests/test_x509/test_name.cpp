@@ -83,6 +83,7 @@ TEST_CASE("name", "")
                 break;
             }
         }
+        X509_free(cert);
         X509_NAME_free(name1);
     }
 }

@@ -1,18 +1,10 @@
 
-# Note that headers are optional, and do not affect add_library, but they will not
-# show up in IDEs unless they are listed in add_library.
-message("CertificateLibrary_SOURCE_DIR: ${CertificateLibrary_SOURCE_DIR}")
-message("Vendir Dir: ${VENDOR_DIR}")
-set(PROJECT_DIR ${CertificateLibrary_SOURCE_DIR})
-
-set(CMAKE_BUILD_TYPE Debug)
-
 # Optionally glob, but only for CMake 3.12 or later:
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${PROJECT_DIR}/include/cert/*.hpp")
+file(GLOB CERT_LIB_HEADERS CONFIGURE_DEPENDS "${PROJECT_DIR}/include/cert/*.hpp")
 # set(HEADER_LIST "${CertificateLibrary_SOURCE_DIR}/include/cert/x509/cert.hpp")
 message("HEADER_LIST ${HEADER_LIST}")
 # Make an automatic library - will be static or dynamic based on user setting
-set(SOURCES 
+set(CERT_LIB_SOURCES 
 	./handshaker/cert_handshaker.cpp
 	./handshaker/cert_handshaker_result.cpp
 	./cert_authority/cert_authority.cpp
@@ -45,33 +37,17 @@ set(SOURCES
 	./oo/cert_identity.cpp
 	./helpers/helpers_fs.cpp
 	)
-	# ./store/cert_mozilla.cpp
-	# ./store/cert_keychain.cpp
-	# ./store/cert_store_locator.cpp
-	# ./store/cert_store_store.cpp
-	# ./store/cert_store_host.cpp
-	# )
 
+message("Sources: ${CERT_LIB_SOURCES}")
 
-# file (GLOB SOURCESX 
-# 	${PROJECT_DIR}/src/cert_authority/*.cpp
-# 	${PROJECT_DIR}/src/handshaker/*.cpp
-# 	${PROJECT_DIR}/src/helpers/*.cpp
-# 	${PROJECT_DIR}/src/oo/*.cpp
-# 	${PROJECT_DIR}/src/store/*.cpp
-# 	${PROJECT_DIR}/src/x509/*.cpp)
-
-message("Sources: ${SOURCES}")
-
-add_library(${CERT_LIBRARY_NAME} STATIC ${SOURCES} ${HEADER_LIST})
+add_library(${CERT_LIBRARY_NAME} STATIC ${CERT_LIB_SOURCES} ${CERT_LIB_HEADERS})
 
 # We need this directory, and users of our library will need it too
-target_include_directories(${CERT_LIBRARY_NAME} PUBLIC ${PROJECT_DIR}/include PRIVATE ${VENDOR_DIR}/include)
-# This depends on (header only) boost
-# target_link_libraries(cert_library PRIVATE Boost::boost)
-
-
-# IDEs should put the headers in a nice place
-# source_group(TREE "${PROJECT_SOURCE_DIR}/include" PREFIX "Header Files" FILES ${HEADER_LIST})
-# source_group(headers FILES ${HEADER_LIST})
-# source_group(headers REGULAR_EXPRESSION include/cert/*.hpp})
+target_include_directories(
+	${CERT_LIBRARY_NAME} 
+		PUBLIC 
+			${CERT_INCLUDE_DIR} 
+		PRIVATE 
+			${CERT_VENDOR_INCLUDEDIR}
+			${CERT_VENDOR_SRCDIR}
+)

@@ -3,8 +3,10 @@
 #include <boost/optional.hpp>
 #include <cert/x509.hpp>
 
-boost::optional<std::vector<std::string>> 
-Cert::x509::Cert_altNames(X509* server_cert) {
+///
+/// gets the DNS alt names from a certificate as a list std::strings 
+///
+boost::optional<std::vector<std::string>> Cert::x509::Cert_altNames(X509* server_cert) {
     int i;
     int san_names_nb = -1;
     STACK_OF(GENERAL_NAME) *san_names = NULL;

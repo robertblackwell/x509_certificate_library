@@ -52,6 +52,7 @@ Chain::lastIssuer()
     X509* chain_last_cert = Cert::x509::Cert_FromPEMString(pem);
     auto spec = Cert::x509::Cert_GetIssuerNameAsSpec(chain_last_cert);
     std::string last_issuer_name = spec[NID_commonName];
+    X509_free(chain_last_cert);
     return last_issuer_name;
 }
 
@@ -70,8 +71,8 @@ Chain::removeAllSubjectsMatching(std::string pattern)
     
     for(const std::string& pem: m_impl_sptr->m_certs) {
         X509* x = Cert::x509::Cert_FromPEMString(pem);
-        std::string sn1l = Cert::x509::Cert_GetSubjectNameAsOneLine(x);
-        std::string snml = Cert::x509::Cert_GetSubjectNameAsMultiLine(x);
+        // std::string sn1l = Cert::x509::Cert_GetSubjectNameAsOneLine(x);
+        // std::string snml = Cert::x509::Cert_GetSubjectNameAsMultiLine(x);
         auto spec = Cert::x509::Cert_GetSubjectNameAsSpec(x);
         std::string subject_common_name = spec[NID_commonName];
         if (std::regex_match (subject_common_name, std::regex(pattern))) {
@@ -80,6 +81,7 @@ Chain::removeAllSubjectsMatching(std::string pattern)
             res.push_back(std::string(pem));
         }
 //        std::cout << pattern << "  " << subject_common_name << std::endl;
+        X509_free(x);
     }
     Cert::Chain ch(res);
     return ch;
@@ -137,8 +139,8 @@ std::string Chain::toPEMString()
     std::stringstream outs ;
     for(const std::string& pem: m_impl_sptr->m_certs) {
         X509* x = Cert::x509::Cert_FromPEMString(pem);
-        std::string sn1l = Cert::x509::Cert_GetSubjectNameAsOneLine(x);
-        std::string snml = Cert::x509::Cert_GetSubjectNameAsMultiLine(x);
+        // std::string sn1l = Cert::x509::Cert_GetSubjectNameAsOneLine(x);
+        // std::string snml = Cert::x509::Cert_GetSubjectNameAsMultiLine(x);
         auto sn_spec = Cert::x509::Cert_GetSubjectNameAsSpec(x);
         std::string cert_common_name = sn_spec[NID_commonName];
         
@@ -151,6 +153,7 @@ std::string Chain::toPEMString()
         #pragma clang diagnostic pop
         outs << std::endl;
         outs << pem << std::endl;
+        X509_free(x);
     }
     return outs.str();
 }

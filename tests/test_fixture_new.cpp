@@ -365,6 +365,7 @@ void TestFixtureNew::setup() {
     ///
     /// download certificates and certificate chains for a selection of hosts
     ///
+    
     std::vector<std::string> hosts = m_hosts_for_handshake;
     for (const std::string& h : hosts) {
         Host::create(*m_store_sptr, h);
@@ -388,7 +389,7 @@ void TestFixtureNew::setup() {
     ///
     std::string wwohost = m_host_for_wwo_test;
     Cert::Chain hostchain(m_locator_sptr->hostRealCertificateChainPath(wwohost));
-    auto        c1               = hostchain.toPEMString();
+    // auto        c1               = hostchain.toPEMString();
     std::string issuer_to_remove = hostchain.lastIssuer();
     std::string wwoh_header_text = str(boost::format(without_header) % issuer_to_remove);
     // NOTE: this is a hack. Based on knowledge that the root cert for bankofamerica

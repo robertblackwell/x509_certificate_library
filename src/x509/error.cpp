@@ -6,7 +6,10 @@
 //  Copyright © 2017 Blackwellapps. All rights reserved.
 //
 
-
+#include <stdio.h>
+#include <string>
+#include <stdlib.h>
+#include <malloc.h>
 #include <sstream>
 #include <openssl/bio.h>
 #include <exception>
@@ -29,18 +32,21 @@ void Cert::errorHandler (std::string func, std::string file, int lineno, std::st
 */
 void Cert::x509::errorHandler (std::string func, std::string file, int lineno, std::string msg)
 {
-    char buf[100001];
+    // char buf[100001];
     std::string message(msg);
     std::stringstream messageStream;
     
     messageStream <<  "Error in function: " << func << " file: " << file << " at lineNo: " << lineno << std::endl << "Message: [" << message << "]" ;
     
-    BIO* errBio = BIO_new(BIO_s_mem());
-    ERR_print_errors(errBio);
+    long e = ERR_peek_last_error();
+    const char* err_str = ERR_reason_error_string(e);
+    std::string open_ssl_message = "NO OPENSSL ERROR";
+    if (err_str == NULL) {
 
-    int count2 = BIO_read(errBio, buf, 10000);
-    buf[count2] = (char)0;
-    messageStream << std::endl << "OpenSSL error message is : [" << buf <<"]" << std::endl;
+    } else {
+        open_ssl_message = std::string(err_str);
+    }
+    messageStream << std::endl << "OpenSSL error message is : [" << open_ssl_message <<"]" << std::endl;
 //    ERR_print_errors_fp (stderr);
     throw Cert::Exception(messageStream.str());
 }

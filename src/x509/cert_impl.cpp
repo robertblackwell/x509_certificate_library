@@ -113,12 +113,17 @@ Cert::x509::Cert_GetSubjectAltName(X509* cert)
     int subjAltName_pos;
     if (!(req_exts = Cert::x509::Cert_GetExtensions (cert)))
         X509_TRIGGER_ERROR ("Error getting the request's extensions");
+    
     subjAltName_pos = X509v3_get_ext_by_NID (req_exts,
                                              OBJ_sn2nid ("subjectAltName"), -1);
     if (subjAltName_pos < 0) {
         return boost::none;
     }
     subjAltName = X509v3_get_ext (req_exts, subjAltName_pos);
+    ///
+    /// Best deduction is that both req_exts and subjAltName 
+    /// are internal pointers
+    ///
     return subjAltName;
 }
 

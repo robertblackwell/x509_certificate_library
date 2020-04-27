@@ -23,6 +23,7 @@ int main( int argc, char* argv[] )
     int t_argc = 2;
     TestFixtureNew f{};
     f.setup();
+    // f.loadExisting();
 
     int result = Catch::Session().run( t_argc, t_argv );
 

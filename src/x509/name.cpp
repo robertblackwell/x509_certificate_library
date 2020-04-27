@@ -20,6 +20,7 @@ std::string Cert::x509::Name_AsOneLine(X509_NAME* name)
     memset(ret, 0, BIO_mem_length(out_bio) + 1);
     BIO_read(out_bio, ret, (int)BIO_mem_length(out_bio));
     std::string s(ret);
+    free(ret);
     BIO_free(out_bio);
     return s;
 }
@@ -36,6 +37,7 @@ std::string Cert::x509::Name_AsMultiLine(X509_NAME* name)
     memset(ret, 0, BIO_mem_length(out_bio) + 1);
     BIO_read(out_bio, ret, (int)BIO_mem_length(out_bio));
     std::string s(ret);
+    free(ret);
     BIO_free(out_bio);
     return s;
 }
@@ -64,6 +66,7 @@ Cert::x509::Name_getSpec(X509_NAME* name)
         unsigned char* out;
         int len = ASN1_STRING_to_UTF8(&out, asn1_string);
         std::string s((char*)out, len);
+        OPENSSL_free(out);
         ret[desc.nid] = s;
     }
     #endif
@@ -86,6 +89,8 @@ void Cert::x509::Name_AddEntryByNID(X509_NAME* name, int nid, std::string value)
     
     if (X509_NAME_add_entry (name, ent, -1, 0) != 1)
         X509_TRIGGER_ERROR("Error adding entry to Name");
+    X509_NAME_ENTRY_free(ent);
+    // OPENSSL_free((void*)sn);
 
 }
 
@@ -101,6 +106,7 @@ X509_NAME* Cert::x509::Name_fromSpec(Cert::x509::NameSpecification entries)
         
         if (X509_NAME_add_entry (name, ent, -1, 0) != 1)
             X509_TRIGGER_ERROR("Error adding entry to Name");
+        X509_NAME_ENTRY_free(ent);
         }
     return name;
 }

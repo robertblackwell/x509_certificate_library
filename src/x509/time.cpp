@@ -21,6 +21,7 @@ std::string Cert::x509::TimeAsString(ASN1_TIME* tm)
     memset(ret, 0, BIO_mem_length(out_bio) + 1);
     BIO_read(out_bio, ret, (int)BIO_mem_length(out_bio));
     std::string s(ret);
+    free(ret);
     BIO_free(out_bio);
     return s;
 }
