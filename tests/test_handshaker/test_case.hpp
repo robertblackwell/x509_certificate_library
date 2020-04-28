@@ -21,6 +21,7 @@ namespace Testcase{
 
 // Gets the certificate from server and does an ssl verify of that certificate
 // using the OSX standard certificate bundle file
+#if 0
 inline Value xwithDefaultCertFile(std::string server)
 {
     boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
@@ -42,22 +43,22 @@ inline Value xwithDefaultCertFile(std::string server)
     Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, ctx);
     return v;
 };
-
+#endif
 // Gets the certificate from server and does an ssl verify of that certificate
 // using the OSX standard certificate bundle file but with that bundle loaded
 // into memory as an X509CertStore
 inline Value xwithDefaultCertFileViaX509Store(std::string server)
 {
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    X509_STORE *store = X509_STORE_new();
+    // boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
+    // ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    // X509_STORE *store = X509_STORE_new();
     auto df = Cert::Helpers::replace_openssl_get_default_cert_file();
     if (!boost::filesystem::exists(df)) {
         throw std::string(__func__) + std::string(" openssl default cert file does not exist ") + std::string(df);
     }
-    X509_STORE_load_locations(store, df.c_str(), NULL);
-    SSL_CTX_set_cert_store(ctx.native_handle(), store);
-    Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, ctx);
+    // X509_STORE_load_locations(store, df.c_str(), NULL);
+    // SSL_CTX_set_cert_store(ctx.native_handle(), store);
+    Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, df);
     return v;
 
 };
@@ -66,18 +67,18 @@ inline Value xwithDefaultCertFileViaX509Store(std::string server)
 // using a certificate bundle file that is NOT the the OSX standard certificate bundle file.
 inline Value withNonDefaultCertFile(std::string server, std::string certFilePath)
 {
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    #ifdef NNNN2
-        auto df = (const char*)sertFilePath
-        SSL_CTX_load_verify_locations(ctx.native_handle(), df, NULL);
-        SSL_CTX_load_verify_locations(ctx.native_handle(), df, NULL);
-    #else
-        X509_STORE *store = X509_STORE_new();
-        X509_STORE_load_locations(store, (const char*)certFilePath.c_str(), NULL);
-        SSL_CTX_set_cert_store(ctx.native_handle(), store);
-    #endif
-    Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, ctx);
+    // boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
+    // ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    // #ifdef NNNN2
+    //     auto df = (const char*)sertFilePath
+    //     SSL_CTX_load_verify_locations(ctx.native_handle(), df, NULL);
+    //     SSL_CTX_load_verify_locations(ctx.native_handle(), df, NULL);
+    // #else
+    //     X509_STORE *store = X509_STORE_new();
+    //     X509_STORE_load_locations(store, (const char*)certFilePath.c_str(), NULL);
+    //     SSL_CTX_set_cert_store(ctx.native_handle(), store);
+    // #endif
+    Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, certFilePath);
     return v;
 };
 // Gets the certificate from server and does an ssl verify of that certificate
@@ -85,12 +86,12 @@ inline Value withNonDefaultCertFile(std::string server, std::string certFilePath
 // and with that non-standard bundle file loaded as a X509CertStore
 inline Value withNonDefaultCertFileViaX509Store(std::string server, std::string certFilePath)
 {
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    X509_STORE *store = X509_STORE_new();
-    X509_STORE_load_locations(store, (const char*)certFilePath.c_str(), NULL);
-    SSL_CTX_set_cert_store(ctx.native_handle(), store);
-    Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, ctx);
+    // boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
+    // ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    // X509_STORE *store = X509_STORE_new();
+    // X509_STORE_load_locations(store, (const char*)certFilePath.c_str(), NULL);
+    // SSL_CTX_set_cert_store(ctx.native_handle(), store);
+    Handshaker::Result::Value v = Handshaker::handshakeWithServer(server, certFilePath);
     return v;
 };
 

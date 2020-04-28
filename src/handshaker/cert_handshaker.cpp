@@ -32,68 +32,32 @@ namespace Handshaker {
  
 std::string getServerCertificatePem(std::string server, std::string cert_bundle_path)
 {
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
-    {
-        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
-        return preverified;
-    });//
-    // use a non default root certificate location, AND load them into a custom X509_STORE
-    //
-    X509_STORE *store = X509_STORE_new();
-    X509_STORE_load_locations(store, (const char*)cert_bundle_path.c_str(), NULL);
-    // attach X509_STORE to boost ssl context
-    SSL_CTX_set_cert_store(ctx.native_handle(), store);
-    auto v = handshakeWithServer(server, ctx);
+    auto v = handshakeWithServer(server, cert_bundle_path);
     assert(v.is_success());
     return Handshaker::Result::getPem(v);
-}
-std::string getServerCertificatePem(std::string server, X509_STORE *store)
-{
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
-    {
-        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
-        return preverified;
-    });
-    SSL_CTX_set_cert_store(ctx.native_handle(), store);
-
-    auto v = handshakeWithServer(server, ctx);
-    assert(v.is_success());
-    return Handshaker::Result::getPem(v);
-
 }
 std::string getServerCertificatePem(std::string server)
 {
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
-    {
-        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
-        return preverified;
-    });
     auto df = Cert::Helpers::replace_openssl_get_default_cert_file();
     if (!boost::filesystem::exists(df)) {
         THROW(__func__ << " openssl default cert file does not exist " << df);
     }
-    SSL_CTX_load_verify_locations(ctx.native_handle(), df.c_str(), NULL);
 
-    auto v = handshakeWithServer(server, ctx);
+    auto v = handshakeWithServer(server, df);
     assert(v.is_success());
     return Handshaker::Result::getPem(v);
 }
-std::string getServerCertificatePem(std::string server, boost::asio::ssl::context& ctx)
+std::string getServerCertificatePem(std::string server, X509_STORE* store)
 {
-        auto v = handshakeWithServer(server, ctx);
+        auto v = handshakeWithServer(server, store);
         assert(v.is_success());
         return Handshaker::Result::getPem(v);
 }
-Handshaker::Result::Value handshakeWithServer(std::string server, boost::asio::ssl::context& ctx)
+Handshaker::Result::Value handshakeWithServer(std::string server, X509_STORE* store)
 {
     boost::asio::io_service io;
-    Handshaker::client c("https", server, ctx, io);
+    Handshaker::client c("https", server, io);
+    c.becomeSecure(store);
     c.handshake([server](boost::system::error_code err) {
         if (err.failed()) {
             std::cout << "handshake callback : " << server << " err: [" << err.message() << "]" << std::endl;
@@ -103,32 +67,24 @@ Handshaker::Result::Value handshakeWithServer(std::string server, boost::asio::s
         }
     });
     io.run();
+    /// dont do this - boost frees it
+    // X509_STORE_free(store);
+
     return c.getResult();
 }
 Handshaker::Result::Value handshakeWithServer(std::string server, std::string cert_bundle_path)
 {
-    boost::asio::ssl::context ctx(boost::asio::ssl::context::sslv23);
-#define XTURN_OFF_VERIFY
-#ifdef TURN_OFF_VERIFY
-    ctx.set_verify_mode(boost::asio::ssl::verify_none);
-#else
-    ctx.set_verify_mode(boost::asio::ssl::verify_peer);
-    ctx.set_verify_callback([](bool preverified, boost::asio::ssl::verify_context& ctx) -> bool
-    {
-        std::cout << __PRETTY_FUNCTION__  << "Verify callback" << std::endl;
-        return preverified;
-    });
-#endif
     //
     // use a non default root certificate location, AND load them into a custom X509_STORE
     //
     X509_STORE *store = X509_STORE_new();
     X509_STORE_load_locations(store, (const char*)cert_bundle_path.c_str(), NULL);
-    // attach X509_STORE to boost ssl context
-    SSL_CTX_set_cert_store(ctx.native_handle(), store);
 
     boost::asio::io_service io;
-    Handshaker::client c("https", server, ctx, io);
+    Handshaker::client c("https", server, io);
+    
+    c.becomeSecure(store);
+
     c.handshake([server](boost::system::error_code err) {
         if (err.failed()) {
             std::cout << "handshake callback : " << server << " err: [" << err.message() << "]" << std::endl;
@@ -138,6 +94,12 @@ Handshaker::Result::Value handshakeWithServer(std::string server, std::string ce
         }
     });
     io.run();
+    // dont do this boost frees it
+    // X509_STORE_free(store);
+    ///
+    /// Is this necessary?
+    ///
+    /// X509_STORE_free(store);
     return c.getResult();
 }
 
@@ -145,9 +107,8 @@ Handshaker::Result::Value handshakeWithServer(std::string server, std::string ce
 client::client(
    std::string port,
    std::string server,
-   boost::asio::ssl::context &ctx,
    boost::asio::io_service& ios
-   ) :   m_port(port), m_server(server), m_ios(ios), m_ctx(ctx), m_socket(m_ios, m_ctx), success(false)
+   ) :   m_port(port), m_server(server), m_ios(ios), success(false)
 {
 //    m_saved_server_certificate = nullptr;
 }
@@ -155,7 +116,20 @@ client::client(
 client::~client()
 {
 }
+void client::becomeSecure(X509_STORE* store)
+{
+    X509_STORE* X509_store_p = store;
+    std::shared_ptr<boost::asio::ssl::context> ctx_sptr = std::make_shared<boost::asio::ssl::context>(boost::asio::ssl::context::sslv23);
+    ctx_sptr->set_verify_mode(boost::asio::ssl::verify_peer);
+    ctx_sptr->set_options(
+        boost::asio::ssl::context::default_workarounds
+        | boost::asio::ssl::context::no_sslv2
+        | boost::asio::ssl::context::single_dh_use);
 
+    SSL_CTX_set_cert_store(ctx_sptr->native_handle(), X509_store_p);
+    m_ssl_ctx_sptr = ctx_sptr;
+    m_socket_sptr = std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(m_ios, *m_ssl_ctx_sptr);
+}
 void client::handshake(HandshakeCallback cb)
 {
     m_handshakeCallback = cb;
@@ -169,18 +143,18 @@ void client::handshake(HandshakeCallback cb)
     /**
     * Need this next statement for correct SNI operation
     */
-    SSL_set_tlsext_host_name(m_socket.native_handle(), m_server.c_str());
-    m_ctx.set_verify_mode(boost::asio::ssl::verify_peer);
+    SSL_set_tlsext_host_name(m_socket_sptr->native_handle(), m_server.c_str());
+    m_ssl_ctx_sptr->set_verify_mode(boost::asio::ssl::verify_peer);
     /// setup openssl to verify host name
     X509_VERIFY_PARAM *param;
     param = X509_VERIFY_PARAM_new();
     X509_VERIFY_PARAM_set_flags(param, X509_V_FLAG_CRL_CHECK);
     X509_VERIFY_PARAM_set1_host(param, m_server.c_str(), m_server.size());
-    SSL_CTX_set1_param(m_ctx.native_handle(), param);
+    SSL_CTX_set1_param(m_ssl_ctx_sptr->native_handle(), param);
     X509_VERIFY_PARAM_free(param);
 
     boost::asio::async_connect(
-        m_socket.lowest_layer(),
+        m_socket_sptr->lowest_layer(),
         endpoints,
         boost::bind(&client::p_handle_connect, this, boost::asio::placeholders::error)
     );
@@ -218,7 +192,7 @@ bool client::verify_certificate(bool preverified, boost::asio::ssl::verify_conte
     // check the server has a certificate
     //
     
-    X509* server_cert = SSL_get_peer_certificate(m_socket.native_handle());
+    X509* server_cert = SSL_get_peer_certificate(m_socket_sptr->native_handle());
     if (server_cert == NULL) {
         return preverified;
     }
@@ -233,7 +207,7 @@ bool client::verify_certificate(bool preverified, boost::asio::ssl::verify_conte
 void client::p_handle_connect(const boost::system::error_code& error)
 {
     if (!error) {
-        m_socket.async_handshake(
+        m_socket_sptr->async_handshake(
             boost::asio::ssl::stream_base::client,
             boost::bind(&client::p_handle_handshake, this, boost::asio::placeholders::error)
         );
@@ -248,11 +222,9 @@ void client::p_handle_handshake(const boost::system::error_code& error)
 {
 //    std::cout << "p_handle_handshake: error " << error.message() << std::endl;
     if (!error) {
-        int r = SSL_get_verify_result(m_socket.native_handle());
+        int r = SSL_get_verify_result(m_socket_sptr->native_handle());
         int r2 = X509_V_OK;
 
-        extractAltNames();
-        extractCommonNames();
         saveServerCertificate();
         saveServerCertificateChain();
         this->success = true;
@@ -265,53 +237,10 @@ void client::p_handle_handshake(const boost::system::error_code& error)
 }
 #pragma mark - extractors, collect server info after handshake
 
-void client::extractAltNames()
-{
-    
-    X509* server_cert = SSL_get_peer_certificate(m_socket.native_handle());
-    Cert::x509::AlternativeDNSNameSet r = Cert::x509::Cert_GetSubjectAlternativeDNSNames(server_cert);
-    m_subjectAltnames = r;
-    return;
-}
-void client::extractCommonNames()
-{
-    std::vector<std::string> v;
-    std::map<std::string, std::string> m;
-    /** openssl doc explicitly states the ref count was incremented - hence we have to free it */
-    X509* cert = SSL_get_peer_certificate(m_socket.native_handle());
-    /**
-    * @todo - there is a memory leak here with the cert
-    */
-    Cert::x509::NameSpecification nspec = Cert::x509::Cert_GetSubjectNameAsSpec(cert);
-//    _subject_name_spec = nspec;
-    X509_NAME* name = X509_get_subject_name(cert);
-    int i = -1;
-    ASN1_STRING* common_name = 0;
-    std::string commonNameString;
-    while ((i = X509_NAME_get_index_by_NID(name, NID_commonName, i)) >= 0)
-    {
-        X509_NAME_ENTRY* name_entry = X509_NAME_get_entry(name, i);
-        common_name = X509_NAME_ENTRY_get_data(name_entry);
-        std::string sname((char*)common_name->data, (int)common_name->length);
-        m_commonNames.insert(sname);
-        commonNameString = sname;
-        v.push_back(sname);
-        m[sname] = sname;
-    }
-    if (common_name && common_name->data && common_name->length)
-    {
-        m_lastCommonName = commonNameString;
-    }
-    auto s = Cert::x509::Cert_GetSubjectNameAsSpec(cert);
-    if( cert != NULL)
-        X509_free(cert); // see note above about needing to free
-    auto s23 = s;
-}
-
 void client::saveServerCertificate()
 {
     // this call ups the ref count on the return value
-    X509* cert = SSL_get_peer_certificate(m_socket.native_handle());
+    X509* cert = SSL_get_peer_certificate(m_socket_sptr->native_handle());
     m_saved_server_certificate_pem = Cert::x509::Cert_PEMString(cert);
     m_saved_certificate = Certificate(cert);
     // since getting the peer cert upped the ref count we need to free it
@@ -321,20 +250,13 @@ void client::saveServerCertificate()
 void client::saveServerCertificateChain()
 {
     /// from what I can see in the openssl code the ref count is not upped
-    STACK_OF(X509)* cert_chain = SSL_get_peer_cert_chain(m_socket.native_handle());
+    STACK_OF(X509)* cert_chain = SSL_get_peer_cert_chain(m_socket_sptr->native_handle());
     x509::CertChain cc = Cert::x509::CertChain_FromStack(cert_chain);
     m_saved_certificate_chain = cc;
     m_pem_saved_certificate_chain.insert(m_pem_saved_certificate_chain.end(), cc.begin(), cc.end());
     // should not free - ref count not upped when get_peer)certificate_chain
     // and if free it get a crash
     // sk_X509_free(cert_chain);
-
-    /**
-    * @todo - once we use openssl 1.1.0 we can also ssl_get0_verified_chain()
-    *
-    * @note - we do NOT need to free the stack as the ref count was not incremented. or so says Openssl DOCS
-    */
-
     return;
 }
 

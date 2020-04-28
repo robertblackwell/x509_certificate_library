@@ -32,31 +32,43 @@ X509* create(
     
     EVP_PKEY *pubkey = new_pkey_pair;
     const EVP_MD *digest;
+
     X509 *cert;
-    X509_NAME *subject_name = Cert::x509::Name_fromSpec(subject_name_spec);
+    if (!(cert = X509_new ()))
+        X509_TRIGGER_ERROR ("Error creating X509 object");
+    
+    
+    X509_NAME* subject_name = Cert::x509::Name_fromSpec(subject_name_spec);
     std::string subject_name_string = Cert::x509::Name_AsOneLine(subject_name);
+    
+    #if 0    
     boost::optional<X509_EXTENSION*> issuerAltName = Cert::x509::Cert_GetSubjectAltName(ca_cert);
     if (issuerAltName) {
         std::string issuer_alt_names_string = Cert::x509::Extension_ValueAsString(issuerAltName.get());
         extra_extensions[Cert::x509::ExtNid_issuerAlternativeName] = issuer_alt_names_string;
     }
-    if (!(cert = X509_new ()))
-        X509_TRIGGER_ERROR ("Error creating X509 object");
-    
+    #endif
+
+
     Cert::x509::Cert_SetSubjectName(cert, subject_name);
     Cert::x509::Cert_SetIssuerName(cert, Cert::x509::Cert_GetSubjectName(ca_cert));
     Cert::x509::Cert_SetVersion(cert, (long)version);
+
     Cert::x509::Cert_SetSerialNumber(cert, serial);
+
     Cert::x509::Cert_SetPublicKey(cert, pubkey);
     Cert::x509::Cert_SetNotBefore(cert, not_before_offset);// minus 1 year
     Cert::x509::Cert_SetNotAfter(cert, not_after_offset); // plus 5 years
-    
+
     extra_extensions[Cert::x509::ExtNid_subjectAlternativeName] = subject_alt_name_string;
     
     for(auto const& ext_spec : extra_extensions) {
         X509_EXTENSION* xt = Cert::x509::Extension_create(ca_cert, cert, ext_spec.first, ext_spec.second);
         Cert::x509::Cert_AddExtension(cert, xt);
+        X509_EXTENSION_free(xt);
     }
+
+
     /*
      ** select the digest to use for signing. Since we only use RSA keys
      ** and we want to ALWAYS use sha256 - there is no decision
@@ -66,13 +78,17 @@ X509* create(
     } else {
         X509_TRIGGER_ERROR ("Error  CA private key is NOT RSA");
     }
+ 
     /*
      ** The big moment sign the cert
      ** sign the certificate with the CA private key
      */
     if (!(X509_sign(cert, ca_private_key, digest)))
         X509_TRIGGER_ERROR ("Error signing certificate");
-    
+  
+
+    X509_NAME_free(subject_name);
+    return cert;
     return cert;
 }
 } // namespace x509

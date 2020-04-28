@@ -23,6 +23,7 @@
 #include <cert/x509_nid.hpp>
 #include <cert/bio_utes.hpp>
 #include <cert/x509_cert.hpp>
+#include <cert/x509_cert_impl.hpp>
 #include <cert/x509_alt_names.hpp>
 #include <cert/x509_cert_check_host.hpp>
 /**

@@ -17,7 +17,8 @@
             "test_exception/test_exception",
             "test_handshaker/test_handshaker",
             "test_mitm/test_mitm",
-            "test_x509/test_x509"
+            "test_x509/test_x509",
+            "test_standalone/test_standalone"
         ],
         "default": "test_client_request"
     }],

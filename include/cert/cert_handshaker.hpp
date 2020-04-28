@@ -139,7 +139,10 @@ namespace Handshaker {
 * @param ctx boost::asio::ssl::content - an ssl context reference
 * @return Handshaker::Result::value
 */
-Handshaker::Result::Value handshakeWithServer(std::string server, boost::asio::ssl::context& ctx);
+/// obsolete
+//Handshaker::Result::Value handshakeWithServer(std::string server, boost::asio::ssl::context& ctx);
+
+Handshaker::Result::Value handshakeWithServer(std::string server, X509_STORE* store);
 
 /**
 * \brief Handshakes with a server and returns a handshake result using a root bundle from a specified file.
@@ -156,7 +159,8 @@ Handshaker::Result::Value handshakeWithServer(std::string server, std::string ce
 * @param ctx boost::asio::ssl::content - an ssl context reference
 * @return certificate string in pem format
 */
-std::string getServerCertificatePem(std::string server, boost::asio::ssl::context& ctx);
+/// obsolete
+// std::string getServerCertificatePem(std::string server, boost::asio::ssl::context& ctx);
  
  /**
 * \brief Returns the servers certificate as a pem format string using a root bundle
@@ -200,13 +204,14 @@ class client
         client(
                std::string port,
                std::string server,
-               boost::asio::ssl::context &ctx,
                boost::asio::io_service& ios
        );
         ~client();
         using HandshakeCallback = std::function<void(boost::system::error_code err)>;
         void handshake(HandshakeCallback cb);
-    
+
+        void becomeSecure(X509_STORE* sore);
+        
         bool verify_certificate(bool preverified, boost::asio::ssl::verify_context& ctx);
 
         void extractAltNames();
@@ -237,8 +242,8 @@ class client
         // STACK_OF(X509*) m_raw_stack_x509;
 
         boost::asio::io_service& m_ios;
-        boost::asio::ssl::context& m_ctx;
-        boost::asio::ssl::stream<boost::asio::ip::tcp::socket> m_socket;
+        std::shared_ptr<boost::asio::ssl::context> m_ssl_ctx_sptr;
+        std::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> m_socket_sptr;
     
         bool                        success;
     

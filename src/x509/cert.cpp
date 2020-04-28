@@ -45,7 +45,11 @@ X509* Cert::x509::Cert_FromPEMString(std::string pem)
 
     cbio = BIO_new_mem_buf((void*)cert_buffer, -1);
     cert = PEM_read_bio_X509(cbio, NULL, 0, NULL);
-    BIO_set_close(cbio, BIO_NOCLOSE); /* So BIO_free() leaves BUF_MEM alone */
+    ///
+    /// WARNING - IN SOME OPENSSL DOCS THIS NEXT LINE IS REQUIRED
+    /// BUT IF YOU UNCOMMENT - VALGRIND FIND A LEAK
+    /// openssl 1.1.1f
+    // BIO_set_close(cbio, BIO_NOCLOSE); /* So BIO_free() leaves BUF_MEM alone */
     BIO_free(cbio);
     return cert;
 }
@@ -204,7 +208,14 @@ Cert::x509::Cert_SetVersion(X509* cert, long version)
 void
 Cert::x509::Cert_SetSerialNumber(X509* cert, long serial)
 {
-    ASN1_INTEGER_set (X509_get_serialNumber (cert), serial);
+    ASN1_INTEGER* new_asn = ASN1_INTEGER_new();
+
+    ASN1_INTEGER_set(new_asn, serial);
+    int result = X509_set_serialNumber(cert, new_asn);
+    if (result == 0) {
+        THROW("Cert_SetSerialNumber: failed");
+    }
+    ASN1_INTEGER_free(new_asn);
 }
 
 #pragma mark - certificate private key getters and setters

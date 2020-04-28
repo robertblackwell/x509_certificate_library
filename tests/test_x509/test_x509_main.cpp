@@ -54,7 +54,7 @@ int main( int argc, char* argv[] ) {
     ERR_load_BIO_strings();
     ERR_load_ERR_strings();
 
-    char* t_argv[2] = {argv[0], (char*)"zzz*"}; // change the filter to restrict the tests that are executed
+    char* t_argv[2] = {argv[0], (char*)"*"}; // change the filter to restrict the tests that are executed
     int t_argc = 2;
     TestFixtureNew f{};
     f.setup();

@@ -197,10 +197,12 @@ void Host::getRealCertificate(Store& store, HostId host)
     auto root_certs_bundle = store.m_locator_sptr->root_certs_bundle_file_path.string();
 //    std::string pem_str = Handshaker::getServerCertificatePem(host, root_certs_bundle);
     Cert::Handshaker::Result::Value res = Handshaker::handshakeWithServer(host, root_certs_bundle);
-    if( ! res.is_success() ){
+    if( res.is_success() ){
+        std::cout << "Handshake succeeded for " << host << std::endl;
+	} else {
         std::cout << "Handshake failed for " << host << std::endl;
 //        assert(false);
-    }
+    } 
     std::string pem_str = res.getPem();
     std::vector<std::string> pem_chain_vec = res.getPemChain();
     std::string pem_chain_str = join(pem_chain_vec, "\n");
