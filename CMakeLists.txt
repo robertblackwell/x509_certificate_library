@@ -86,6 +86,18 @@ set(CERT_INCLUDE_DIR       ${CERT_PROJECT_DIR}/${CERT_INCLUDE_NAME})
 ## location of other/3rd party headers, src and libs
 set(CERT_VENDOR_NAME		vendor)
 set(CERT_VENDOR_DIR        ${CERT_PROJECT_DIR}/${CERT_VENDOR_NAME})
+
+
+if(DEFINED STAGE_DIR) 
+    message ("building after install stage_dir ${STAGE_DIR}")
+    set(VENDOR_DIR ${STAGE_DIR})
+    set(CERT_VENDOR_DIR ${STAGE_DIR})
+    message("vendor dir  ${VENDOR_DIR}")
+    message("cert vendor dir  ${CERT_VENDOR_DIR}")
+endif()
+
+
+
 set(CERT_VENDOR_INCLUDEDIR ${CERT_VENDOR_DIR}/include)
 set(CERT_VENDOR_LIBDIR     ${CERT_VENDOR_DIR}/lib)
 set(CERT_VENDOR_SRCDIR     ${CERT_VENDOR_DIR}/src)
