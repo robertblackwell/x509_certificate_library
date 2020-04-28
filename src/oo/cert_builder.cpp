@@ -16,6 +16,45 @@
 
 using namespace Cert;
 
+/// checks that the mitm certificate has the host name
+/// as the CN of the subject name
+/// and a DNS: name in the subjest alt names
+bool Cert::mitmWorked(X509* original_cert_X509, std::string host, Cert::Identity id)
+{
+    Cert::Certificate org_cert(original_cert_X509);
+
+    auto orig_spec = Cert_GetSubjectNameAsSpec(original_cert_X509);
+    auto orig_cn = (*orig_spec.find(NameNid_commonName)).second;
+    
+    auto new_spec = Cert_GetSubjectNameAsSpec(id.getX509());
+    auto new_cn = (*new_spec.find(NameNid_commonName)).second;
+
+    /// if the host the common name ? - possibly not
+    bool b1 = (new_cn == host);
+
+    boost::optional<std::string> orig_san = Cert_GetSubjectAlternativeNamesAsString(original_cert_X509);
+    std::string orig_san2 = org_cert.getSubjectAlternativeNamesAsString();
+    boost::optional<std::string> new_san = Cert_GetSubjectAlternativeNamesAsString(id.getX509());
+    std::string orig_san_string {(orig_san) ? orig_san.get(): "NOVALUE"};
+    std::string orig_san2_string {orig_san2};
+    std::string new_san_string  {(new_san) ? new_san.get(): "NOVALUE"};
+
+    bool b2;
+    b2 = (new_san_string.find(host) != std::string::npos);
+    return b1 && b2;
+    if (orig_san && new_san) {
+        /// both have a value
+        b2 = (orig_san.get() == new_san.get()); 
+    } else if ((!orig_san)&&(!new_san)) {
+        // both dont have a value
+        b2 = true;
+    } else {
+        b2 = false;
+    }
+    bool b3 = new_san_string.find(host);
+    return (b1||b3)&&b2;
+}
+
 Builder::Builder(Cert::Authority& cert_auth): m_cert_auth(cert_auth), m_cache(std::map<std::string, MitmResult>()){}
 Builder::~Builder()
 {

@@ -244,7 +244,7 @@ TEST_CASE_METHOD(TestFixtureNew, "builder2", "")
     CHECK( Cert::x509::Cert_Verify(cert, moz_with_ca)); // VERIFY IS EXPECTED TO SUCCEED this version doesa have the local CA
     X509_free(cert);
 }
-
+#if 0
 /// checks that the mitm certificate has the host name
 /// as the CN of the subject name
 /// and a DNS: name in the subjest alt names
@@ -283,7 +283,7 @@ bool mitmWorked(X509* original_cert_X509, std::string host, Cert::Identity id)
     bool b3 = new_san_string.find(host);
     return (b1||b3)&&b2;
 }
-
+#endif
 TEST_CASE_METHOD(TestFixtureNew, "buildMitm")
 {
     this->loadExisting();

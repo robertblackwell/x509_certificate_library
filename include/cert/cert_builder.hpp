@@ -13,6 +13,13 @@
 namespace Cert {
 class Certificate;
 
+///
+/// verifies that the mitmBuildIdentity process worked. Checks subjectname and subject
+/// altnames if id,getX509() against host and the names in original_cert_x509 
+///
+bool mitmWorked(X509* original_cert_X509, std::string host, Cert::Identity id);
+
+
 /**
 * @brief Cert::Builder is a namespace that wraps the functions that build x509 certificates
 */

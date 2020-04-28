@@ -164,7 +164,7 @@ TEST_CASE("standalone","")
         X509_free(x);
         std::cout << "buildCertificate" << std::hex << x << std::endl;
     }
-    SECTION("gets required by mitm")
+    SECTION("builder")
     {
         path store_root = locator.cert_store_root_dir_path;
         Cert::Store::LocatorSPtr locator_sptr = std::make_shared<Cert::Store::Locator>(store_root);
@@ -177,8 +177,9 @@ TEST_CASE("standalone","")
         Cert::Builder builder(*cert_auth);
 
         Cert::Identity id = builder.buildMitmIdentity(geeks_host, cert);
-        // bool b0 = mitmWorked(original_cert_X509, geeks_host, id);
-        std::cout << "mitm" << " " << std::hex << id.getX509() << std::endl;
+        bool b0 = Cert::mitmWorked(original_cert_X509, geeks_host, id);
+        std::cout << "mitm" << " " << " mitm worked : " << (int)b0  << " "<< std::hex << id.getX509() << std::endl;
+        std::cout << "mitm" << " " << " mitm worked : " << (int)b0  << " "<< std::hex << id.getX509() << std::endl;
         X509_free(original_cert_X509);
         return;
 
