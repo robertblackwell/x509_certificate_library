@@ -226,6 +226,8 @@ install(FILES
     include/cert/cert_store_types.hpp
     include/cert/x5zero9.hpp
     include/cert/x509.hpp
+    include/cert/x509_alt_names.hpp
+    include/cert/x509_cert_check_host.hpp
     include/cert/x509_serial.hpp
     include/cert/x509_time.hpp
     include/cert/x509_pkey.hpp
