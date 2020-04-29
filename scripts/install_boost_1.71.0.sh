@@ -18,7 +18,6 @@ function get_package {
 	cd ${clone_dir}
 	rm -rfv ${clone_dir}/${boost_targz_file}*
 	rm -rfv ${clone_dir}/${boost_name}
-	# wget https://dl.bintray.com/boostorg/release/${boost_release}/source/boost_1_72_0.tar.gz
 	wget ${boost_url}
 	tar xvzf ${boost_targz_file}
 	cd ${boost_name}
@@ -46,7 +45,7 @@ function verify_package_name() {
 function help() {
 	echo Install package ${boost_name}
 	echo Usage:
-	echo 	stage_boost_1.72.0.sh [arg]
+	echo 	stage_boost_1.71.0.sh [arg]
 	echo
 	echo	args is either
 	echo		help 	Print this help message
@@ -60,13 +59,13 @@ function help() {
 
 debug=
 
-boost_release=1.72.0
-boost_name=boost_1_72_0
+boost_release=1.71.0
+boost_name=boost_1_71_0
 
 if [ "$1" == "help" ] ; then help; fi
 
-boost_url=https://dl.bintray.com/boostorg/release/${boost_release}/source/boost_1_72_0.tar.gz
-boost_targz_file=boost_1_72_0.tar.gz
+boost_url=https://dl.bintray.com/boostorg/release/${boost_release}/source/boost_1_71_0.tar.gz
+boost_targz_file=boost_1_71_0.tar.gz
 pwd=`pwd`
 vendor=${pwd}/vendor
 project_dir=$pwd
