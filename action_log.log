@@ -1,0 +1,131 @@
+exec.configure dry_run: False reporting: 1
+dispatcher.dispatch_all package_name: all subcmd: install
+dispatcher.dispatch_package package_name: catch2 subcmd: install
+catch2.__init__ class: Catch2 package name catch2 
+package.__init__ class: HeaderOnlyPackage package name catch2 
+package.__init__ class: PackageBase package name catch2 
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/clone 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/clone
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+catch2.install_package class: Catch2 package name catch2 
+package.headers_from_stage_to_vendor class: PackageBase package name catch2 
+util.clear_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/catch2
+util.rm_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/catch2
+util.rm_directory  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/catch2
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/catch2 
+util.mkdir_p  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/catch2
+util.cp_directory_contents  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/catch2 dest: /home/robert/Projects/x509_certificate_library/vendor/include/catch2 pattern: .* 
+cp_directory_files /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/catch2 /home/robert/Projects/x509_certificate_library/vendor/include/catch2 .*
+dispatcher.dispatch_package package_name: nlohmann_json subcmd: install
+nlohmann_json.__init__ class: NLohmannJson package name nlohmann_json 
+package.__init__ class: HeaderOnlyPackage package name nlohmann_json 
+package.__init__ class: PackageBase package name nlohmann_json 
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/clone 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/clone
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+nlohmann_json.install_package class: NLohmannJson package name nlohmann_json 
+package.headers_from_stage_to_vendor class: PackageBase package name nlohmann_json 
+util.clear_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/json
+util.rm_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/json
+util.rm_directory  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/json
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/json 
+util.mkdir_p  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/json
+util.cp_directory_contents  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/json dest: /home/robert/Projects/x509_certificate_library/vendor/include/json pattern: .* 
+cp_directory_files /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/json /home/robert/Projects/x509_certificate_library/vendor/include/json .*
+dispatcher.dispatch_package package_name: openssl subcmd: install
+openssl.__init__ class: OpenSSL package name openssl 
+package.__init__ class: LibraryPackage package name openssl 
+package.__init__ class: PackageBase package name openssl 
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/clone 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/clone
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+openssl.install_package class: OpenSSL package name openssl 
+package.headers_from_stage_to_vendor class: PackageBase package name openssl 
+util.clear_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/openssl
+util.rm_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/openssl
+util.rm_directory  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/openssl
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/openssl 
+util.mkdir_p  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/openssl
+util.cp_directory_contents  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/openssl dest: /home/robert/Projects/x509_certificate_library/vendor/include/openssl pattern: .* 
+cp_directory_files /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/openssl /home/robert/Projects/x509_certificate_library/vendor/include/openssl .*
+package.libs_from_stage_to_vendor class: PackageBase package name openssl 
+util.rm_directory_contents  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib pattern: libssl.*
+util.rm_directory_contents  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+util.cp_directory_files  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib dest: /home/robert/Projects/x509_certificate_library/vendor/lib pattern: libssl.* 
+util.cp_directory_files both exist /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib /home/robert/Projects/x509_certificate_library/vendor/lib libssl.*
+util.list_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib
+exec.exec_cmd  cmd: ls,-al where: /home/robert/Projects/x509_certificate_library/vendor/lib dry_run: False
+package.libs_from_stage_to_vendor class: PackageBase package name openssl 
+util.rm_directory_contents  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib pattern: libcrypto.*
+util.rm_directory_contents  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+util.cp_directory_files  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib dest: /home/robert/Projects/x509_certificate_library/vendor/lib pattern: libcrypto.* 
+util.cp_directory_files both exist /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib /home/robert/Projects/x509_certificate_library/vendor/lib libcrypto.*
+util.list_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib
+exec.exec_cmd  cmd: ls,-al where: /home/robert/Projects/x509_certificate_library/vendor/lib dry_run: False
+dispatcher.dispatch_package package_name: boost subcmd: install
+boost.__init__ class: Boost package name boost 
+package.__init__ class: LibraryPackage package name boost 
+package.__init__ class: PackageBase package name boost 
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/clone 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/clone
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/src
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/include
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib 
+util.mkdir_p  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+boost.install_package class: Boost package name boost 
+package.headers_from_stage_to_vendor class: PackageBase package name boost 
+util.clear_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/boost
+util.rm_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/boost
+util.rm_directory  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/boost
+util.mkdir_p  directory_path: /home/robert/Projects/x509_certificate_library/vendor/include/boost 
+util.mkdir_p  NonExisting /home/robert/Projects/x509_certificate_library/vendor/include/boost
+util.cp_directory_contents  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/boost dest: /home/robert/Projects/x509_certificate_library/vendor/include/boost pattern: .* 
+cp_directory_files /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/include/boost /home/robert/Projects/x509_certificate_library/vendor/include/boost .*
+package.libs_from_stage_to_vendor class: PackageBase package name boost 
+util.rm_directory_contents  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib pattern: libboost.*
+util.rm_directory_contents  Existing /home/robert/Projects/x509_certificate_library/vendor/lib
+util.cp_directory_files  src: /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib dest: /home/robert/Projects/x509_certificate_library/vendor/lib pattern: libboost.* 
+util.cp_directory_files both exist /home/robert/Projects/x509_certificate_library/.smpl_cache/stage/lib /home/robert/Projects/x509_certificate_library/vendor/lib libboost.*
+util.list_directory  directory_path: /home/robert/Projects/x509_certificate_library/vendor/lib
+exec.exec_cmd  cmd: ls,-al where: /home/robert/Projects/x509_certificate_library/vendor/lib dry_run: False

@@ -26,6 +26,7 @@ deps/lib
 
 packages/
 
+.smpl_cache/**
 scripts/cloned_repos/
 scripts/stage/
 scripts/stage/*

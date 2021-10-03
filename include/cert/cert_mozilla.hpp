@@ -11,9 +11,9 @@ class Mozilla
     public:
 	/**
 	* downloads the moziila store of root certificates
-	* and appends the CA root certificate from the subject cert store. Saves
-    * the resulting PEM file in the subject store.
-    *
+	* and appends the CA root certificate from the subject cert store.
+	* Saves the resulting PEM file in the subject store.
+        *
 	* @param store - the certificate store in question
 	* @throws if something goes wrong
 	*/

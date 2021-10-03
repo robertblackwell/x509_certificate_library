@@ -1,0 +1,20 @@
+{
+
+  "project_name": "x509_certificate_library",
+  "source_dir_name": "src",
+  "dependencies": [
+    { 
+      "name": "catch2", "version": "v2.12.1"
+    },
+    { 
+      "name": "nlohmann_json", "version": "v3.7.3"
+    },
+    { 
+      "name": "openssl", "version": "1.1.1f"
+    },
+    { 
+      "name": "boost", "version": "1.72.0"
+    }
+
+  ]
+}

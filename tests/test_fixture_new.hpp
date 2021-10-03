@@ -40,6 +40,47 @@ class TestFixtureNew {
     * directory in a different place with a diffeerent name.
     */
     void setup();
+    /**
+     * Assigns various file and directory paths - used by setup()
+     */
+    void assignPaths();
+    /**
+     * cleans out fixture directories - requires assignPaths to have been called to set up paths
+     */
+    void clean();
+    /**
+     * Create a new CA and Cert store using the config file from the pre-existing test data directory
+     */
+    void createNewCAAndStore();
+    /**
+     * copy an already existing CA and Cert Store from the pre-existing test data directory
+     */
+    void copyExistingCAAndStore();
+    /**
+     * Get the certificate for each of the test hosts and add that host and certificate to the
+     * certificate store
+     */
+    void getAndSaveCertsForTestHosts();
+    /**
+     * This setsup a test to demonstrate a certificate validation failure
+     * when a hosts root certificate chain does not lead to the hosts
+     * certificate.
+     * A real host has been chosen as the subject: m_host_for_wwo_test.
+     * Create two certificate bundles:
+     * -    fixtures/with_without/with    .. a copy of the mozilla bundle
+     * -    fixtures/with_without/without .. the mozilla bundle with the last entry in the subject hosts certificate chain
+     *                                       removed from the bundle
+     *
+     *HACK - this is a kack as it relies on inside knowledge of
+     *the issuer of the wwo_host and will not update if the wwo_host changes certificate
+     */
+    void setupDataForWithWithoutTest();
+    void setupDataForHostAHostBTest();
+
+
+
+
+
     void loadExisting();
 
     std::string             m_ca_dir_basename;

@@ -44,6 +44,7 @@ target_include_directories(test_lib
 
 set(CERT_TEST_LINK_LIBS test_lib ${CERT_LIBRARY_NAME} ${CERT_LINK_LIBRARIES}) 
 
+add_subdirectory(test_fixture_build)
 add_subdirectory(test_standalone)
 add_subdirectory(test_exception)
 add_subdirectory(test_x509)

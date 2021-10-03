@@ -269,16 +269,7 @@ path TestFixtureNew::testHostADirPath() {
 path TestFixtureNew::testHostBDirPath() {
     return (hostCertificateDirPath("host_b"));
 }
-
-/**
-* This function builds or refreshes the tests/fixtures directory in preparartion for
-* running the test suite. Values used in the building of fixtures are taken from
-* a file ${project_dir}/tests/test_config.json
-*
-* In order to test this function it is possible to have this function build the "fixtures"
-* directory in a different place with a diffeerent name.
-*/
-void TestFixtureNew::setup() {
+void TestFixtureNew::assignPaths() {
     m_ca_dir_basename  = "CA";
     m_this_file_path   = boost::filesystem::canonical(__FILE__);
     m_this_dir_path    = m_this_file_path.parent_path();
@@ -305,6 +296,8 @@ void TestFixtureNew::setup() {
     m_geek_for_test        = "geeksforgeeks.org";
     m_www_geeks_for_test    = "www.geeksforgeeks.org";
 
+}
+void TestFixtureNew::clean() {
     /// clean out the fixtureCert Store pointed at by the test fixture
     /// are we building the "fixture" directory in a dummy place for testing this
     /// function. Or are we building it in the real locations
@@ -316,44 +309,49 @@ void TestFixtureNew::setup() {
     /// for building/copying in all the test data
     remove_all(fixtureDirPath());
     create_directories(fixtureDirPath());
-
-    /// are we building the fixture directory with a new CA whose details come from
-    /// preexisting_test_data/ca_spec.json. Or are we copying in a CA already built.
-    ///
-    /// The default and correct is new CA - the option will be removed before release
-    ///
-    if (true) {
-        /**
+}
+void TestFixtureNew::createNewCAAndStore() {
+    /**
             * Initialize the fixtures dir with a store that has a new CA derived from
             * config data in tests/preexisting_test_data/test_config.json file
-            */
-        boost::filesystem::path config_from = preExistingCaConfigFilePath();
-        boost::filesystem::path config_to   = caConfigFilePath();
-        copy_file(config_from, config_to);
+     */
+    boost::filesystem::path config_from = preExistingCaConfigFilePath();
+    boost::filesystem::path config_to   = caConfigFilePath();
+    copy_file(config_from, config_to);
 
-        m_store_sptr     = Cert::Store::Store::makeWithCA(storeRootDirPath(), config_to);
-        m_locator_sptr   = m_store_sptr->getLocator();
-        m_authority_sptr = m_store_sptr->getAuthority();
-    } else {
-#if 0
-            /**
+    m_store_sptr     = Cert::Store::Store::makeWithCA(storeRootDirPath(), config_to);
+    m_locator_sptr   = m_store_sptr->getLocator();
+    m_authority_sptr = m_store_sptr->getAuthority();
+}
+void TestFixtureNew::copyExistingCAAndStore() {
+    /**
             * Initialize the fixtures dir with the already existing CA data .. only
             * for when testing on my private development machine
-            */
-            m_store_sptr = Cert::Store::Store::makeEmpty(store_root);
-            m_locator_sptr = m_store_sptr->m_locator_sptr;
-            // now copy the ca into the test fixture cet store
-            copy_file(original_ca_dir_path / "private" / "cakey.pem", m_locator_sptr->ca_key_pem_path);
-            copy_file(original_ca_dir_path / "private" / "cacert.pem", m_locator_sptr->ca_cert_pem_file_path);
-            copy_file(original_ca_dir_path / "private" / "ca.p12", m_locator_sptr->ca_pk12_file_path);
-            copy_file(original_ca_dir_path / "private" / "caroot.cnf", m_locator_sptr->ca_cnf_file_path);
-            copy_file(original_ca_dir_path / "config.json", m_locator_sptr->config_file_path );
+     */
+#if 0
+// TODO - need to fix this
+    m_store_sptr = Cert::Store::Store::makeEmpty(store_root);
+    m_locator_sptr = m_store_sptr->m_locator_sptr;
+    // now copy the ca into the test fixture cet store
+    copy_file(original_ca_dir_path / "private" / "cakey.pem", m_locator_sptr->ca_key_pem_path);
+    copy_file(original_ca_dir_path / "private" / "cacert.pem", m_locator_sptr->ca_cert_pem_file_path);
+    copy_file(original_ca_dir_path / "private" / "ca.p12", m_locator_sptr->ca_pk12_file_path);
+    copy_file(original_ca_dir_path / "private" / "caroot.cnf", m_locator_sptr->ca_cnf_file_path);
+    copy_file(original_ca_dir_path / "config.json", m_locator_sptr->config_file_path );
 #endif
+}
+void TestFixtureNew::getAndSaveCertsForTestHosts() {
+    std::vector<std::string> hosts = m_hosts_for_handshake;
+    for (const std::string& h : hosts) {
+        Host::create(*m_store_sptr, h);
     }
-    /// now set up the various bundles of root certificates
-    m_store_sptr->rootCertsFromMozilla();
-    m_store_sptr->rootCertsMozillaActive();
-    /// copy over predefined test data
+}
+void TestFixtureNew::setupDataForHostAHostBTest()
+{
+    /// copy over predefined test data for two hosts that will be used
+    /// to test certificate verification failure
+    /// nned to think about how this works if the two candidate hosts
+    /// have changed their certificates since I last setup this test data
     boost::filesystem::create_directories(hostCertificateDirPath("host_a"));
     copy_file(
         preExistingHostARealCertFilePath(),
@@ -362,20 +360,16 @@ void TestFixtureNew::setup() {
     copy_file(
         preExistingHostBRealCertFilePath(),
         realCertFilePathForHost("host_b"));
-    ///
-    /// download certificates and certificate chains for a selection of hosts
-    ///
-    
-    std::vector<std::string> hosts = m_hosts_for_handshake;
-    for (const std::string& h : hosts) {
-        Host::create(*m_store_sptr, h);
-    }
-    ///  now prepares the with_without_with and with_without_without bundles for forcing a verification failure
-    //   when handshaking with the host specified by helper.withWithoutHost()
+    assert(filesystem::is_directory(testHostADirPath()));
+    assert(filesystem::is_directory(testHostBDirPath()));
+}
+void TestFixtureNew::setupDataForWithWithoutTest()
+{
+    /// HACK - this is a kack as it relies on inside knowledge of
+    /// the issuer of the wwo_host and will not update if the wwo_host changes certificate
     create_directories(withWithoutDirPath());
-
     ///
-    /// slightly reformat and then write the mozilla bundle to the withwithout/with.pem - file
+    /// slightly reformat and then copy the mozilla bundle to the withwithout/with.pem - file
     ///
     Cert::Chain moz_chain(m_locator_sptr->mozilla_root_certs);
     moz_chain.writePEM(withWithoutRootCertificateBundleFilePath("with"));
@@ -396,22 +390,34 @@ void TestFixtureNew::setup() {
     // is issued by Entrust
     auto new_bundle = moz_chain.removeAllSubjectsMatching(".*Entrust.*");
     new_bundle.writeAnnotated(withWithoutRootCertificateBundleFilePath("without"), wwoh_header_text);
-    /**
-        * At this point - we have all directories created, a CA and various bundles of root
-        * certificates and we have copied over all predefined test data. This is enough
-        * to let us create a fixture object. Remember the TestFixture class checks
-        * for the existence of various files and hence this creation is in part of verification
-        * that we have done everything right
-        */
     assert(filesystem::is_regular(withWithoutRootCertificateBundleFilePath("with")));
     assert(filesystem::is_regular(withWithoutRootCertificateBundleFilePath("without")));
-    assert(filesystem::is_directory(testHostADirPath()));
-    assert(filesystem::is_directory(testHostBDirPath()));
-
-    std::cout << "hello" << std::endl;
 }
-void TestFixtureNew::loadExisting() {
-    
+/**
+* This function builds or refreshes the tests/fixtures directory in preparartion for
+* running the test suite. Values used in the building of fixtures are taken from
+* a file ${project_dir}/tests/test_config.json
+*
+* In order to test this function it is possible to have this function build the "fixtures"
+* directory in a different place with a diffeerent name.
+*/
+void TestFixtureNew::setup() {
+    std::cout << __func__ << " entered\n";
+    assignPaths();
+    clean();
+    createNewCAAndStore();
+    m_store_sptr->rootCertsFromMozilla();  // download Mozilla root certificate bundle
+    m_store_sptr->rootCertsMozillaActive();// make the mozilla bundle the active bundle
+    getAndSaveCertsForTestHosts();         // get the real certificate for each of the test hosts and store in CertStore
+                                           // will verify each host certificate against the active certificate bundle
+    setupDataForHostAHostBTest();
+    setupDataForWithWithoutTest();
+    std::cout << __func__ << " exit\n";
+}
+void TestFixtureNew::loadExisting()
+{
+    std::cout << __func__ << " entered" << "\n";
+    auto x = storeRootDirPath();
     m_store_sptr     = Cert::Store::Store::load(storeRootDirPath());
     m_locator_sptr   = m_store_sptr->getLocator();
     m_authority_sptr = m_store_sptr->getAuthority();

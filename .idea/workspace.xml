@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="CertificateLibrary" targetName="Experimental" />
+      <config projectName="CertificateLibrary" targetName="Nightly" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalCoverage" />
+      <config projectName="CertificateLibrary" targetName="ContinuousConfigure" />
+      <config projectName="CertificateLibrary" targetName="test_builder" />
+      <config projectName="CertificateLibrary" targetName="NightlyMemoryCheck" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalMemCheck" />
+      <config projectName="CertificateLibrary" targetName="test_x509" />
+      <config projectName="CertificateLibrary" targetName="NightlyStart" />
+      <config projectName="CertificateLibrary" targetName="test_objects" />
+      <config projectName="CertificateLibrary" targetName="ContinuousTest" />
+      <config projectName="CertificateLibrary" targetName="ContinuousStart" />
+      <config projectName="CertificateLibrary" targetName="test_lib" />
+      <config projectName="CertificateLibrary" targetName="test_exception" />
+      <config projectName="CertificateLibrary" targetName="NightlyUpdate" />
+      <config projectName="CertificateLibrary" targetName="test_fixture_build" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalBuild" />
+      <config projectName="CertificateLibrary" targetName="ContinuousMemCheck" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalUpdate" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalConfigure" />
+      <config projectName="CertificateLibrary" targetName="ContinuousSubmit" />
+      <config projectName="CertificateLibrary" targetName="test_standalone" />
+      <config projectName="CertificateLibrary" targetName="NightlyMemCheck" />
+      <config projectName="CertificateLibrary" targetName="NightlyTest" />
+      <config projectName="CertificateLibrary" targetName="ContinuousCoverage" />
+      <config projectName="CertificateLibrary" targetName="Continuous" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalTest" />
+      <config projectName="CertificateLibrary" targetName="NightlyCoverage" />
+      <config projectName="CertificateLibrary" targetName="cert_library" />
+      <config projectName="CertificateLibrary" targetName="NightlyConfigure" />
+      <config projectName="CertificateLibrary" targetName="test_handshaker" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalSubmit" />
+      <config projectName="CertificateLibrary" targetName="NightlySubmit" />
+      <config projectName="CertificateLibrary" targetName="ContinuousBuild" />
+      <config projectName="CertificateLibrary" targetName="ExperimentalStart" />
+      <config projectName="CertificateLibrary" targetName="ContinuousUpdate" />
+      <config projectName="CertificateLibrary" targetName="NightlyBuild" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="447c5db0-e8a0-4a0a-aa6c-d1576515d04e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cert/cert_mozilla.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/cert/cert_mozilla.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cert/version_check.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/cert/version_check.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/helpers_fs.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/helpers_fs.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/cert_mozilla.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/cert_mozilla.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/cert_store_host.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/cert_store_host.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/bankofamerica.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/bankofamerica.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/bankofamerica.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/bankofamerica.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/geeksforgeeks.org/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/geeksforgeeks.org/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/geeksforgeeks.org/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/geeksforgeeks.org/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/paypal.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/paypal.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/paypal.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/paypal.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.digicert.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.digicert.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.digicert.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.digicert.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.geeksforgeeks.org/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.geeksforgeeks.org/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.geeksforgeeks.org/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.geeksforgeeks.org/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.godaddy.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.godaddy.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.godaddy.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.godaddy.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.google.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.google.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.google.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.google.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.httpsnow.org/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.httpsnow.org/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.httpsnow.org/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.httpsnow.org/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.wellsfargo.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.wellsfargo.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.wellsfargo.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/www.wellsfargo.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/yahoo.com/real_certificate.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/yahoo.com/real_certificate.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/hosts/yahoo.com/real_certificate_chain.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/hosts/yahoo.com/real_certificate_chain.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/private/ca.p12" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/private/ca.p12" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/private/cacert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/private/cacert.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/private/cakey.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/private/cakey.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/root_certs/active_roots.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/root_certs/active_roots.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/root_certs/mozilla.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/root_certs/mozilla.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/CA/root_certs/mozilla_ext.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/CA/root_certs/mozilla_ext.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/with_without/with.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/with_without/with.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fixture/with_without/without.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixture/with_without/without.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_fixture_new.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_fixture_new.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_fixture_new.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_fixture_new.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_x509/2test_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_x509/2test_key.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_x509/test_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_x509/test_key.pem" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1yyBwnE9OcRW75PHr4OMqa85KHy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.advertisement.text.overridden" value="true" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="ctest.advertisement.all.test.configuration.is.created" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="CMake Application.test_builder">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_exception" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_exception" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_exception" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_fixture_build" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_fixture_build" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_fixture_build" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_handshaker" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_handshaker" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_handshaker" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_objects" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_objects" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_objects" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_standalone" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_standalone" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_standalone" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_x509" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_x509" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_x509" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="Continuous" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousBuild" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousBuild">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousConfigure" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousConfigure">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousCoverage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousCoverage">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousMemCheck" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousMemCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousStart" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousStart">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousSubmit" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousSubmit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ContinuousUpdate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ContinuousUpdate">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Experimental" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="Experimental" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalBuild" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalBuild">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalConfigure" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalConfigure">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalCoverage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalCoverage">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalMemCheck" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalMemCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalStart" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalStart">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalSubmit" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalSubmit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="ExperimentalUpdate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="ExperimentalUpdate">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Nightly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="Nightly" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyBuild" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyBuild">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyConfigure" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyConfigure">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyCoverage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyCoverage">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyMemCheck" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyMemCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemoryCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyMemoryCheck" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyMemoryCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyStart" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyStart">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlySubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlySubmit" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlySubmit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyTest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="NightlyUpdate" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="NightlyUpdate">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="cert_library" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="cert_library" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_builder" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_builder" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CertificateLibrary" RUN_TARGET_NAME="test_builder">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_lib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CertificateLibrary" TARGET_NAME="test_lib" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All CTest" type="CTestRunConfiguration" factoryName="CTestRun" PROGRAM_PARAMS="--extra-verbose" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$CMakeCurrentLocalGenerationDir$" PASS_PARENT_ENVS_2="true" RUN_PATH="$CTestCurrentExecutableName$" EXPLICIT_BUILD_TARGET_NAME="all" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Catch.test_exception" />
+      <item itemvalue="Catch.test_fixture_build" />
+      <item itemvalue="Catch.test_handshaker" />
+      <item itemvalue="Catch.test_objects" />
+      <item itemvalue="Catch.test_standalone" />
+      <item itemvalue="Catch.test_x509" />
+      <item itemvalue="CMake Application.Continuous" />
+      <item itemvalue="CMake Application.ContinuousBuild" />
+      <item itemvalue="CMake Application.ContinuousConfigure" />
+      <item itemvalue="CMake Application.ContinuousCoverage" />
+      <item itemvalue="CMake Application.ContinuousMemCheck" />
+      <item itemvalue="CMake Application.ContinuousStart" />
+      <item itemvalue="CMake Application.ContinuousSubmit" />
+      <item itemvalue="CMake Application.ContinuousTest" />
+      <item itemvalue="CMake Application.ContinuousUpdate" />
+      <item itemvalue="CMake Application.Experimental" />
+      <item itemvalue="CMake Application.ExperimentalBuild" />
+      <item itemvalue="CMake Application.ExperimentalConfigure" />
+      <item itemvalue="CMake Application.ExperimentalCoverage" />
+      <item itemvalue="CMake Application.ExperimentalMemCheck" />
+      <item itemvalue="CMake Application.ExperimentalStart" />
+      <item itemvalue="CMake Application.ExperimentalSubmit" />
+      <item itemvalue="CMake Application.ExperimentalTest" />
+      <item itemvalue="CMake Application.ExperimentalUpdate" />
+      <item itemvalue="CMake Application.Nightly" />
+      <item itemvalue="CMake Application.NightlyBuild" />
+      <item itemvalue="CMake Application.NightlyConfigure" />
+      <item itemvalue="CMake Application.NightlyCoverage" />
+      <item itemvalue="CMake Application.NightlyMemCheck" />
+      <item itemvalue="CMake Application.NightlyMemoryCheck" />
+      <item itemvalue="CMake Application.NightlyStart" />
+      <item itemvalue="CMake Application.NightlySubmit" />
+      <item itemvalue="CMake Application.NightlyTest" />
+      <item itemvalue="CMake Application.NightlyUpdate" />
+      <item itemvalue="CMake Application.cert_library" />
+      <item itemvalue="CMake Application.test_lib" />
+      <item itemvalue="CMake Application.test_builder" />
+      <item itemvalue="CTest Application.All CTest" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="447c5db0-e8a0-4a0a-aa6c-d1576515d04e" name="Changes" comment="" />
+      <created>1633214189243</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1633214189243</updated>
+      <workItem from="1633214191978" duration="15168000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_getset/test_time.cpp</url>
+          <line>23</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_fixture_build/test_fixture.cpp</url>
+          <line>23</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/handshaker/cert_handshaker.cpp</url>
+          <line>232</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/handshaker/cert_handshaker.cpp</url>
+          <line>57</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_fixture_new.cpp</url>
+          <line>405</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_fixture_new.cpp</url>
+          <line>343</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_fixture_build/test_fixture.cpp</url>
+          <line>28</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_fixture_new.cpp</url>
+          <line>421</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tests/test_fixture_new.cpp</url>
+          <line>420</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="CidrExceptionBreakpoint" />
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

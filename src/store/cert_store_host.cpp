@@ -32,35 +32,33 @@ Host::Host(Store& store, HostId host) : m_store(store), m_host(host)
 
 bool Host::certExists(Store& store, HostId host)
 {
-	auto hp = store.m_locator_sptr->hostInterceptingCertificatePath(host);
-	bool res = ( (Cert::Helpers::fs::exists(hp)) && (! Cert::Helpers::fs::is_directory(hp)) );
-	return res;
+    auto hp = store.m_locator_sptr->hostInterceptingCertificatePath(host);
+    bool res = ( (Cert::Helpers::fs::exists(hp)) && (! Cert::Helpers::fs::is_directory(hp)) );
+    return res;
 }
 
 void Host::rebuildFolder(Store& store, HostId host)
 {
-	Path hp = store.m_locator_sptr->hostFolder(host);
+    Path hp = store.m_locator_sptr->hostFolder(host);
     // clean out the host folder
     boost::filesystem::remove_all(hp);
-//    std::string cmd = str( boost::format("rm -rf %1%/*") % hp.string() );
-//    boost::process::system(cmd);
-//    Helpers::exec(cmd);
-
+    // std::string cmd = str( boost::format("rm -rf %1%/*") % hp.string() );
+    // boost::process::system(cmd);
+    // Helpers::exec(cmd);
     // now rebfill it
     create(store, host);
 }
 
 Path Host::getInterceptorCertificate(Store& store, HostId host)
 {
-	if( ! store.m_locator_sptr->certificateExists(host) ) {
-		create(store, host);
-	} 
-	return store.m_locator_sptr->hostInterceptingCertificatePath(host);
-		
+    if( ! store.m_locator_sptr->certificateExists(host) ) {
+        create(store, host);
+    }
+    return store.m_locator_sptr->hostInterceptingCertificatePath(host);
 }
 void Host::buildInterceptorCert(Store& store, HostId host)
 {
-
+    assert(false);
 }
 
 void Host::create(Store& store, HostId host)
@@ -81,24 +79,25 @@ void Host::create(Store& store, HostId host)
 
 void Host::createCertFromConfig(Store& store, HostId host)
 {
-	makeSigningRequest(store, host);
-	signRequest(store, host);
-	makeP12File(store, host);
+    makeSigningRequest(store, host);
+    signRequest(store, host);
+    makeP12File(store, host);
 }
 
 void Host::createFolder(Store& store, HostId host)
-{	
-	Path hd = store.m_locator_sptr->hostFolder(host);
-	auto x1 = (store.m_locator_sptr->hostFolder(host));
-	if(x1.string() == "") {
-		std::cout << __func__ << std::endl;
-	}
-	bool x2 = false;
-	x2 = Helpers::fs::is_directory(x1);
-	if( x2 ) {
-		std::cout << "hello" << std::endl;
-	}
-	if( ! Helpers::fs::is_directory(store.m_locator_sptr->hostFolder(host)) ) {
+{
+    // HACK TODO fix error handling
+    Path hd = store.m_locator_sptr->hostFolder(host);
+    auto x1 = (store.m_locator_sptr->hostFolder(host));
+    if(x1.string() == "") {
+        std::cout << __func__ << std::endl;
+    }
+    bool x2 = false;
+    x2 = Helpers::fs::is_directory(x1);
+    if( x2 ) {
+            std::cout << std::string(__func__) + " hello" << std::endl;
+    }
+    if( ! Helpers::fs::is_directory(store.m_locator_sptr->hostFolder(host)) ) {
         boost::filesystem::create_directories(hd);
         //std::string cmd = "mkdir -p " + hd.string();
         //boost::process::system(cmd);
@@ -110,20 +109,20 @@ void Host::createFolder(Store& store, HostId host)
 */
 void Host::createCnfFile(Store& store, HostId host)
 {
-	Path fn = store.m_locator_sptr->hostRealCertificatePath(host);
-	auto data = Cert::Helpers::fs::file_get_contents(fn);
+    Path fn = store.m_locator_sptr->hostRealCertificatePath(host);
+    auto data = Cert::Helpers::fs::file_get_contents(fn);
 
-	/**
-	* This requires two variables to be set:
-	*
-	*	$commonName - from the original certificate
-	*	$alt_names - subjectAltName in a single line string
-	*/
-	Path dir = store.m_locator_sptr->cert_store_root_dir_path;
-	Path ca_dir = store.m_locator_sptr->ca_dir_path;
-	Path new_cert_dir = store.m_locator_sptr->hostFolder(host);
+    /**
+    * This requires two variables to be set:
+    *
+    *	$commonName - from the original certificate
+    *	$alt_names - subjectAltName in a single line string
+    */
+    Path dir = store.m_locator_sptr->cert_store_root_dir_path;
+    Path ca_dir = store.m_locator_sptr->ca_dir_path;
+    Path new_cert_dir = store.m_locator_sptr->hostFolder(host);
 //    auto alt_names = subjectAltNames;
-	std::string cfg = R"EOD(
+    std::string cfg = R"EOD(
 [ ca ]
 default_ca 		= exampleca
 
@@ -164,8 +163,8 @@ subjectAltName = {$alt_names}
 #DNS.2 = one.blackwellapps.com
 #DNS.3 = wto.blackwellapps.com";
 )EOD";
-	Path cfgfn = store.m_locator_sptr->hostConfigPath(host);
-	Cert::Helpers::fs::file_put_contents(cfgfn, cfg);
+    Path cfgfn = store.m_locator_sptr->hostConfigPath(host);
+    Cert::Helpers::fs::file_put_contents(cfgfn, cfg);
 }
 using namespace std;
 static string join(const vector<string>& vec, const char* delim)
@@ -217,21 +216,18 @@ void Host::getRealCertificate(Store& store, HostId host)
 */
 void Host::makeSigningRequest(Store& store, HostId host)
 {
-	Path kp = store.m_locator_sptr->hostKeyPath(host);
-	Path rp = store.m_locator_sptr->hostRequestPath(host);
-	Path cnf = store.m_locator_sptr->hostConfigPath(host);
-	/**
-	* This is not right - must collec some info from real certificate
-	* so that the new interceptor certificate has the correct names
-	*/
-//  		$cnf = $store->ca_configfile_path();
-	
-	std::string cmd =
-	"openssl req -newkey rsa:2048 -keyout " + kp.string() +
-	" -keyform PEM -out " + rp.string() +
-	" -outform PEM -passout pass:blackwellapps -sha256 -config " + cnf.string();
+    Path kp = store.m_locator_sptr->hostKeyPath(host);
+    Path rp = store.m_locator_sptr->hostRequestPath(host);
+    Path cnf = store.m_locator_sptr->hostConfigPath(host);
+    /**
+    * This is not right - must collec some info from real certificate
+    * so that the new interceptor certificate has the correct names
+    */
+    std::string cmd =
+    "openssl req -newkey rsa:2048 -keyout " + kp.string() +
+    " -keyform PEM -out " + rp.string() +
+    " -outform PEM -passout pass:blackwellapps -sha256 -config " + cnf.string();
 
-//    Helpers::exec(cmd);
 }
 
 /**
@@ -239,22 +235,21 @@ void Host::makeSigningRequest(Store& store, HostId host)
 */
 void Host::signRequest(Store& store, HostId host)
 {
-	Path cak = store.m_locator_sptr->ca_key_pem_path;
-	Path cac = store.m_locator_sptr->ca_cert_pem_file_path;
-	Path rp = store.m_locator_sptr->hostRequestPath(host);
-	Path cp = store.m_locator_sptr->hostInterceptingCertificatePath(host);
-	Path cfg = store.m_locator_sptr->hostConfigPath(host);
+    Path cak = store.m_locator_sptr->ca_key_pem_path;
+    Path cac = store.m_locator_sptr->ca_cert_pem_file_path;
+    Path rp = store.m_locator_sptr->hostRequestPath(host);
+    Path cp = store.m_locator_sptr->hostInterceptingCertificatePath(host);
+    Path cfg = store.m_locator_sptr->hostConfigPath(host);
     std::string p_in = "blackwellapps";
     std::string p_out = "blackwellapps";
 
-	std::string cmd = "openssl x509 -req -in " + rp.string() +
+    std::string cmd = "openssl x509 -req -in " + rp.string() +
        " -inform PEM -sha256 -CA " + cac.string() +
        " -CAkey " + cak.string() +
        " -CAcreateserial -extfile " + cfg.string() +
        " -extensions v3_req -out " + cp.string() +
        " -outform PEM -passin pass:" + p_in + " -days 500 ";
 
-//    Helpers::exec(cmd);
 }
 
 /**
@@ -262,34 +257,30 @@ void Host::signRequest(Store& store, HostId host)
 */
 void Host::removePassphrase(Store& store, HostId host)
 {
-	Path pkp = store.m_locator_sptr->hostKeyPath(host);
-	Path upkp = store.m_locator_sptr->hostUnprotectedKeyPath(host);
+    Path pkp = store.m_locator_sptr->hostKeyPath(host);
+    Path upkp = store.m_locator_sptr->hostUnprotectedKeyPath(host);
 	
-	std::string cmd = "openssl rsa -in " + pkp.string() + " -out " + upkp.string() + " -passin pass:blackwellapps" ;
-//    Helpers::exec(cmd);
+    std::string cmd = "openssl rsa -in " + pkp.string() + " -out " + upkp.string() + " -passin pass:blackwellapps" ;
 }
 
 /**
 * /todo - fix dont use hardcoded password or delete this function
 */
 void Host::makeP12File(Store& store, HostId host)
-{	
-	Path key = store.m_locator_sptr->hostKeyPath(host);
-	Path cert = store.m_locator_sptr->hostInterceptingCertificatePath(host);
-	Path p12  = store.m_locator_sptr->hostP12Path(host);
+{
+    Path key = store.m_locator_sptr->hostKeyPath(host);
+    Path cert = store.m_locator_sptr->hostInterceptingCertificatePath(host);
+    Path p12  = store.m_locator_sptr->hostP12Path(host);
 	
-	std::string cmd = "openssl pkcs12 -export -out " + p12.string() + " -inkey " + key.string() + " -in " + cert.string() + " -passin pass:blackwellapps -passout pass:blackwellapps";
-//    Helpers::exec(cmd);
+    std::string cmd = "openssl pkcs12 -export -out " + p12.string() + " -inkey " + key.string() + " -in " + cert.string() + " -passin pass:blackwellapps -passout pass:blackwellapps";
 }
 
 void Host::renameCertAndKey(Store& store, HostId host)
 {
-	Path cp = store.m_locator_sptr->hostInterceptingCertificatePath(host);
-	Path kp = store.m_locator_sptr->hostUnprotectedKeyPath(host);
-	Path new_cp = store.m_locator_sptr->hostFolder(host) / (host + ".crt.pem");
-	Path new_kp = store.m_locator_sptr->hostFolder(host) / (host + ".key.pem");
-	// print "rename : $cp --> $new_cp\n";
-	// print "rename : $kp --> $new_kp\n";
+    Path cp = store.m_locator_sptr->hostInterceptingCertificatePath(host);
+    Path kp = store.m_locator_sptr->hostUnprotectedKeyPath(host);
+    Path new_cp = store.m_locator_sptr->hostFolder(host) / (host + ".crt.pem");
+    Path new_kp = store.m_locator_sptr->hostFolder(host) / (host + ".key.pem");
     boost::filesystem::copy_file(cp, new_cp);
     boost::filesystem::copy_file(kp, new_kp);
 }
@@ -310,9 +301,8 @@ void Host::configFromTemplate(CertStore& store, Path dir)
 #endif
 bool Host::verifyInterceptorCert(Store& store, HostId host)
 {
-	Path ca_cert_file = store.m_locator_sptr->ca_cert_pem_file_path;
-	Path server_cert = store.m_locator_sptr->hostInterceptingCertificatePath(host);
-//    std::sttring cmd = str(boost::format("openssl verify -verbose -x509_strict -CAfile $ca_cert_file -CApath nosuchpath $server_cert");
+    Path ca_cert_file = store.m_locator_sptr->ca_cert_pem_file_path;
+    Path server_cert = store.m_locator_sptr->hostInterceptingCertificatePath(host);
     std::string tmpl = "openssl verify -verbose -x509_strict -CAfile %1%$ca_cert_file -CApath nosuchpath %2%$server_cert";
     std::string cmd = str(boost::format(tmpl) % ca_cert_file.string() % server_cert.string() );
     boost::process::system(cmd);
